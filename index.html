@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>weather</title>
+    <meta property="og:description" content="weather-bob" />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;900&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js'></script>
+    <style>
+        body { margin: 0; padding: 0; background-color: hsl(0, 0%, 100%); }  
+        html, body { height: 100%; width: 100%; }  
+        .container { height: 100%; width: 100%; margin: 0; padding: 0; }  
+        .map-container { position: relative; height: auto; width: 100%; padding: 0; margin: 0; }  
+        .map-overlay { position: absolute; left: 50%; bottom: 5%; transform: translate(-50%, 0%); width: 100%; z-index: 100000; text-align: center; margin: 0; padding: 0; }
+        .maplibregl-ctrl-bottom-right { display: none; }  
+        #map { height: 250px; width: 250px; margin: 0 auto; padding: 0; overflow: visible; background-color: hsl(0, 0%, 30%); }  
+        .message-container { position: relative; height: auto; width: 100%; padding: 0; margin: 0; }
+        #message { box-sizing: border-box; color: hsl(0, 0%, 30%); background-color: hsl(0, 0%, 95%); width: 250px; margin: auto; padding: 10px; text-align: left; border-radius: 0 0 5px 5px; overflow-y: scroll;}
+        #message img { width: 75px; }
+        p { font-family: Helvetica, sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0; margin: 0; padding: 0;}
+</style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="map-container">
+            <!--<div class="map-overlay"></div>-->
+            <div id="map"></div>
+        </div>
+        <div class="message-container">
+            <div id="message"></div>
+        </div>
+    </div>
+
+    <script>
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'weather-bob.json',
+            center: [137.9150899566626, 36.25956997955441],
+            zoom: 0,
+            minzoom: 0
+        });
+
+        async function fetchAndMove() {
+            try {
+                // Fetch JSON file
+                const response = await fetch('https://raw.githubusercontent.com/jamiefletcher/weather-bob/refs/heads/main/data/metars/current-weather.json');
+                const data = await response.json();
+
+                // Extract data
+                const places = Object.keys(data);
+                const descriptions = places.map(key => data[key].weather_description);
+                const targets = places.map(key => data[key].geometry.coordinates);
+
+                // starting screen
+                map.panTo(targets[0], {
+                    duration: 100,
+                    easing: (t) => t,
+                    animate: true,
+                    offset: [0, 0],
+                    bearing: 0,
+                    zoom: 0
+                });
+
+                map.on('moveend', () => {
+                    document.getElementById('message').innerHTML = `
+                        <img src="img/bob.png">
+                        <p>${descriptions[0]}</p>
+                    `;
+                });
+
+                // loop
+                let index = 1;
+                let interval = 3000;
+
+                setInterval(() => {
+                    let target = targets[index];
+                    let description = descriptions[index]
+
+                    map.panTo(target, {
+                        duration: 1000,
+                        easing: (t) => t,
+                        animate: true,
+                        offset: [0, 0],
+                        bearing: 0,
+                        zoom: 0
+                    });
+
+                    map.on('moveend', () => {
+                        document.getElementById('message').innerHTML = `
+                            <img src="img/bob.png">
+                            <p>${description}</p>
+                        `;
+                    });
+
+                    index = (index + 1) % places.length; // Loop back to start
+                }, interval);
+
+            } catch (error) {
+                console.error('Error fetching JSON:', error);
+            }
+        };
+
+        fetchAndMove();
+
+</script>
+</body>
+
+</html>
