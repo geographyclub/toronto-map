@@ -1,7 +1,7 @@
-name: Daily METAR Updates
+name: Daily Updates
 
 on:
-  # Schedule workflow to run daily
+  # Schedule workflow to run once daily at 4:20am
   schedule:
     - cron: '20 4 * * *'
   # Run this workflow manually from the Actions tab
@@ -11,10 +11,10 @@ permissions:
     contents: write
 
 # Workflow jobs can run sequentially or in parallel
-# This workflow contains a single job called "metar-download"
+# This workflow contains a single job called "update"
 # The job itself contains 5 steps
 jobs:
-  metar-download:
+  update:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,17 +31,17 @@ jobs:
             python -m pip install --upgrade pip
             if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
 
-      - name: Update METARS and generate weather report
-        run: python src/metars.py
+      - name: Generate new descriptions
+        run: python src/main.py
         env:
             OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-      - name: Commit updated METARS data
+      - name: Commit updates
         run: |
             git config --global user.name "$GIT_USER"
             git config --global user.email $GIT_EMAIL
-            git commit -am "Update METARS data"
+            git commit -am "Update"
             git push
         env:
-            GIT_USER: ${{ vars.GitUser }}
-            GIT_EMAIL: ${{ vars.GitEmail }}
+            GIT_USER: Toronto Map
+            GIT_EMAIL: toronto-map@noreply.github.com

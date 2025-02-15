@@ -1,7 +1,5 @@
 import json
-import urllib.parse
 import openai
-import requests
 from dotenv import load_dotenv
 
 INSTRUCTIONS = (
@@ -15,6 +13,7 @@ PROMPT = (
     # "{ 'type': 'Feature', 'properties': { 'name': 'Old City Hall' }, 'geometry': { 'type': 'Point', 'coordinates': [ -79.381759498506327, 43.652636575812757 ] } }"
 )
 
+
 def gpt_list_models(client):
     for m in client.models.list():
         print(m.id)
@@ -27,10 +26,10 @@ def gpt_chat(client: openai.OpenAI, model: str, messages: list, max_tokens: int)
         response_format={"type": "json_object"},
         max_tokens=max_tokens,
     )
-    weather_report = ""
+    generated_description = ""
     if response.choices[0].finish_reason == "stop":
-        weather_report = response.choices[0].message.content
-    return weather_report
+        generated_description = response.choices[0].message.content
+    return generated_description
 
 
 def gpt_osm_description(place: dict, client: openai.OpenAI, model: str, max_tokens: int):
@@ -47,14 +46,16 @@ def gpt_osm_description(place: dict, client: openai.OpenAI, model: str, max_toke
     )
     return response
 
-def main():
 
+def main():
     with open("data/osm.geojson", "r") as places_file:
         places = json.load(places_file)
         # print(places)
-    
-    load_dotenv() # OpenAI API Key is stored in an environment variable
+
+    # OpenAI API Key is stored in an environment variable
+    load_dotenv() # Only needed when working locally
     openai_client = openai.OpenAI()
+    
     for feat in places["features"]:
         place = feat["properties"]
         description = gpt_osm_description(
@@ -62,7 +63,7 @@ def main():
         )
         feat["properties"]["description"] = description
         # print(place, description)
-    
+
     with open("data/osm-descriptions.json", "w") as f:
         json.dump(places, f, indent=4, ensure_ascii=False)
 
