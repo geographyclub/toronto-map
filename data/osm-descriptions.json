@@ -12,7 +12,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Gage Building",
-                "description": "{\n  \"street_description\": \"Welcome to the Gage Building! This historic gem, built in the early 20th century, showcases stunning Beaux-Arts architecture. Once a hub for commerce, its grand façade and intricate details speak to Toronto's rich cultural tapestry. Explore its surroundings and imagine the stories within.\"\n}"
+                "description": "{\n  \"street_description\": \"The Gage Building, an architectural gem in Toronto, showcases a blend of historic and modern design. Originally a commercial hub, it now reflects the city’s vibrant culture, hosting artistic events and community gatherings, making it a cornerstone of urban life.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -26,7 +26,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Health Sciences Building",
-                "description": "{\n  \"street_description\": \"Welcome to the Health Sciences Building! This architectural gem, rooted in Toronto's commitment to medical education, features modern design elements that reflect its focus on innovation in health. Step inside to find a bustling hub of learning and collaboration, showcasing the city's vibrant culture in the sciences.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Health Sciences Building, a key piece of Toronto's educational landscape. This structure is a testament to modern architecture, blending functionality with eco-friendly design. It's not just a hub for health education, but a symbol of the city's commitment to innovation in healthcare.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -40,7 +40,7 @@
             "type": "Feature",
             "properties": {
                 "name": "University of Toronto Communications House",
-                "description": "{\n  \"street_description\": \"Welcome to the University of Toronto Communications House! This building reflects the institution's commitment to innovation and education. Nestled in the heart of the campus, its architecture combines modern design with historical elements, showcasing the university's rich culture and academic legacy.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the University of Toronto, home to Communications House! This architectural gem showcases modern educational design infused with rich academic history. Explore the vibrant culture filled with innovation, learning, and diverse student life. A true urban landmark!\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -54,7 +54,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Caretaking",
-                "description": "{\n  \"street_description\": \"Welcome to Caretaking! This area reflects a blend of modern urban design and community-centric spaces. The architecture features sustainable elements and green roofs, showcasing Toronto's commitment to eco-friendly living. It's a vibrant hub for locals, fostering a strong sense of community.\"\n}"
+                "description": "{\n  \"street_description\": \"As you stroll down Caretaking, you'll find a blend of modern and historical architecture. This area reflects Toronto's evolving urban culture, where contemporary designs meet remnants of the city's past. It's a symbol of community care and urban living in harmony!\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -68,7 +68,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Central Exams Facility",
-                "description": "{\n  \"street_description\": \"Welcome to the Central Exams Facility, a hub of academic evaluation! This modern structure reflects Toronto's commitment to education. Its contemporary design stands in contrast to the historic buildings surrounding it, showcasing the city's blend of old and new.\"\n}"
+                "description": "{\"street_description\":\"Welcome to the Central Exams Facility, a hub of education concentrated in Toronto’s vibrant district. This modern building reflects the city’s commitment to academic excellence, featuring contemporary design intertwined with a rich cultural backdrop of learning and community engagement.\"}"
             },
             "geometry": {
                 "type": "Point",
@@ -82,7 +82,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Old Admin Building",
-                "description": "{\n  \"street_description\": \"Welcome to the Old Admin Building, a stunning example of early 20th-century architecture. Once the heart of municipal administration, it showcases neoclassical design with grand columns and intricate detailing. Today, it stands as a testament to Toronto's rich civic history.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Old Admin Building, a significant piece of Toronto's architectural heritage! This historic structure reflects early 20th-century design with its robust masonry and elegant detailing. It symbolizes the city’s administrative evolution and serves as a reminder of its rich cultural legacy.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -96,7 +96,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Sharp Centre for Design",
-                "description": "{\n  \"street_description\": \"Welcome to the Sharp Centre for Design, a striking example of modern architecture in Toronto. This vibrant hub, part of OCAD University, features a bold, cantilevered design by Will Alsop. It symbolizes creativity and innovation, embodying the city’s artistic spirit.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Sharp Centre for Design, an architectural gem in Toronto! This striking building, designed by Will Alsop, features a colorful, cantilevered structure that challenges conventional design. It symbolizes the city's vibrant culture and innovation in design education.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -110,7 +110,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Stewart Building",
-                "description": "{\n  \"street_description\": \"Welcome to the Stewart Building! This charming piece of Toronto's architectural heritage showcases stunning late Victorian design, reflecting the city's bustling commerce in the early 20th century. Explore its intricate details and feel the pulse of a thriving urban culture!\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Stewart Building! This iconic structure combines historic charm with modern usage, showcasing Toronto's architectural evolution. Once bustling with commerce, it reflects the city’s rich cultural tapestry, embodying a blend of Victorian and contemporary design.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -124,7 +124,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Rosalie Sharp Pavilion",
-                "description": "{\n  \"street_description\": \"Welcome to the Rosalie Sharp Pavilion, a gem of contemporary architecture nestled in Toronto. This pavilion, known for its sleek lines and open spaces, embodies a blend of modern design and community spirit. It serves as a cultural hub, showcasing local art and events, while seamlessly integrating into the vibrant urban landscape.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Rosalie Sharp Pavilion, a stunning example of modern architecture nestled in the heart of Toronto. Opened in the 21st century, it reflects the city's commitment to public art and green spaces, serving as both a cultural hub and a serene escape amidst urban vibrancy.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -138,7 +138,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Inclusive Design Institute",
-                "description": "{\n  \"street_description\": \"Welcome to the Inclusive Design Institute, a beacon of accessibility and innovation in Toronto. This modern building reflects the city's commitment to inclusive practices. Here, history meets contemporary design, fostering cultural growth as diverse voices converge to shape a more inclusive urban landscape.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Inclusive Design Institute, a beacon of innovation in Toronto. This facility focuses on accessibility and inclusive design, merging modern architecture with community spirit. As you stroll past, notice how the environment fosters engagement for all, reflecting our diverse city's values.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -152,7 +152,7 @@
             "type": "Feature",
             "properties": {
                 "name": "OCAD Student Centre",
-                "description": "{\n  \"street_description\": \"Welcome to the OCAD Student Centre, a vibrant hub of creativity within the Ontario College of Art and Design University. This modern architectural gem features a striking design that fosters innovation. With its bustling atmosphere, it's a focal point for students and a beacon of Toronto's art scene.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the OCAD Student Centre, a vibrant hub of creativity and culture! This modern building, marked by its bold, angular design, showcases OCAD University's commitment to art and design. Here, students collaborate, creating a dynamic atmosphere that reflects Toronto's innovation.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -166,7 +166,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Main Building",
-                "description": "{\n  \"street_description\": \"Welcome to the Main Building, a cornerstone of Toronto’s educational landscape. This historic structure, blending classical and modern design, reflects the city’s commitment to knowledge and innovation. Its grand façade and vibrant campus life echo the rich cultural tapestry of this lively neighborhood.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Main Building, a historic landmark that embodies Toronto's architectural evolution. This structure showcases a blend of neoclassical and modern designs, reflecting the city's rich educational and cultural heritage. Stroll through its grounds and feel the city's vibrant history!\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -180,7 +180,7 @@
             "type": "Feature",
             "properties": {
                 "name": "285 Dundas Street West",
-                "description": "{\n  \"street_description\": \"Welcome to 285 Dundas Street West, where Toronto's vibrant cultural tapestry unfolds. This spot features a mix of historic and modern architecture, embodying the city’s evolution. Look around for diverse eateries, artistic murals, and the eclectic energy that defines this bustling thoroughfare.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to 285 Dundas Street West! This vibrant area showcases a mix of cultural influences and architectural styles, highlighting Toronto’s evolution. You'll find historic buildings alongside commercial spaces, reflecting the city’s growth while serving as a hub for diverse communities.\"\n}"
             },
             "geometry": {
                 "type": "Point",
@@ -194,7 +194,7 @@
             "type": "Feature",
             "properties": {
                 "name": "Annex Building",
-                "description": "{\n  \"street_description\": \"Welcome to the Annex Building, a gem in Toronto’s vibrant Annex neighborhood. This area, known for its eclectic mix of historic homes and modern architecture, radiates cultural diversity, showcasing local art, cafes, and a rich academic presence from nearby universities.\"\n}"
+                "description": "{\n  \"street_description\": \"Welcome to the Annex Building! This vibrant area, known for its Victorian architecture, reflects the cultural diversity of Toronto. Originally developed in the late 19th century, the Annex is a hub for artists, students, and intellectuals, showcasing eclectic homes and charming streets.\"\n}"
             },
             "geometry": {
                 "type": "Point",
