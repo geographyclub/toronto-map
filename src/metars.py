@@ -60,7 +60,7 @@ def main():
         description = gpt_osm_description(
             client=openai_client, model="gpt-4o-mini", max_tokens=1000, place=place
         )
-        feat["description"] = description
+        feat["properties"]["description"] = description
         # print(place, description)
     
     with open("data/osm-descriptions.json", "w") as f:
