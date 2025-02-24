@@ -1,6 +1,6 @@
 {
     "tiles": [
-        "./toronto-pop/{z}/{x}/{y}.pbf"
+        "toronto-pop/{z}/{x}/{y}.pbf"
     ],
     "id": "toronto-pop",
     "name": "toronto-pop",
