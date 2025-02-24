@@ -1,6 +1,6 @@
 {
     "tiles": [
-        "https://raw.githubusercontent.com/geographyclub/toronto-map/refs/heads/main/toronto-pop/{z}/{x}/{y}.pbf"
+        "https://geographyclub.github.io/toronto-map/toronto-pop/{z}/{x}/{y}.pbf"
     ],
     "id": "toronto-pop",
     "name": "toronto-pop",
