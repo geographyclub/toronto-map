@@ -4,7 +4,7 @@
 	"metadata": {
 		"maputnik:renderer": "mbgljs"
 	},
-	"glyphs": "http://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
 	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites",
 	"sources": {
 		"osm": {
@@ -167,7 +167,7 @@
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"layout": {
 				"text-field": "{name}",
-				"text-font": [ "noto-sans" ],
+				"text-font": [ "montserrat-regular" ],
 				"text-transform": "uppercase",
 				"symbol-placement": "line",
 				"text-anchor": "center",
