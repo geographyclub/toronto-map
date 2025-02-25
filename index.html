@@ -36,7 +36,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "toronto-map.json",
+            style: "https://geographyclub.github.io/toronto-map/toronto-map.json",
             center: [-79.393658, 43.654489],
             zoom: 16,
             minZoom: 16,
@@ -48,12 +48,11 @@
 
         map.on("load", () => {
 
-            map.addSource(
-                "toronto-pop", {
+            map.addSource("toronto-pop", {
                 type: "vector",
-                url: "toronto-pop.json"
-            }
-            );
+                url: "https://geographyclub.github.io/toronto-map/toronto-pop.json",
+                tileSize: 512
+            });
 
             function addTorontoPop(map) {
                 map.addLayer({
@@ -62,14 +61,8 @@
                     "source-layer": "toronto-pop",
                     "type": "symbol",
                     "layout": {
-                        "icon-size": [
-                            "case",
-                            [">", ["get", "icon_number"], 301], 0.3,
-                            0.4,
-                        ],
+                        "icon-size": 0.4,
                         "symbol-placement": "point",
-                        "icon-rotate": 0,
-                        "icon-rotation-alignment": "viewport",
                         "icon-keep-upright": true,
                         "icon-allow-overlap": true,
                         "icon-ignore-placement": true,
