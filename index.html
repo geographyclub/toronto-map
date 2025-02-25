@@ -9,28 +9,14 @@
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Lato", sans-serif; }
-        body { color: hsl(0, 0%, 20%); background-color: hsl(210, 20%, 95%); height: 100vh; width: 100vw; }
-        .container { height: 100%; width: 100%; }
-        .profilepic { height: 75px; width: 75px; background-color: hsl(0, 0%, 20%); border-radius: 50%; border: 5px solid hsl(0, 0%, 20%); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { height: 100vh; width: 100vw; }
         #map { height: 100%; width: 100%; }
-        hr { border: none; height: 5px; background-color: hsl(0, 0%, 20%); margin: 5px 0 5px 0; }
-        .hr-thin { border: none; height: 2px; background-color: hsl(0, 0%, 20%); margin: 5px 0 5px 0; }
-        h1 { font-family: "Roboto Mono"; font-size: 69px; font-weight: 600; letter-spacing: -3px; line-height: 0.8; margin: 0 0 4px -2px; }
-        h2 { font-family: "Roboto Mono"; font-size: 26px; font-weight: 500; letter-spacing: -2px; line-height: 1; }
-        h3 { font-family: "Roboto Mono"; font-size: 13px; font-weight: 400; letter-spacing: 0px; line-height: 1; text-transform: uppercase; }
-        h4 { font-family: "Roboto Mono"; color: hsl(0, 0%, 50%); font-size: 8px; font-weight: 600; letter-spacing: 0; line-height: 1; }
-        h5 { font-family: "Roboto Mono"; font-size: 10px; font-weight: 600; letter-spacing: 0; line-height: 1; background-color: hsl(0, 0%, 20%); color: hsl(0, 0%, 90%); padding: 5px; }
-        p { font-size: 16px; font-weight: 400; letter-spacing: 0; }
-        a { text-decoration: none; }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <div id="map"></div>
-    </div>
+    <div id="map"></div>
 
     <script>
 
@@ -43,7 +29,8 @@
 	        maxZoom: 16,
 	        bearing: 0,
         	pitch: 20,
-            hash: true
+            hash: true,
+            pixelRatio: 1
         });
 
         map.on("load", () => {
@@ -82,6 +69,9 @@
             addTorontoPop(map);
 
         });
+
+        const dpr = window.devicePixelRatio;
+        console.log(dpr); 
 
     </script>
 
