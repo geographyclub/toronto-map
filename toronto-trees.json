@@ -1,0 +1,30 @@
+{
+    "tiles": [
+        "https://geographyclub.github.io/toronto-map/toronto-trees/{z}/{x}/{y}.pbf"
+    ],
+    "id": "toronto-trees",
+    "name": "toronto-trees",
+    "format": "pbf",
+    "type": "vector",
+    "description": "Tree points from city of toronto",
+    "bounds": [
+        -180,
+        -90,
+        180,
+        90
+    ],
+    "center": [
+        0,
+        0
+    ],
+    "vector_layers": [
+        {
+            "id": "toronto-trees",
+            "fields": {
+                "elevation": "Number",
+                "icon_number": "Number"
+            }
+        }
+    ],
+    "tilejson": "2.0.0"
+}

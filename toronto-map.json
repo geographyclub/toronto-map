@@ -5,7 +5,7 @@
 		"maputnik:renderer": "mbgljs"
 	},
 	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
-	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-trees",
 	"sources": {
 		"osm": {
 			"type": "vector",
@@ -17,7 +17,7 @@
 			"id": "background",
 			"type": "background",
 			"paint": {
-				"background-color": "hsl(0, 0%, 96%)"
+				"background-color": "hsl(0, 0%, 95%)"
 			}
 		},
 		{
@@ -38,7 +38,7 @@
 			"source-layer": "streets",
 			"filter": [ "in", "kind", "service" ],
 			"paint": {
-				"line-color": "hsl(0, 0%, 96%)",
+				"line-color": "hsl(0, 0%, 95%)",
 				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 10, 0, 15, 13, 20, 106 ],
 				"line-opacity": { "stops": [ [ 5, 0 ], [ 6, 1 ] ] }
 			},
@@ -55,7 +55,7 @@
 			"source-layer": "streets",
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"paint": {
-				"line-color": "hsl(0, 0%, 96%)",
+				"line-color": "hsl(0, 0%, 95%)",
 				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 10, 0, 15, 15, 20, 166 ],
 				"line-opacity": { "stops": [ [ 5, 0 ], [ 6, 1 ] ] }
 			},
