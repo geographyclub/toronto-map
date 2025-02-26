@@ -1,0 +1,21 @@
+{
+"type": "FeatureCollection",
+"name": "test",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "name": "Gage Building" }, "geometry": { "type": "Point", "coordinates": [ -79.397172422045799, 43.65820818641744 ] } },
+{ "type": "Feature", "properties": { "name": "Health Sciences Building" }, "geometry": { "type": "Point", "coordinates": [ -79.392763573242192, 43.659081336726629 ] } },
+{ "type": "Feature", "properties": { "name": "University of Toronto Communications House" }, "geometry": { "type": "Point", "coordinates": [ -79.393566483288424, 43.658890518531337 ] } },
+{ "type": "Feature", "properties": { "name": "Caretaking" }, "geometry": { "type": "Point", "coordinates": [ -79.393582987450415, 43.658573439015541 ] } },
+{ "type": "Feature", "properties": { "name": "Central Exams Facility" }, "geometry": { "type": "Point", "coordinates": [ -79.3928318920115, 43.658474923463942 ] } },
+{ "type": "Feature", "properties": { "name": "Old Admin Building" }, "geometry": { "type": "Point", "coordinates": [ -79.392515487887621, 43.658786490024163 ] } },
+{ "type": "Feature", "properties": { "name": "Sharp Centre for Design" }, "geometry": { "type": "Point", "coordinates": [ -79.391184651375355, 43.652959092267679 ] } },
+{ "type": "Feature", "properties": { "name": "Stewart Building" }, "geometry": { "type": "Point", "coordinates": [ -79.391993079823777, 43.659211163172678 ] } },
+{ "type": "Feature", "properties": { "name": "Rosalie Sharp Pavilion" }, "geometry": { "type": "Point", "coordinates": [ -79.391140961946732, 43.654136459223231 ] } },
+{ "type": "Feature", "properties": { "name": "Inclusive Design Institute" }, "geometry": { "type": "Point", "coordinates": [ -79.390053815119416, 43.651747565275983 ] } },
+{ "type": "Feature", "properties": { "name": "OCAD Student Centre" }, "geometry": { "type": "Point", "coordinates": [ -79.390176731242818, 43.651795173166391 ] } },
+{ "type": "Feature", "properties": { "name": "Main Building" }, "geometry": { "type": "Point", "coordinates": [ -79.39148303846703, 43.653286252011618 ] } },
+{ "type": "Feature", "properties": { "name": "285 Dundas Street West" }, "geometry": { "type": "Point", "coordinates": [ -79.390895212799549, 43.65418734878665 ] } },
+{ "type": "Feature", "properties": { "name": "Annex Building" }, "geometry": { "type": "Point", "coordinates": [ -79.390168246298998, 43.653502843877703 ] } }
+]
+}
