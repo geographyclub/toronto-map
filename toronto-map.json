@@ -17,7 +17,7 @@
 			"id": "background",
 			"type": "background",
 			"paint": {
-				"background-color": "hsl(0, 14%, 95%)"
+				"background-color": "hsl(0, 14%, 90%)"
 			}
 		},
 		{
@@ -26,7 +26,7 @@
 			"type": "fill",
 			"source-layer": "sites",
 			"paint": {
-				"fill-color": "hsl(0, 14%, 95%)"
+				"fill-color": "hsl(0, 14%, 85%)"
 			}
 		},
 		{
@@ -36,7 +36,7 @@
 			"source-layer": "land",
 			"filter": [ "in", "kind", "commercial", "retail", "industrial", "quarry", "railway", "garages", "residential" ],
 			"paint": {
-				"fill-color": "hsl(37, 40%, 90%)"
+				"fill-color": "hsl(0, 14%, 85%)"
 			}
 		},
 		{
@@ -46,7 +46,7 @@
 			"source-layer": "land",
 			"filter": [ "in", "kind", "brownfield", "farmland", "farmyard", "greenfield", "greenhouse_horticulture", "orchard", "plant_nursery", "vineyard", "landfill", "park", "village_green", "recreation_ground", "allotments", "garden", "cemetery", "grave_yard", "miniature_golf", "playground", "golf_course", "bare_rock", "scree", "shingle", "forest", "grass", "grassland", "meadow", "wet_meadow", "heath", "scrub", "beach", "sand", "bog", "marsh", "string_bog", "swamp" ],
 			"paint": {
-				"fill-color": "hsl(111, 63%, 79%)"
+				"fill-color": "hsl(110, 40%, 70%)"
 			}
 		},
 		{
@@ -56,7 +56,7 @@
 			"source-layer": "water_polygons",
 			"filter": [ "in", "kind", "water", "river" ],
 			"paint": {
-				"fill-color": "hsl(200, 70%, 79%)"
+				"fill-color": "hsl(200, 60%, 70%)"
 			}
 		},
 		{
@@ -66,7 +66,7 @@
 			"source-layer": "streets",
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"paint": {
-				"line-color": "hsl(224, 25%, 90%)",
+				"line-color": "hsl(224, 25%, 80%)",
 				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 10, 0, 15, 17, 20, 188 ]
 			},
 			"layout": {
@@ -120,7 +120,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(0, 0%, 20%)",
-				"text-halo-color": "hsl(224, 25%, 90%)",
+				"text-halo-color": "hsl(224, 25%, 80%)",
 				"text-halo-width": 2
 			}
 		}
