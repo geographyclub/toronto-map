@@ -3,18 +3,17 @@
 
 <head>
     <title>toronto-map</title>
-    <meta property="og:description" content="Map of Toronto" />
+    <meta property="og:description" content="Living map of Toronto" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
-    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { height: 100%; width: 100%; background-color: hsl(0, 0%, 100%); }
         .container { display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; position: relative; }  
         .map-wrapper { width: 100%; height: 100%; padding: 0; box-sizing: border-box; }  
         #map { width: 100%; height: 100%; }  
-        #minimap { position: absolute; bottom: 25px; right: 25px; width: 150px; height: 150px; border-radius: 50%; z-index: 10; display: none; }  
         .maplibregl-ctrl-bottom-right { display: none; } 
 </style>
 </head>
@@ -47,23 +46,29 @@
             pixelRatio: 1
         });
 
+        map.doubleClickZoom.disable();
+        // Reset bearing to 0 on double-click
+        map.on('dblclick', () => {
+        map.easeTo({ bearing: 0 });
+        });
+
         map.on("load", () => {
 
-            map.addSource("toronto-trees", {
+            map.addSource("toronto-tiles", {
                 type: "vector",
-                //url: "http://localhost:8000/toronto-trees.json",
-                url: "https://geographyclub.github.io/toronto-map/toronto-trees.json",
+                url: "http://localhost:8000/toronto-tiles.json",
+                //url: "https://geographyclub.github.io/toronto-map/toronto-tiles.json",
                 tileSize: 512
             });
 
-            function addTorontoPoints(map) {
+            function addTorontoTiles(map) {
                 map.addLayer({
-                    "id": "toronto-trees",
-                    "source": "toronto-trees",
-                    "source-layer": "toronto-trees",
+                    "id": "toronto-tiles",
+                    "source": "toronto-tiles",
+                    "source-layer": "toronto-tiles",
                     "type": "symbol",
                     "layout": {
-                        "icon-size": 0.2,
+                        "icon-size": [ "match", [ "get", "layer" ], "people", 0.6, "dogs", 0.3, "trees", 0.6, 0.4 ],
                         "symbol-placement": "point",
                         "icon-keep-upright": true,
                         "icon-allow-overlap": true,
@@ -88,7 +93,7 @@
                     minZoom: 16
                 });
             }
-            addTorontoPoints(map);
+            addTorontoTiles(map);
 
         });
 
