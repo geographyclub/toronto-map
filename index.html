@@ -56,8 +56,8 @@
 
             map.addSource("toronto-tiles", {
                 type: "vector",
-                url: "http://localhost:8000/toronto-tiles.json",
-                //url: "https://geographyclub.github.io/toronto-map/toronto-tiles.json",
+                //url: "http://localhost:8000/toronto-tiles.json",
+                url: "https://geographyclub.github.io/toronto-map/toronto-tiles.json",
                 tileSize: 512
             });
 
@@ -68,7 +68,7 @@
                     "source-layer": "toronto-tiles",
                     "type": "symbol",
                     "layout": {
-                        "icon-size": [ "match", [ "get", "layer" ], "people", 0.6, "dogs", 0.3, "trees", 0.6, 0.4 ],
+                        "icon-size": [ "match", [ "get", "layer" ], "people", 0.6, "dogs", 0.3, "trees", 0.7, 0.4 ],
                         "symbol-placement": "point",
                         "icon-keep-upright": true,
                         "icon-allow-overlap": true,
