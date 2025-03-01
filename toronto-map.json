@@ -22,25 +22,6 @@
 		},
 		{
 			"source": "osm",
-			"id": "sites",
-			"type": "fill",
-			"source-layer": "sites",
-			"paint": {
-				"fill-color": "hsl(0, 14%, 85%)"
-			}
-		},
-		{
-			"source": "osm",
-			"id": "land-man",
-			"type": "fill",
-			"source-layer": "land",
-			"filter": [ "in", "kind", "commercial", "retail", "industrial", "quarry", "railway", "garages", "residential" ],
-			"paint": {
-				"fill-color": "hsl(0, 14%, 85%)"
-			}
-		},
-		{
-			"source": "osm",
 			"id": "land-natural",
 			"type": "fill",
 			"source-layer": "land",
@@ -61,13 +42,29 @@
 		},
 		{
 			"source": "osm",
-			"id": "highway-major-buffer",
+			"id": "bridge",
+			"type": "line",
+			"source-layer": "streets",
+			"filter": [ "all", [ "==", "bridge", true ], [ "!=", "kind", "footway" ], [ "!=", "kind", "path" ] ],
+			"paint": {
+				"line-color": "hsl(224, 25%, 70%)",
+				"line-width": 4
+			},
+			"layout": {
+				"line-join": "round",
+				"line-cap": "butt"
+			}
+		},
+		{
+			"source": "osm",
+			"id": "highway-major",
 			"type": "line",
 			"source-layer": "streets",
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"paint": {
 				"line-color": "hsl(224, 25%, 80%)",
-				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 10, 0, 15, 17, 20, 188 ]
+				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 10, 0, 15, 5, 20, 156 ],
+				"line-opacity": { "stops": [ [ 5, 0 ], [ 6, 1 ] ] }
 			},
 			"layout": {
 				"line-join": "round",
@@ -80,26 +77,9 @@
 			"type": "line",
 			"source-layer": "streets",
 			"filter": [ "all", [ "in", "kind", "monorail", "funicular", "tram", "narrow_gauge", "subway", "light_rail", "rail" ] ],
-			"minzoom": 13,
 			"paint": {
-				"line-width": { "stops": [ [ 12, 0 ], [ 18, 3 ] ] },
-				"line-color": "hsl(224, 25%, 90%)"
-			}
-		},
-		{
-			"source": "osm",
-			"id": "bridge",
-			"type": "line",
-			"source-layer": "streets",
-			"filter": [ "all", [ "==", "bridge", true ], [ "!=", "kind", "footway" ], [ "!=", "kind", "path" ] ],
-			"paint": {
-				"line-color": "hsl(224, 25%, 90%)",
-				"line-width": 6,
-				"line-opacity": 1
-			},
-			"layout": {
-				"line-join": "round",
-				"line-cap": "butt"
+				"line-width": 2,
+				"line-color": "hsl(224, 25%, 70%)"
 			}
 		},
 		{
