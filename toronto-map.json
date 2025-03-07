@@ -175,7 +175,7 @@
 			"layout": {
 				"text-field": "{name}",
 				"text-transform": "uppercase",
-				"text-font": [ "montserrat-light" ],
+				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 12, 200, 20, 400 ],
