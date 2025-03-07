@@ -4,8 +4,8 @@
 	"metadata": {
 		"maputnik:renderer": "mbgljs"
 	},
-	"glyphs": "http://localhost:8000/assets/fonts/{fontstack}/{range}.pbf",
-	"sprite": "http://localhost:8000/assets/sprites/sprites",
+	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites",
 	"sources": {
 		"osm": {
 			"type": "vector",
