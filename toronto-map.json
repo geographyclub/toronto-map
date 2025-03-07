@@ -1,11 +1,11 @@
 {
 	"version": 8,
-	"name": "toronto-map",
+	"name": "osm",
 	"metadata": {
 		"maputnik:renderer": "mbgljs"
 	},
-	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
-	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites",
+	"glyphs": "http://localhost:8000/assets/fonts/{fontstack}/{range}.pbf",
+	"sprite": "http://localhost:8000/assets/sprites/sprites",
 	"sources": {
 		"osm": {
 			"type": "vector",
@@ -17,7 +17,16 @@
 			"id": "background",
 			"type": "background",
 			"paint": {
-				"background-color": "hsl(0, 14%, 90%)"
+				"background-color": "hsl(0, 0%, 98%)"
+			}
+		},
+		{
+			"source": "osm",
+			"id": "ocean",
+			"type": "fill",
+			"source-layer": "ocean",
+			"paint": {
+				"fill-color": "hsl(200, 100%, 90%)"
 			}
 		},
 		{
@@ -25,45 +34,61 @@
 			"id": "land-natural",
 			"type": "fill",
 			"source-layer": "land",
-			"filter": [ "in", "kind", "brownfield", "farmland", "farmyard", "greenfield", "greenhouse_horticulture", "orchard", "plant_nursery", "vineyard", "landfill", "park", "village_green", "recreation_ground", "allotments", "garden", "cemetery", "grave_yard", "miniature_golf", "playground", "golf_course", "bare_rock", "scree", "shingle", "forest", "grass", "grassland", "meadow", "wet_meadow", "heath", "scrub", "beach", "sand", "bog", "marsh", "string_bog", "swamp" ],
+			"filter": [ "in", "kind", "brownfield", "farmland", "farmyard", "greenfield", "greenhouse_horticulture", "orchard", "plant_nursery", "vineyard", "park", "village_green", "recreation_ground", "allotments", "garden", "miniature_golf", "playground", "golf_course", "forest", "grass", "grassland", "meadow", "wet_meadow", "heath", "scrub", "beach", "sand", "bog", "marsh", "string_bog", "swamp" ],
 			"paint": {
-				"fill-color": "hsl(110, 40%, 70%)"
+			  "fill-color": "hsl(110, 60%, 90%)",
+			  "fill-opacity": 1
 			}
 		},
 		{
 			"source": "osm",
-			"id": "water-area",
+			"id": "water-polygons",
 			"type": "fill",
 			"source-layer": "water_polygons",
-			"filter": [ "in", "kind", "water", "river" ],
 			"paint": {
-				"fill-color": "hsl(200, 60%, 70%)"
+				"fill-color": "hsl(200, 100%, 90%)",
+				"fill-opacity": { "stops": [ [ 4, 0 ], [ 6, 1 ] ] }
 			}
 		},
 		{
 			"source": "osm",
-			"id": "bridge",
+			"id": "airport-taxiway",
 			"type": "line",
 			"source-layer": "streets",
-			"filter": [ "all", [ "==", "bridge", true ], [ "!=", "kind", "footway" ], [ "!=", "kind", "path" ] ],
+			"filter": [ "==", "kind", "taxiway" ],
 			"paint": {
-				"line-color": "hsl(224, 25%, 70%)",
-				"line-width": 4
+				"line-color": "hsl(214, 23%, 95%)",
+				"line-width": { "stops": [ [ 13, 0 ], [ 14, 1 ], [ 15, 8 ], [ 16, 12 ], [ 18, 18 ], [ 20, 36 ] ] },
+				"line-opacity": { "stops": [ [ 13, 0 ], [ 14, 1 ] ] }
 			},
 			"layout": {
-				"line-join": "round",
-				"line-cap": "butt"
+				"line-join": "round"
 			}
 		},
 		{
 			"source": "osm",
-			"id": "highway-major",
+			"id": "airport-runway",
+			"type": "line",
+			"source-layer": "streets",
+			"filter": [ "==", "kind", "runway" ],
+			"paint": {
+				"line-color": "hsl(214, 23%, 95%)",
+				"line-width": { "stops": [ [ 11, 0 ], [ 12, 5 ], [ 13, 8 ], [ 14, 14 ], [ 15, 22 ], [ 16, 38 ], [ 17, 98 ], [ 18, 158 ], [ 20, 298 ] ] },
+				"line-opacity": { "stops": [ [ 11, 0 ], [ 12, 1 ] ] }
+			},
+			"layout": {
+				"line-join": "round"
+			}
+		},
+		{
+			"source": "osm",
+			"id": "street-buffer",
 			"type": "line",
 			"source-layer": "streets",
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"paint": {
-				"line-color": "hsl(224, 25%, 80%)",
-				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 10, 0, 15, 5, 20, 156 ],
+				"line-color": "hsl(0, 0%, 98%)",
+				"line-width": { "stops": [ [ 5, 0 ], [ 6, 12 ], [ 10, 15 ], [ 14, 15 ], [ 16, 24 ], [ 18, 48 ], [ 19, 94 ], [ 20, 178 ] ] },
 				"line-opacity": { "stops": [ [ 5, 0 ], [ 6, 1 ] ] }
 			},
 			"layout": {
@@ -73,13 +98,72 @@
 		},
 		{
 			"source": "osm",
+			"id": "street-outline",
+			"type": "line",
+			"source-layer": "streets",
+			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
+			"paint": {
+				"line-color": "hsl(0, 0%, 90%)",
+				"line-width": { "stops": [ [ 5, 0 ], [ 6, 2 ], [ 10, 5 ], [ 14, 5 ], [ 16, 14 ], [ 18, 38 ], [ 19, 84 ], [ 20, 168 ] ] },
+				"line-opacity": { "stops": [ [ 5, 0 ], [ 6, 1 ] ] }
+			},
+			"layout": {
+				"line-join": "round",
+				"line-cap": "round"
+			}
+		},
+		{
+			"source": "osm",
+			"id": "street",
+			"type": "line",
+			"source-layer": "streets",
+			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
+			"paint": {
+				"line-color": "hsl(214, 23%, 95%)",
+				"line-width": { "stops": [ [ 5, 0 ], [ 6, 1 ], [ 10, 4 ], [ 14, 4 ], [ 16, 12 ], [ 18, 36 ], [ 19, 80 ], [ 20, 160 ] ] },
+				"line-opacity": { "stops": [ [ 5, 0 ], [ 6, 1 ] ] }
+			},
+			"layout": {
+				"line-join": "round",
+				"line-cap": "round"
+			}
+		},
+		{
+			"source": "osm",
+			"id": "transport-outline",
+			"type": "line",
+			"source-layer": "streets",
+			"filter": [ "all", [ "in", "kind", "rail", "light_rail", "subway", "narrow_gauge", "tram", "funicular", "monorail" ], [ "!has", "service" ], [ "!=", "tunnel", true ] ],
+			"paint": {
+				"line-color": "hsl(0, 0%, 70%)",
+				"line-width": { "stops": [ [ 8, 1 ], [ 13, 1 ], [ 15, 3 ], [ 16, 4 ], [ 18, 8 ], [ 19, 11 ], [ 20, 14 ] ] },
+				"line-opacity": { "stops": [ [ 14, 0 ], [ 15, 1 ] ] }
+			}
+		},
+		{
+			"source": "osm",
 			"id": "transport",
 			"type": "line",
 			"source-layer": "streets",
-			"filter": [ "all", [ "in", "kind", "monorail", "funicular", "tram", "narrow_gauge", "subway", "light_rail", "rail" ] ],
+			"filter": [ "all", [ "in", "kind", "rail", "light_rail", "subway", "narrow_gauge", "tram", "funicular", "monorail" ], [ "!has", "service" ], [ "!=", "tunnel", true ] ],
 			"paint": {
-				"line-width": 2,
-				"line-color": "hsl(224, 25%, 70%)"
+				"line-color": "hsl(0, 0%, 90%)",
+				"line-width": { "stops": [ [ 8, 1 ], [ 13, 1 ], [ 15, 2 ], [ 16, 3 ], [ 18, 6 ], [ 19, 8 ], [ 20, 10 ] ] },
+				"line-dasharray": [ 2, 2 ],
+				"line-opacity": { "stops": [ [ 14, 0 ], [ 15, 1 ] ] }
+			}
+		},
+		{
+			"source": "osm",
+			"id": "transport-ferry",
+			"type": "line",
+			"source-layer": "ferries",
+			"minzoom": 10,
+			"paint": {
+				"line-color": "hsl(200, 100%, 70%)",
+				"line-width": 1,
+				"line-opacity": { "stops": [ [ 10, 0 ], [ 11, 1 ] ] },
+				"line-dasharray": [ 2, 2 ]
 			}
 		},
 		{
@@ -90,18 +174,17 @@
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"layout": {
 				"text-field": "{name}",
-				"text-font": [ "montserrat-regular" ],
 				"text-transform": "uppercase",
+				"text-font": [ "montserrat-light" ],
+				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
+				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 12, 200, 20, 400 ],
 				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 40 ],
-				"text-letter-spacing": 0.3,
-				"symbol-spacing": 500
+				"text-size": { "stops": [ [ 12, 4 ], [ 15, 9 ], [ 20, 20 ] ] }
 			},
 			"paint": {
-				"text-color": "hsl(0, 0%, 20%)",
-				"text-halo-color": "hsl(224, 25%, 80%)",
-				"text-halo-width": 2
+				"icon-color": "hsl(0, 0%, 50%)",
+				"text-color": "hsl(0, 0%, 50%)"
 			}
 		}
 	]
