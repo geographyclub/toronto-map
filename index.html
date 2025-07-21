@@ -54,21 +54,19 @@
 
         map.on("load", () => {
 
-            map.addSource("toronto-tiles", {
-                type: "vector",
-                //url: "http://localhost:8000/toronto-tiles.json",
-                url: "https://geographyclub.github.io/toronto-map/toronto-tiles.json",
-                tileSize: 512
+            map.addSource("toronto-trees", {
+                type: 'vector',
+				tiles: ["https://geographyclub.github.io/toronto-map/data/toronto-trees/{z}/{x}/{y}.pbf"]
             });
 
             function addTorontoTiles(map) {
                 map.addLayer({
-                    "id": "toronto-tiles",
-                    "source": "toronto-tiles",
-                    "source-layer": "toronto-tiles",
+                    "id": "toronto-trees",
+                    "source": "toronto-trees",
+                    "source-layer": "toronto-trees",
                     "type": "symbol",
                     "layout": {
-                        "icon-size": [ "match", [ "get", "layer" ], "people", 0.5, "dogs", 0.3, "trees", 0.8, 0.4 ],
+                        "icon-size": 2,
                         "symbol-placement": "point",
                         "icon-keep-upright": true,
                         "icon-allow-overlap": true,
