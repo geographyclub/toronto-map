@@ -31,8 +31,8 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            //style: "http://localhost:8000/toronto-map.json",
-            style: "https://geographyclub.github.io/toronto-map/toronto-map.json",
+            style: "http://localhost:8000/toronto-map.json",
+            //style: "https://geographyclub.github.io/toronto-map/toronto-map.json",
             center: [-79.393658, 43.654489],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -40,8 +40,6 @@
 	        maxZoom: 16,
 	        bearing: 0,
         	pitch: 30,
-            maxPitch: 30,
-            minPitch: 30,
             hash: true,
             pixelRatio: 1
         });
@@ -66,7 +64,7 @@
                     "source-layer": "toronto-trees",
                     "type": "symbol",
                     "layout": {
-                        "icon-size": 2,
+                        "icon-size": 0.5,
                         "symbol-placement": "point",
                         "icon-keep-upright": true,
                         "icon-allow-overlap": true,
