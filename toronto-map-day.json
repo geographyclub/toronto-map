@@ -5,7 +5,7 @@
 		"maputnik:renderer": "mbgljs"
 	},
 	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
-	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-trees",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites",
 	"sources": {
 		"osm": {
 			"type": "vector",
@@ -37,14 +37,36 @@
 			"source-layer": "streets",
 			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
 			"paint": {
-				"line-color": "hsl(0, 0%, 95%)",
-				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 11, 0, 20, 200 ]
+				"line-color": "hsl(115, 61%, 90%)",
+				"line-width": [ "interpolate", [ "exponential", 2 ], [ "zoom" ], 11, 0, 20, 100 ]
 			},
 			"layout": {
 				"line-join": "round",
 				"line-cap": "round"
 			},
 			"minzoom": 11
+		},
+		{
+			"source": "osm",
+			"source-layer": "street_labels",
+			"id": "street-label",
+			"type": "symbol",
+			"filter": [ "in", "highway", "motorway", "trunk", "primary", "secondary", "tertiary", "residential" ],
+			"layout": {
+				"text-field": "{name}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "montserrat-semibold" ],
+				"text-letter-spacing": 0.2,
+				"symbol-placement": "line",
+				"symbol-spacing": 250,
+				"text-anchor": "center",
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 8, 18, 30 ]
+			},
+			"paint": {
+				"text-color": "hsl(0, 0%, 50%)",
+				"text-opacity": 1
+			}
 		}
 	]
 }

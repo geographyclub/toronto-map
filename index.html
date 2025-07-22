@@ -62,7 +62,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "toronto-map-night.json",
+            style: "toronto-map-day.json",
             center: [-79.393658, 43.654489],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -126,7 +126,7 @@
                     "source-layer": "toronto-trees",
                     "type": "symbol",
                     "layout": {
-                        "icon-size": 2,
+                        "icon-size": 1,
                         "symbol-placement": "point",
                         "icon-keep-upright": true,
                         "icon-allow-overlap": true,
@@ -140,7 +140,7 @@
                         ]
                     },
                     "paint": {
-                        "icon-color": "hsl(0, 0%, 0%)",
+                        "icon-color": "hsl(0, 0%, 100%)",
                         "icon-opacity": [
                             "interpolate",
                             ["linear"],
