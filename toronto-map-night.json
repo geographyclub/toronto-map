@@ -17,7 +17,7 @@
 			"id": "background",
 			"type": "background",
 			"paint": {
-				"background-color": "hsl(0, 0%, 95%)"
+				"background-color": "hsl(0, 0%, 100%)"
 			}
 		},
         {
@@ -27,7 +27,7 @@
 			"source-layer": "land",
 			"filter": [ "in", "kind", "brownfield", "farmland", "farmyard", "greenfield", "greenhouse_horticulture", "orchard", "plant_nursery", "vineyard", "park", "village_green", "recreation_ground", "allotments", "garden", "miniature_golf", "playground", "golf_course", "forest", "grass", "grassland", "meadow", "wet_meadow", "heath", "scrub", "beach", "sand", "bog", "marsh", "string_bog", "swamp" ],
 			"paint": {
-				"fill-color": "hsl(115, 61%, 80%)",
+				"fill-color": "hsl(0, 0%, 90%)",
 				"fill-opacity": 1
 			}
 		},
@@ -38,7 +38,7 @@
 			"source-layer": "land",
 			"filter": [ "in", "kind", "residential", "industrial", "commercial", "retail" ],
 			"paint": {
-				"fill-color": "hsl(24, 32%, 91%)",
+				"fill-color": "hsl(0, 0%, 95%)",
 				"fill-opacity": 1
 			}
 		},
