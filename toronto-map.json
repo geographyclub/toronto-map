@@ -271,7 +271,7 @@
 			"source-layer": "pois",
 			"filter": [ "all", [ "to-boolean", [ "get", "amenity" ] ], ["!=", ["get", "name"], null] ],
 			"layout": {
-				"icon-size": 0.5,
+				"icon-size": 1,
 				"symbol-placement": "point",
 				"icon-optional": true,
 				"icon-image": ["match", ["get", "amenity"], "arts_centre", "art_gallery", "atm", "atm", "bank", "bank", "bar", "bar", "bench", "bench", "bicycle_rental", "bicycle_share", "biergarten", "beergarden", "cafe", "cafe", "car_rental", "car_rental", "car_sharing", "car_rental", "car_wash", "car_wash", "cinema", "cinema", "college", "college", "community_centre", "community", "dentist", "dentist", "doctors", "doctor", "dog_park", "dog_park", "drinking_water", "drinking_water", "embassy", "embassy", "fast_food", "fast_food", "fire_station", "fire_station", "fountain", "fountain", "grave_yard", "cemetery", "hospital", "hospital", "hunting_stand", "huntingstand", "library", "library", "marketplace", "marketplace", "nightclub", "nightclub", "nursing_home", "nursinghome", "pharmacy", "pharmacy", "place_of_worship", "place_of_worship", "playground", "playground", "police", "police", "post_box", "postbox", "post_office", "post", "prison", "prison", "pub", "beer", "recycling", "recycling", "restaurant", "restaurant", "school", "school", "shelter", "shelter", "telephone", "telephone", "theatre", "theatre", "toilets", "toilet", "townhall", "town_hall", "vending_machine", "vendingmachine", "veterinary", "veterinary", "waste_basket", "waste_basket", "unknown"],
