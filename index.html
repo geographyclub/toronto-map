@@ -6,10 +6,10 @@
     <meta property="og:description" content="Toronto Map" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
-	<link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-	<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -28,10 +28,10 @@
             style: "toronto-map.json",
             center: [-79.393658, 43.654489],
             maxBounds: torontoBounds,
-            zoom: 16,
-            minZoom: 14,
+            zoom: 15,
+            minZoom: 12,
             maxZoom: 18,
-            bearing: 0,
+            bearing: -16,
             pitch: 20,
             hash: true,
             pixelRatio: 1
@@ -45,72 +45,96 @@
 
         map.on("load", () => {
 
-            // map.addSource('toronto-ortho', {
-            //     type: 'raster',
-            //     tiles: [
-            //         'https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer/tile/{z}/{y}/{x}'
-            //     ],
-            //     tileSize: 256,
-            //     attribution: 'City of Toronto'
-            // });
-
-            // map.addSource('toronto-lidar-hillshade', {
-            //     type: 'raster',
-            //     tiles: [
-            //         'https://gis.toronto.ca/arcgis/rest/services/basemap/cot_LiDAR_2015_Hillshade_BareEarth/MapServer/tile/{z}/{y}/{x}'
-            //     ],
-            //     tileSize: 256,
-            //     attribution: 'LiDAR Hillshade © City of Toronto'
-            // });
-
-            // map.addLayer({
-            //     id: 'toronto-ortho',
-            //     type: 'raster',
-            //     source: 'toronto-ortho',
-            //     paint: {}
-            // });
-
-            // map.addLayer({
-            //     id: 'toronto-lidar-hillshade',
-            //     type: 'raster',
-            //     source: 'toronto-lidar-hillshade',
-            //     paint: {}
-            // });
-
-            map.addSource("toronto-trees", {
+            // Add building source
+            map.addSource('toronto_buildings', {
                 type: 'vector',
-                tiles: ["https://geographyclub.github.io/toronto-map/data/toronto-trees/{z}/{x}/{y}.pbf"]
+                tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
             });
 
+            // Add neighborhood source
+            map.addSource('toronto_neighborhoods', {
+                type: 'vector',
+                tiles: ['https://torontotechweek.github.io/data/toronto_neighborhoods/{z}/{x}/{y}.pbf']
+            });
+
+            // Add neighborhood centroids
+            map.addSource('toronto_neighborhoods_centroids', {
+                'type': 'geojson',
+                'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
+            });
+
+            // Add neighborhood outlines
             map.addLayer({
-                "id": "toronto-trees",
-                "source": "toronto-trees",
-                "source-layer": "toronto-trees",
-                "type": "symbol",
-                "layout": {
-                    "symbol-placement": "point",
-                    "icon-keep-upright": true,
-                    "icon-allow-overlap": true,
-                    "icon-ignore-placement": true,
-                    "icon-anchor": "bottom",
-                    "symbol-sort-key": 0,
-                    "icon-image": [
-                        "concat",
-                        "icon-",
-                        ["get", "icon_number"]
+                'id': 'neighborhoods-outlines',
+                'source': 'toronto_neighborhoods',
+                'source-layer': 'toronto_neighborhoods',
+                'type': 'line',
+                'paint': {
+                    'line-color': 'hsl(227, 89%, 90%)',
+                    'line-width': ['interpolate', ['exponential', 1.5], ['zoom'], 11, 1, 18, 20],
+                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.1, 14, 0.2, 15, 0]
+                },
+                "minzoom": 11,
+                "maxzoom": 15
+            });
+
+            // Add building outlines
+            map.addLayer({
+                'id': 'buildings-outline',
+                'source': 'toronto_buildings',
+                'source-layer': 'toronto_buildings',
+                'type': 'line',
+                'paint': {
+                    'line-color': 'hsl(280, 10%, 40%)',
+                    'line-width': 2,
+                    'line-opacity': ["interpolate", ["linear"], ["zoom"], 16, 0, 18, 1]
+                },
+                'minzoom': 16
+            }, 'highway-name-minor');
+
+            // Add 3d buildings
+            map.addLayer({
+                'id': 'buildings',
+                'source': 'toronto_buildings',
+                'source-layer': 'toronto_buildings',
+                'type': 'fill-extrusion',
+                'paint': {
+                    'fill-extrusion-color': 'hsl(280, 10%, 40%)',
+                    'fill-extrusion-height': [
+                        'case',
+                        ['!=', ['get', 'max_height'], null], ['get', 'max_height'],
+                        ['!=', ['get', 'avg_height'], null], ['get', 'avg_height'],
+                        10
                     ],
-                    "icon-size": 1.5
+                    'fill-extrusion-base': 0,
+                    'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
                 },
-                "paint": {
-                    "icon-color": "hsl(0, 0%, 100%)",
-                    "icon-opacity": [
-                        "interpolate",
-                        ["linear"],
-                        ["zoom"],
-                        15, 0, 16, 1
-                    ]
+                'minzoom': 15
+            }, 'highway-name-minor');
+
+            // Add neighborhood labels
+            map.addLayer({
+                id: 'neighborhoods-labels',
+                type: 'symbol',
+                source: 'toronto_neighborhoods_centroids',
+                layout: {
+                    'text-field': ['get', 'area_name'],
+                    'text-size': ['interpolate', ['exponential', 1.1], ['zoom'], 10, 1, 18, 50],
+                    'text-font': ['montserrat-regular'],
+                    'text-max-width': 5,
+                    'text-line-height': 1,
+                    'text-allow-overlap': true,
+                    'text-ignore-placement': true,
+                    //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+                    'text-rotation-alignment': 'viewport',
+                    'text-pitch-alignment': 'viewport'
                 },
-                minZoom: 16
+                paint: {
+                    'text-color': 'hsl(227, 89%, 90%)',
+                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.8, 14, 0.8, 16, 0]
+                },
+                "minzoom": 11,
+                "maxzoom": 16
             });
 
         });
