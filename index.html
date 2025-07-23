@@ -43,6 +43,18 @@
             height: 100%;
         }
 
+        .maplibregl-popup-tip {
+            transform: skewY(10deg);
+        }
+
+        .maplibregl-popup-content {
+            padding: 0 5px;
+            margin: -1px;
+            box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
+            transform: skewY(10deg);
+            pointer-events: none !important;
+        }
+
         .maplibregl-ctrl-bottom-right {
             display: none;
         }
@@ -69,7 +81,7 @@
             minZoom: 14,
             maxZoom: 18,
             bearing: 0,
-            pitch: 30,
+            pitch: 20,
             hash: true,
             pixelRatio: 1
         });
@@ -119,39 +131,36 @@
                 tiles: ["https://geographyclub.github.io/toronto-map/data/toronto-trees/{z}/{x}/{y}.pbf"]
             });
 
-            function addTorontoTiles(map) {
-                map.addLayer({
-                    "id": "toronto-trees",
-                    "source": "toronto-trees",
-                    "source-layer": "toronto-trees",
-                    "type": "symbol",
-                    "layout": {
-                        "icon-size": 1,
-                        "symbol-placement": "point",
-                        "icon-keep-upright": true,
-                        "icon-allow-overlap": true,
-                        "icon-ignore-placement": true,
-                        "icon-anchor": "bottom",
-                        "symbol-sort-key": 0,
-                        "icon-image": [
-                            "concat",
-                            "icon-",
-                            ["get", "icon_number"]
-                        ]
-                    },
-                    "paint": {
-                        "icon-color": "hsl(0, 0%, 100%)",
-                        "icon-opacity": [
-                            "interpolate",
-                            ["linear"],
-                            ["zoom"],
-                            15, 0, 16, 1
-                        ]
-                    },
-                    minZoom: 16
-                });
-            }
-            addTorontoTiles(map);
+            map.addLayer({
+                "id": "toronto-trees",
+                "source": "toronto-trees",
+                "source-layer": "toronto-trees",
+                "type": "symbol",
+                "layout": {
+                    "symbol-placement": "point",
+                    "icon-keep-upright": true,
+                    "icon-allow-overlap": true,
+                    "icon-ignore-placement": true,
+                    "icon-anchor": "bottom",
+                    "symbol-sort-key": 0,
+                    "icon-image": [
+                        "concat",
+                        "icon-",
+                        ["get", "icon_number"]
+                    ],
+                    "icon-size": 2
+                },
+                "paint": {
+                    "icon-color": "hsl(0, 0%, 100%)",
+                    "icon-opacity": [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        15, 0, 16, 1
+                    ]
+                },
+                minZoom: 16
+            });
 
         });
 
