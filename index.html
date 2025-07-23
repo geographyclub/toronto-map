@@ -6,59 +6,10 @@
     <meta property="og:description" content="Toronto Map" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
-
-        body {
-            height: 100%;
-            width: 100%;
-            background-color: hsl(0, 0%, 100%);
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-        }
-
-        .map-wrapper {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-
-        .maplibregl-popup-tip {
-            transform: skewY(10deg);
-        }
-
-        .maplibregl-popup-content {
-            padding: 0 5px;
-            margin: -1px;
-            box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
-            transform: skewY(10deg);
-            pointer-events: none !important;
-        }
-
-        .maplibregl-ctrl-bottom-right {
-            display: none;
-        }
-    </style>
+	<script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
+	<link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -74,7 +25,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "toronto-map-day.json",
+            style: "toronto-map.json",
             center: [-79.393658, 43.654489],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -148,7 +99,7 @@
                         "icon-",
                         ["get", "icon_number"]
                     ],
-                    "icon-size": 2
+                    "icon-size": 1.5
                 },
                 "paint": {
                     "icon-color": "hsl(0, 0%, 100%)",
