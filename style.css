@@ -32,18 +32,23 @@ body {
     height: 100%;
 }
 
-.maplibregl-popup-tip {
-    transform: skewY(10deg);
-}
-
 .maplibregl-popup-content {
     padding: 0 5px;
     margin: -1px;
-    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.5);
-    transform: skewY(10deg);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     pointer-events: none !important;
+    transform: skewY( 10deg )
 }
 
-.maplibregl-ctrl-bottom-right {
-    display: none;
+.maplibregl-popup-content p {
+    margin: 0;
+    padding: 0;
+}
+
+.maplibregl-popup-close-button {
+    display: none !important;
+}
+
+.maplibregl-popup-tip {
+    transform: skewY( 10deg )
 }

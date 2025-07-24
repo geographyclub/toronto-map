@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
     <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -137,6 +136,32 @@
                 "maxzoom": 16
             });
 
+        });
+
+        map.on('load', () => {
+            const targetLayers = [ 'bloor-danforth-stations', 'eglinton-crosstown-stations', 'ontario-line-stations', 'yonge-university-stations'];
+
+            targetLayers.forEach(layerId => {
+                const layer = map.getLayer(layerId);
+                if (!layer) return;
+
+                const sourceId = layer.source;
+                const source = map.getSource(sourceId);
+
+                // Only works for GeoJSON sources with `_data`
+                if (source && source._data && source._data.features) {
+                    source._data.features.forEach(feature => {
+                        const name = feature.properties.station || 'Unnamed';
+
+                        if (feature.geometry.type === 'Point') {
+                            new maplibregl.Popup({ closeOnClick: false, anchor: "bottom" })
+                                .setLngLat(feature.geometry.coordinates)
+                                .setHTML(`<p>${name}</p>`)
+                                .addTo(map);
+                        }
+                    });
+                }
+            });
         });
 
     </script>
