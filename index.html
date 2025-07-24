@@ -26,13 +26,13 @@
         const map = new maplibregl.Map({
             container: "map",
             style: "toronto-map.json",
-            center: [-79.393658, 43.654489],
+            center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
-            zoom: 15,
+            zoom: 12,
             minZoom: 12,
-            maxZoom: 18,
+            maxZoom: 16,
             bearing: -16,
-            pitch: 20,
+            pitch: 25,
             hash: true,
             pixelRatio: 2
         });
@@ -90,7 +90,7 @@
                     'line-opacity': ["interpolate", ["linear"], ["zoom"], 16, 0, 18, 1]
                 },
                 'minzoom': 16
-            }, 'highway-name-minor');
+            }, 'ontario-line');
 
             // Add 3d buildings
             map.addLayer({
@@ -110,7 +110,7 @@
                     'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
                 },
                 'minzoom': 15
-            }, 'highway-name-minor');
+            }, 'ontario-line');
 
             // Add neighborhood labels
             map.addLayer({
