@@ -449,7 +449,7 @@
 			"id": "ontario-line",
 			"type": "line",
 			"paint": {
-				"line-color": "hsl(320, 58%, 80%)",
+				"line-color": "#F4BCD4",
 				"line-width": { "stops": [ [ 12, 6 ], [ 18, 12 ] ] },
 				"line-opacity": 1
 			},
@@ -736,7 +736,7 @@
 				"icon-size": 0.5,
 				"symbol-placement": "point",
 				"icon-optional": true,
-				"icon-image": ["match", ["get", "amenity"], "arts_centre", "art_gallery", "atm", "atm", "bank", "bank", "bar", "bar", "bench", "bench", "bicycle_rental", "bicycle_share", "biergarten", "beergarden", "bus_stop", "bus", "cafe", "cafe", "car_rental", "car_rental", "car_sharing", "car_rental", "car_wash", "car_wash", "cinema", "cinema", "college", "college", "community_centre", "community", "dentist", "dentist", "doctors", "doctor", "dog_park", "dog_park", "drinking_water", "drinking_water", "embassy", "embassy", "fast_food", "fast_food", "fire_station", "fire_station", "fountain", "fountain", "grave_yard", "cemetery", "hospital", "hospital", "hunting_stand", "huntingstand", "library", "library", "light_rail", "rail_light", "marketplace", "marketplace", "nightclub", "nightclub", "nursing_home", "nursinghome", "pharmacy", "pharmacy", "place_of_worship", "place_of_worship", "playground", "playground", "police", "police", "post_box", "postbox", "post_office", "post", "prison", "prison", "pub", "beer", "recycling", "recycling", "restaurant", "restaurant", "school", "school", "shelter", "shelter", "station", "rail_metro", "telephone", "telephone", "theatre", "theatre", "toilets", "toilet", "townhall", "town_hall", "tram_stop", "rail_light", "vending_machine", "vendingmachine", "veterinary", "veterinary", "waste_basket", "waste_basket", "unknown"],
+				"icon-image": ["match", ["get", "amenity"], "arts_centre", "art-gallery", "atm", "bank", "bank", "bank", "bar", "bar", "bench", "picnic-site", "bicycle_rental", "bicycle-share", "biergarten", "beergarden", "bus_stop", "bus", "cafe", "cafe", "car_rental", "car-rental", "car_sharing", "car-rental", "car_wash", "car-rental", "cinema", "cinema", "college", "college", "community_centre", "building", "dentist", "dentist", "doctors", "doctor", "dog_park", "dog_park", "drinking_water", "drinking_water", "embassy", "embassy", "fast_food", "fast-food", "fire_station", "fire-station", "fountain", "water", "grave_yard", "cemetery", "hospital", "hospital", "hunting_stand", "huntingstand", "library", "library", "light_rail", "rail-light", "marketplace", "grocery", "nightclub", "nightclub", "nursing_home", "nursinghome", "pharmacy", "pharmacy", "place_of_worship", "place-of-worship", "playground", "playground", "police", "police", "post_box", "post", "post_office", "post", "prison", "prison", "pub", "beer", "recycling", "recycling", "restaurant", "restaurant", "school", "school", "shelter", "shelter", "station", "rail-metro", "telephone", "telephone", "theatre", "theatre", "toilets", "toilet", "townhall", "town-hall", "tram_stop", "rail-light", "vending_machine", "convenience", "veterinary", "veterinary", "waste_basket", "waste_basket", "marker"],
 				"text-font": [ "montserrat-semibold" ],
 				"text-size": 10,
 				"text-field": ["get", "name"],

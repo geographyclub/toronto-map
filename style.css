@@ -41,6 +41,7 @@ body {
 }
 
 .maplibregl-popup-content p {
+    font-family: sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -52,3 +53,4 @@ body {
 .maplibregl-popup-tip {
     transform: skewY( 10deg )
 }
+
