@@ -24,7 +24,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "toronto-map.json",
+            style: "toronto-trees.json",
             center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
             zoom: 12,
@@ -43,7 +43,7 @@
         });
 
         map.on("load", () => {
-
+            
             // Add building source
             map.addSource('toronto_buildings', {
                 type: 'vector',
@@ -200,10 +200,10 @@
             flyNext();
         }
 
-        // map.on('load', () => {
-        //     const data = map.getSource('ontario-line-stations')._data;
-        //     flyToOntarioLineStations(map, data, 2500); // 2.5s pause
-        // });
+        map.on('load', () => {
+            const data = map.getSource('ontario-line-stations')._data;
+            flyToOntarioLineStations(map, data, 2500); // 2.5s pause
+        });
 
         const lineColors = [
             { name: "bloor-danforth", color: "#00923f" },
