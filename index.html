@@ -24,7 +24,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "toronto-map.json",
+            style: "style.json",
             center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
             zoom: 12,
@@ -139,7 +139,7 @@
             // Add bathymetry
             map.addSource('lake_ontario_bathymetry', {
                 type: 'vector',
-                tiles: ['https://github.com/geographyclub/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf']
+                tiles: ['https://geographyclub.github.io/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf']
             });
 
             // Add bathymetry
@@ -150,11 +150,9 @@
                 'type': 'line',
                 'paint': {
                     'line-color': 'hsl(227, 89%, 100%)',
-                    'line-width': ['interpolate', ['exponential', 1.5], ['zoom'], 11, 1, 18, 20],
-                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.1, 14, 0.2, 15, 0]
-                },
-                "minzoom": 15,
-                "maxzoom": 16
+                    'line-width': 1,
+                    'line-opacity': 1
+                }
             });
 
         });
