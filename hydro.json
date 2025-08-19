@@ -1,0 +1,112 @@
+{
+	"version": 8,
+	"name": "osm",
+	"metadata": {
+		"maputnik:renderer": "mbgljs"
+	},
+	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
+	"sources": {
+        "osm": {
+            "type": "vector",
+            "url": "https://vector.openstreetmap.org/shortbread_v1/tilejson.json"
+        },
+        "toronto_halfbasins": {
+            "type": "vector",
+            "tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_halfbasins/{z}/{x}/{y}.pbf"]
+        },
+        "lake_ontario_bathymetry": {
+            "type": "vector",
+            "tiles": ["https://geographyclub.github.io/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf"]
+        },
+        "toronto_streams": {
+            "type": "vector",
+            "tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_streams/{z}/{x}/{y}.pbf"]
+        }
+	},
+	"layers": [
+		{
+			"id": "background",
+			"type": "background",
+			"paint": {
+				"background-color": "hsl(252, 18%, 100%)"
+			}
+		},
+        {
+            "id": "toronto_halfbasins_aspect",
+			"source": "toronto_halfbasins",
+            "source-layer": "toronto_halfbasins",
+            "filter": ["<", "aspect_mean", 180],
+			"type": "fill",
+			"paint": {
+                "fill-color": [
+                    "interpolate", ["linear"], ["get", "aspect_mean"],
+                    0,   "hsl(0, 0%, 5%)",
+                    45,  "hsl(0, 0%, 15%)",
+                    90,  "hsl(0, 0%, 25%)",
+                    135, "hsl(0, 0%, 10%)",
+                    180, "hsl(0, 0%, 25%)",
+                    225, "hsl(0, 0%, 35%)",
+                    270, "hsl(0, 0%, 55%)",
+                    315, "hsl(0, 0%, 95%)",
+                    360, "hsl(0, 0%, 5%)"
+                ],
+                "fill-opacity": 0.05
+			}
+		},
+        {
+            "id": "toronto_halfbasins_accum",
+            "source": "toronto_halfbasins",
+            "source-layer": "toronto_halfbasins",
+            "type": "fill",
+            "paint": {
+                "fill-color": "hsl(200, 80%, 10%)",
+                "fill-opacity": [
+                    "interpolate", ["linear"], ["get", "accum_sum"],
+                    200000, 0,
+                    2000000, 0.1
+                ]
+            }
+        },
+        {
+            "id": "toronto_streams",
+            "source": "toronto_streams",
+            "source-layer": "toronto_streams",
+            "type": "line",
+            "paint": {
+                "line-color": "hsl(200, 80%, 20%)",
+                "line-width": [
+                        "interpolate", ["linear"], ["get", "accum"],
+                        0, 0.5,
+                        10000, 1
+                    ],
+                "line-opacity":  ["interpolate", ["linear"], ["zoom"], 12.5, 0.5, 13, 0]
+            }
+        },
+		{
+			"source": "osm",
+			"id": "water",
+			"type": "fill",
+			"source-layer": "water_polygons",
+			"filter": [ "in", "kind", "water", "river", "reservoir", "basin", "dock" ],
+			"paint": {
+				"fill-color": "hsl(216, 44%, 100%)"
+			}
+		},
+        {
+            "id": "lake_ontario_bathymetry",
+            "source": "lake_ontario_bathymetry",
+            "source-layer": "lake_ontario_bathymetry",
+            "type": "line",
+            "paint": {
+                "line-color": "hsl(200, 80%, 20%)",
+                "line-width": 0.5,
+                "line-opacity": [
+                    "interpolate", ["linear"], ["get", "DEPTH"],
+                    0, 0.2,
+                    100, 0.1
+                ]
+            }
+        }
+	]
+}
