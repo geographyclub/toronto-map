@@ -11,6 +11,10 @@
             "type": "vector",
             "url": "https://vector.openstreetmap.org/shortbread_v1/tilejson.json"
         },
+        "toronto_halfbasins": {
+            "type": "vector",
+            "tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_halfbasins/{z}/{x}/{y}.pbf"]
+        },
         "lake_ontario_bathymetry": {
             "type": "vector",
             "tiles": ["https://geographyclub.github.io/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf"]
@@ -25,20 +29,29 @@
 			"id": "background",
 			"type": "background",
 			"paint": {
-				"background-color": "hsl(252, 18%, 27%)"
+				"background-color": "hsl(252, 18%, 97%)"
 			}
 		},
-		{
-			"source": "osm",
-			"id": "land-natural",
+        {
+            "id": "toronto_halfbasins",
+			"source": "toronto_halfbasins",
+            "source-layer": "toronto_halfbasins",
 			"type": "fill",
-			"source-layer": "land",
-			"filter": [ "in", "kind", "brownfield", "farmland", "farmyard", "greenfield", "greenhouse_horticulture", "orchard", "plant_nursery", "vineyard", "park", "village_green", "recreation_ground", "allotments", "garden", "miniature_golf", "playground", "golf_course", "forest", "grass", "grassland", "meadow", "wet_meadow", "heath", "scrub", "beach", "sand", "bog", "marsh", "string_bog", "swamp" ],
 			"paint": {
-			  "fill-color": "hsl(165, 30%, 36%)",
-			  "fill-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 16, 0, 17, 1 ]
-			},
-			"minzoom": 16
+                "fill-color": [
+                    "interpolate", ["linear"], ["get", "aspect_mean"],
+                    0,   "hsl(0, 0%, 40%)",
+                    45,  "hsl(0, 0%, 30%)",
+                    90,  "hsl(0, 0%, 20%)",
+                    135, "hsl(0, 0%, 10%)",
+                    180, "hsl(0, 0%, 20%)",
+                    225, "hsl(0, 0%, 30%)",
+                    270, "hsl(0, 0%, 50%)",
+                    315, "hsl(0, 0%, 90%)",
+                    360, "hsl(0, 0%, 40%)"
+                ],
+                "fill-opacity": 0.3
+			}
 		},
         {
             "id": "toronto_streams",
@@ -47,20 +60,24 @@
             "type": "line",
             "paint": {
                 "line-color": [
-                "step", ["get", "accum"],
-                "hsl(220, 95%, 45%)",
-                10,   "hsl(210, 85%, 60%)",
-                50,   "hsl(205, 80%, 70%)",
-                100,  "hsl(200, 75%, 80%)",
-                500,  "hsl(195, 70%, 85%)",
-                1000, "hsl(190, 65%, 88%)",
-                2000, "hsl(185, 60%, 90%)",
-                5000, "hsl(180, 55%, 93%)",
-                8000, "hsl(175, 50%, 95%)",
-                10000,"hsl(0, 0%, 100%)"
-            ],
-                "line-width": 0.5,
-                "line-opacity":  ["interpolate", ["linear"], ["zoom"], 12.5, 1, 13, 0]
+                    "step", ["get", "accum"],
+                    "hsl(200, 80%, 85%)",
+                    10,   "hsl(200, 80%, 75%)",
+                    50,   "hsl(200, 80%, 65%)",
+                    100,  "hsl(200, 80%, 55%)",
+                    500,  "hsl(200, 80%, 45%)",
+                    1000, "hsl(200, 80%, 40%)",
+                    2000, "hsl(200, 80%, 35%)",
+                    5000, "hsl(200, 80%, 30%)",
+                    8000, "hsl(200, 80%, 25%)",
+                    10000,"hsl(200, 80%, 20%)"
+                ],
+                "line-width": [
+                        "interpolate", ["linear"], ["get", "accum"],
+                        0, 0.5,
+                        10000, 1.5
+                    ],
+                "line-opacity":  ["interpolate", ["linear"], ["zoom"], 12.5, 0.5, 13, 0]
             }
         },
 		{
@@ -93,7 +110,7 @@
                     180, "hsl(245, 100%, 25%)"
                 ],
                 "line-width": 0.5,
-                "line-opacity":  ["interpolate", ["linear"], ["zoom"], 12.5, 1, 13, 0]
+                "line-opacity":  ["interpolate", ["linear"], ["zoom"], 12.5, 0.5, 13, 0]
             }
         }
 	]
