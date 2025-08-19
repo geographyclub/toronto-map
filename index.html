@@ -136,6 +136,27 @@
                 "maxzoom": 16
             });
 
+            // Add bathymetry
+            map.addSource('lake_ontario_bathymetry', {
+                type: 'vector',
+                tiles: ['https://github.com/geographyclub/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf']
+            });
+
+            // Add bathymetry
+            map.addLayer({
+                'id': 'lake_ontario_bathymetry',
+                'source': 'lake_ontario_bathymetry',
+                'source-layer': 'lake_ontario_bathymetry',
+                'type': 'line',
+                'paint': {
+                    'line-color': 'hsl(227, 89%, 100%)',
+                    'line-width': ['interpolate', ['exponential', 1.5], ['zoom'], 11, 1, 18, 20],
+                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.1, 14, 0.2, 15, 0]
+                },
+                "minzoom": 15,
+                "maxzoom": 16
+            });
+
         });
 
         map.on('load', () => {
