@@ -42,206 +42,101 @@
             map.easeTo({ bearing: 0 });
         });
 
-        map.on("load", () => {
+        // map.on("load", () => {
 
-            // Add bathymetry
-            map.addSource('lake_ontario_bathymetry', {
-                type: 'vector',
-                tiles: ['https://geographyclub.github.io/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf']
-            });
+        //     // Add neighborhood source
+        //     map.addSource('toronto_neighborhoods', {
+        //         type: 'vector',
+        //         tiles: ['https://torontotechweek.github.io/data/toronto_neighborhoods/{z}/{x}/{y}.pbf']
+        //     });
 
-            // Add bathymetry
-            map.addLayer({
-                'id': 'lake_ontario_bathymetry',
-                'source': 'lake_ontario_bathymetry',
-                'source-layer': 'lake_ontario_bathymetry',
-                'type': 'line',
-                'paint': {
-                    "line-color": [
-                        "step", ["get", "DEPTH"],
-                        "hsl(200, 80%, 95%)",
-                        20,  "hsl(205, 85%, 90%)",
-                        40,  "hsl(210, 85%, 80%)",
-                        60,  "hsl(215, 85%, 70%)",
-                        80,  "hsl(220, 85%, 60%)",
-                        100, "hsl(225, 85%, 50%)",
-                        120, "hsl(230, 85%, 45%)",
-                        140, "hsl(235, 90%, 40%)",
-                        160, "hsl(240, 95%, 30%)",
-                        180, "hsl(245, 100%, 25%)"
-                    ],
-                    'line-width': 0.5,
-                    'line-opacity':  ["interpolate", ["linear"], ["zoom"], 12.5, 1, 13, 0]
-                }
-            });
+        //     // Add neighborhood centroids
+        //     map.addSource('toronto_neighborhoods_centroids', {
+        //         'type': 'geojson',
+        //         'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
+        //     });
 
-            // Add neighborhood source
-            map.addSource('toronto_neighborhoods', {
-                type: 'vector',
-                tiles: ['https://torontotechweek.github.io/data/toronto_neighborhoods/{z}/{x}/{y}.pbf']
-            });
+        //     // Add neighborhood outlines
+        //     map.addLayer({
+        //         'id': 'neighborhoods-outlines',
+        //         'source': 'toronto_neighborhoods',
+        //         'source-layer': 'toronto_neighborhoods',
+        //         'type': 'line',
+        //         'paint': {
+        //             'line-color': 'hsl(227, 89%, 90%)',
+        //             'line-width': ['interpolate', ['exponential', 1.5], ['zoom'], 12, 1, 18, 20],
+        //             'line-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 0.2, 14, 0.2, 15, 0]
+        //         },
+        //         "minzoom": 12,
+        //         "maxzoom": 15
+        //     });
 
-            // Add neighborhood centroids
-            map.addSource('toronto_neighborhoods_centroids', {
-                'type': 'geojson',
-                'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
-            });
+        //     // Add building source
+        //     map.addSource('toronto_buildings', {
+        //         type: 'vector',
+        //         tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
+        //     });
 
-            // Add neighborhood outlines
-            map.addLayer({
-                'id': 'neighborhoods-outlines',
-                'source': 'toronto_neighborhoods',
-                'source-layer': 'toronto_neighborhoods',
-                'type': 'line',
-                'paint': {
-                    'line-color': 'hsl(227, 89%, 90%)',
-                    'line-width': ['interpolate', ['exponential', 1.5], ['zoom'], 11, 1, 18, 20],
-                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.1, 14, 0.2, 15, 0]
-                },
-                "minzoom": 11,
-                "maxzoom": 15
-            });
+        //     // Add building outlines
+        //     map.addLayer({
+        //         'id': 'buildings-outline',
+        //         'source': 'toronto_buildings',
+        //         'source-layer': 'toronto_buildings',
+        //         'type': 'line',
+        //         'paint': {
+        //             'line-color': 'hsl(280, 10%, 40%)',
+        //             'line-width': 2,
+        //             'line-opacity': ["interpolate", ["linear"], ["zoom"], 16, 0, 18, 1]
+        //         },
+        //         'minzoom': 16
+        //     }, 'poi-amenity');
 
-            // Add building source
-            map.addSource('toronto_buildings', {
-                type: 'vector',
-                tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
-            });
+        //     // Add 3d buildings
+        //     map.addLayer({
+        //         'id': 'buildings',
+        //         'source': 'toronto_buildings',
+        //         'source-layer': 'toronto_buildings',
+        //         'type': 'fill-extrusion',
+        //         'paint': {
+        //             'fill-extrusion-color': 'hsl(280, 10%, 40%)',
+        //             'fill-extrusion-height': [
+        //                 'case',
+        //                 ['!=', ['get', 'max_height'], null], ['get', 'max_height'],
+        //                 ['!=', ['get', 'avg_height'], null], ['get', 'avg_height'],
+        //                 10
+        //             ],
+        //             'fill-extrusion-base': 0,
+        //             'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
+        //         },
+        //         'minzoom': 15
+        //     }, 'poi-amenity');
 
-            // Add building outlines
-            map.addLayer({
-                'id': 'buildings-outline',
-                'source': 'toronto_buildings',
-                'source-layer': 'toronto_buildings',
-                'type': 'line',
-                'paint': {
-                    'line-color': 'hsl(280, 10%, 40%)',
-                    'line-width': 2,
-                    'line-opacity': ["interpolate", ["linear"], ["zoom"], 16, 0, 18, 1]
-                },
-                'minzoom': 16
-            }, 'poi-amenity');
+        //     // Add neighborhood labels
+        //     map.addLayer({
+        //         id: 'neighborhoods-labels',
+        //         type: 'symbol',
+        //         source: 'toronto_neighborhoods_centroids',
+        //         layout: {
+        //             'text-field': ['get', 'area_name'],
+        //             'text-size': ['interpolate', ['exponential', 1.1], ['zoom'], 10, 1, 18, 50],
+        //             'text-font': ['montserrat-regular'],
+        //             'text-max-width': 5,
+        //             'text-line-height': 1,
+        //             'text-allow-overlap': true,
+        //             'text-ignore-placement': true,
+        //             //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+        //             'text-rotation-alignment': 'viewport',
+        //             'text-pitch-alignment': 'viewport'
+        //         },
+        //         paint: {
+        //             'text-color': 'hsl(227, 89%, 90%)',
+        //             'text-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.8, 14, 0.8, 16, 0]
+        //         },
+        //         "minzoom": 11,
+        //         "maxzoom": 16
+        //     });
 
-            // Add 3d buildings
-            map.addLayer({
-                'id': 'buildings',
-                'source': 'toronto_buildings',
-                'source-layer': 'toronto_buildings',
-                'type': 'fill-extrusion',
-                'paint': {
-                    'fill-extrusion-color': 'hsl(280, 10%, 40%)',
-                    'fill-extrusion-height': [
-                        'case',
-                        ['!=', ['get', 'max_height'], null], ['get', 'max_height'],
-                        ['!=', ['get', 'avg_height'], null], ['get', 'avg_height'],
-                        10
-                    ],
-                    'fill-extrusion-base': 0,
-                    'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
-                },
-                'minzoom': 15
-            }, 'poi-amenity');
-
-            // Add neighborhood labels
-            map.addLayer({
-                id: 'neighborhoods-labels',
-                type: 'symbol',
-                source: 'toronto_neighborhoods_centroids',
-                layout: {
-                    'text-field': ['get', 'area_name'],
-                    'text-size': ['interpolate', ['exponential', 1.1], ['zoom'], 10, 1, 18, 50],
-                    'text-font': ['montserrat-regular'],
-                    'text-max-width': 5,
-                    'text-line-height': 1,
-                    'text-allow-overlap': true,
-                    'text-ignore-placement': true,
-                    //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-                    'text-rotation-alignment': 'viewport',
-                    'text-pitch-alignment': 'viewport'
-                },
-                paint: {
-                    'text-color': 'hsl(227, 89%, 90%)',
-                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.8, 14, 0.8, 16, 0]
-                },
-                "minzoom": 11,
-                "maxzoom": 16
-            });
-
-        });
-
-        map.on('load', () => {
-            const targetLayers = ['bloor-danforth-stations', 'eglinton-crosstown-stations', 'ontario-line-stations', 'yonge-university-stations'];
-
-            const seenStations = new Set();
-
-            targetLayers.forEach(layerId => {
-                const layer = map.getLayer(layerId);
-                if (!layer) return;
-
-                const sourceId = layer.source;
-                const source = map.getSource(sourceId);
-
-                if (source && source._data && source._data.features) {
-                    source._data.features.forEach(feature => {
-                        const name = feature.properties.station?.trim();
-                        if (!name || seenStations.has(name)) return;
-
-                        seenStations.add(name);
-
-                        if (feature.geometry.type === 'Point') {
-                            new maplibregl.Popup({
-                                closeOnClick: false,
-                                anchor: "bottom",
-                                offset: [0, -2]
-                            })
-                                .setLngLat(feature.geometry.coordinates)
-                                .setHTML(`<p>${name}</p>`)
-                                .addTo(map);
-                        }
-                    });
-                }
-            });
-        });
-
-        function flyToOntarioLineStations(map, data, pauseMs = 2000) {
-            const features = data.features;
-            let index = 0;
-
-            function flyNext() {
-                if (index >= features.length) return;
-
-                const coord = features[index].geometry.coordinates;
-                const name = features[index].properties.station;
-
-                map.flyTo({
-                    center: coord,
-                    zoom: 15,
-                    speed: 0.8,
-                    curve: 1.2,
-                    essential: true
-                });
-
-                // You can insert your overlay logic here
-                console.log(`Flying to: ${name}`);
-
-                index++;
-                setTimeout(flyNext, pauseMs);
-            }
-
-            flyNext();
-        }
-
-        // map.on('load', () => {
-        //     const data = map.getSource('ontario-line-stations')._data;
-        //     flyToOntarioLineStations(map, data, 2500); // 2.5s pause
         // });
-
-        const lineColors = [
-            { name: "bloor-danforth", color: "#00923f" },
-            { name: "eglinton-crosstown", color: "#f67f24" },
-            { name: "ontario-line", color: "#f4bcd4" },
-            { name: "yonge-university", color: "#f8c300" }
-        ]
 
     </script>
 
