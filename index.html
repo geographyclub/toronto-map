@@ -44,10 +44,35 @@
 
         map.on("load", () => {
 
-            // Add building source
-            map.addSource('toronto_buildings', {
+            // Add bathymetry
+            map.addSource('lake_ontario_bathymetry', {
                 type: 'vector',
-                tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
+                tiles: ['https://geographyclub.github.io/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf']
+            });
+
+            // Add bathymetry
+            map.addLayer({
+                'id': 'lake_ontario_bathymetry',
+                'source': 'lake_ontario_bathymetry',
+                'source-layer': 'lake_ontario_bathymetry',
+                'type': 'line',
+                'paint': {
+                    "line-color": [
+                        "step", ["get", "DEPTH"],
+                        "hsl(200, 80%, 95%)",
+                        20,  "hsl(205, 85%, 90%)",
+                        40,  "hsl(210, 85%, 80%)",
+                        60,  "hsl(215, 85%, 70%)",
+                        80,  "hsl(220, 85%, 60%)",
+                        100, "hsl(225, 85%, 50%)",
+                        120, "hsl(230, 85%, 45%)",
+                        140, "hsl(235, 90%, 40%)",
+                        160, "hsl(240, 95%, 30%)",
+                        180, "hsl(245, 100%, 25%)"
+                    ],
+                    'line-width': 0.5,
+                    'line-opacity':  ["interpolate", ["linear"], ["zoom"], 12.5, 1, 13, 0]
+                }
             });
 
             // Add neighborhood source
@@ -75,6 +100,12 @@
                 },
                 "minzoom": 11,
                 "maxzoom": 15
+            });
+
+            // Add building source
+            map.addSource('toronto_buildings', {
+                type: 'vector',
+                tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
             });
 
             // Add building outlines
@@ -134,25 +165,6 @@
                 },
                 "minzoom": 11,
                 "maxzoom": 16
-            });
-
-            // Add bathymetry
-            map.addSource('lake_ontario_bathymetry', {
-                type: 'vector',
-                tiles: ['https://geographyclub.github.io/toronto-map/data/lake_ontario_bathymetry/{z}/{x}/{y}.pbf']
-            });
-
-            // Add bathymetry
-            map.addLayer({
-                'id': 'lake_ontario_bathymetry',
-                'source': 'lake_ontario_bathymetry',
-                'source-layer': 'lake_ontario_bathymetry',
-                'type': 'line',
-                'paint': {
-                    'line-color': 'hsl(227, 89%, 100%)',
-                    'line-width': 1,
-                    'line-opacity': 1
-                }
             });
 
         });
