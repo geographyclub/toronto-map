@@ -24,7 +24,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "hydro.json",
+            style: "mcnally.json",
             center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
             zoom: 12,
@@ -42,7 +42,22 @@
             map.easeTo({ bearing: 0 });
         });
 
-        // map.on("load", () => {
+        map.on("load", () => {
+
+            // map.addSource('osm-raster', {
+            //     type: 'raster',
+            //     tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+            //     tileSize: 256
+            // });
+
+            // map.addLayer({
+            //     id: 'osm-raster-layer',
+            //     type: 'raster',
+            //     source: 'osm-raster',
+            //     paint: {
+            //         'raster-opacity': 0.5
+            //     }
+            // });
 
         //     // Add neighborhood source
         //     map.addSource('toronto_neighborhoods', {
@@ -136,7 +151,7 @@
         //         "maxzoom": 16
         //     });
 
-        // });
+        });
 
     </script>
 
