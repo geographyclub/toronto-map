@@ -1,0 +1,99 @@
+{
+	"version": 8,
+	"name": "osm",
+	"metadata": {
+		"maputnik:renderer": "mbgljs"
+	},
+	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
+	"sources": {
+		"toronto": {
+			"type": "vector",
+			"tiles": ["https://mapcity.io/tiles/toronto/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_roadway": {
+			"type": "vector",
+			"tiles": ["https://mapcity.io/toronto-bia/data/toronto_roadway/{z}/{x}/{y}.pbf"]
+		}
+	},
+	"layers": [
+		{
+			"id": "background",
+			"type": "background",
+			"paint": {
+				"background-color": "hsl(24, 32%, 100%)"
+			}
+		},
+		{
+		"id": "property",
+		"source": "toronto",
+		"source-layer": "propertyboundaries",
+		"filter": ["in", "FEATURE_TYPE", "CONDO", "RESERVE", "COMMON", "CORRIDOR"],
+		"type": "fill",
+		"paint": {
+			"fill-color": [
+			"case",
+			["==", ["get", "FEATURE_TYPE"], "CORRIDOR"],    "hsl(210, 20%, 100%)",
+			"hsl(24, 32%, 100%)"
+			],
+			"fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+		}
+		},
+		{
+			"id": "property-line",
+			"source": "toronto",
+			"source-layer": "propertyboundaries",
+            "filter": ["in", "FEATURE_TYPE", "COMMON"],
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(0, 0%, 95%)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 13, 0, 15, 0.2, 16, 1],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			}
+		},
+		{
+			"id": "roadway-casing",
+			"source": "toronto_roadway",
+			"source-layer": "toronto_roadway",
+            "type": "line",
+			"paint": {
+			  "line-color": "hsl(210, 20%, 40%)",
+			  "line-width": 3,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17, 1]
+			},
+			"minzoom": 15
+		},
+		{
+			"id": "roadway",
+			"source": "toronto_roadway",
+			"source-layer": "toronto_roadway",
+            "type": "fill",
+			"paint": {
+			  "fill-color": "hsl(210, 20%, 100%)",
+			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			}
+		},
+		{
+			"id": "centreline-label",
+			"source": "toronto",
+			"source-layer": "roads",
+			"type": "symbol",
+			"layout": {
+				"text-field": "{LINEAR_NAME_FULL}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "montserrat-regular" ],
+				"text-letter-spacing": 0.2,
+				"symbol-placement": "line",
+				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 18, 300 ],
+				"text-anchor": "center",
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 30 ]
+			},
+			"paint": {
+				"text-color": "hsl(0, 0%, 40%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ]
+			},
+			"minzoom": 15
+		}
+	]
+}

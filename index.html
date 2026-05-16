@@ -24,132 +24,153 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "mcnally.json",
+            style: "base.json",
             center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
             zoom: 12,
             minZoom: 12,
-            maxZoom: 16,
+            maxZoom: 18,
             bearing: -16,
             pitch: 25,
             hash: true,
             pixelRatio: 2
         });
 
-        map.doubleClickZoom.disable();
-        // Reset bearing to 0 on double-click
-        map.on('dblclick', () => {
-            map.easeTo({ bearing: 0 });
-        });
-
         map.on("load", () => {
 
-            // map.addSource('osm-raster', {
+            // Add neighborhood source
+            map.addSource('toronto_neighborhoods', {
+                type: 'vector',
+                tiles: ['https://torontotechweek.github.io/data/toronto_neighborhoods/{z}/{x}/{y}.pbf']
+            });
+
+            // Add neighborhood centroids
+            map.addSource('toronto_neighborhoods_centroids', {
+                'type': 'geojson',
+                'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
+            });
+
+            // Add neighborhood fill
+            map.addLayer({
+                'id': 'neighborhoods',
+                'source': 'toronto_neighborhoods',
+                'source-layer': 'toronto_neighborhoods',
+                'type': 'fill',
+                'paint': {
+                    'fill-color': 'hsl(50, 10%, 93%)',
+                    'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 17, 1, 18, 0]
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+
+            // Add neighborhood outline
+            map.addLayer({
+                'id': 'neighborhoods-outlines',
+                'source': 'toronto_neighborhoods',
+                'source-layer': 'toronto_neighborhoods',
+                'type': 'line',
+                'paint': {
+                    'line-color': 'hsl(202, 90%, 16%)',
+                    'line-width': 1,
+                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 17, 1, 18, 0]
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+
+            // Add building source
+            // map.addSource('toronto_buildings', {
+            //     type: 'vector',
+            //     tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
+            // });
+
+            // // Add building outlines
+            // map.addLayer({
+            //     'id': 'buildings-outline',
+            //     'source': 'toronto_buildings',
+            //     'source-layer': 'toronto_buildings',
+            //     'type': 'line',
+            //     'paint': {
+            //         'line-color': 'hsl(280, 10%, 40%)',
+            //         'line-width': 2,
+            //         'line-opacity': ["interpolate", ["linear"], ["zoom"], 15, 0, 18, 1]
+            //     },
+            //     'minzoom': 15
+            // });
+
+            // // Add 3d buildings
+            // map.addLayer({
+            //     'id': 'buildings',
+            //     'source': 'toronto_buildings',
+            //     'source-layer': 'toronto_buildings',
+            //     'type': 'fill-extrusion',
+            //     'paint': {
+            //         'fill-extrusion-color': 'hsl(280, 10%, 40%)',
+            //         'fill-extrusion-height': [
+            //             'case',
+            //             ['!=', ['get', 'max_height'], null], ['get', 'max_height'],
+            //             ['!=', ['get', 'avg_height'], null], ['get', 'avg_height'],
+            //             10
+            //         ],
+            //         'fill-extrusion-base': 0,
+            //         'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
+            //     },
+            //     'minzoom': 15
+            // });
+
+            // Add neighborhood labels
+            map.addLayer({
+                id: 'neighborhood-labels',
+                type: 'symbol',
+                source: 'toronto_neighborhoods_centroids',
+                layout: {
+                    'text-field': ['get', 'area_name'],
+                    'text-size': [
+                        'interpolate',
+                        ['exponential', 1.8],
+                        ['zoom'],
+                        10, 4,
+                        16, 72
+                    ],
+                    'text-font': ['montserrat-semibold'],
+                    'text-max-width': 5,
+                    'text-line-height': 1,
+                    'text-allow-overlap': true,
+                    'text-ignore-placement': false,
+                    //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+                    'text-rotation-alignment': 'map',
+                    'text-pitch-alignment': 'map',
+                    'text-rotate': -16
+                },
+                paint: {
+                    'text-color': 'hsl(202, 90%, 16%)',
+                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 17, 1, 18, 0],
+                    'text-halo-width': 2,
+                    'text-halo-color': 'hsl(50, 10%, 93%)'
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+
+            // map.addSource('toronto-ortho', {
             //     type: 'raster',
-            //     tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-            //     tileSize: 256
+            //     tiles: [
+            //         'https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer/tile/{z}/{y}/{x}'
+            //     ],
+            //     tileSize: 256,
+            //     attribution: 'City of Toronto'
             // });
 
             // map.addLayer({
-            //     id: 'osm-raster-layer',
+            //     id: 'toronto-ortho',
             //     type: 'raster',
-            //     source: 'osm-raster',
+            //     source: 'toronto-ortho',
             //     paint: {
-            //         'raster-opacity': 0.5
+            //         "raster-saturation": 0.6,
+            //         "raster-opacity": 0.6
             //     }
             // });
-
-        //     // Add neighborhood source
-        //     map.addSource('toronto_neighborhoods', {
-        //         type: 'vector',
-        //         tiles: ['https://torontotechweek.github.io/data/toronto_neighborhoods/{z}/{x}/{y}.pbf']
-        //     });
-
-        //     // Add neighborhood centroids
-        //     map.addSource('toronto_neighborhoods_centroids', {
-        //         'type': 'geojson',
-        //         'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
-        //     });
-
-        //     // Add neighborhood outlines
-        //     map.addLayer({
-        //         'id': 'neighborhoods-outlines',
-        //         'source': 'toronto_neighborhoods',
-        //         'source-layer': 'toronto_neighborhoods',
-        //         'type': 'line',
-        //         'paint': {
-        //             'line-color': 'hsl(227, 89%, 90%)',
-        //             'line-width': ['interpolate', ['exponential', 1.5], ['zoom'], 12, 1, 18, 20],
-        //             'line-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 0.2, 14, 0.2, 15, 0]
-        //         },
-        //         "minzoom": 12,
-        //         "maxzoom": 15
-        //     });
-
-        //     // Add building source
-        //     map.addSource('toronto_buildings', {
-        //         type: 'vector',
-        //         tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
-        //     });
-
-        //     // Add building outlines
-        //     map.addLayer({
-        //         'id': 'buildings-outline',
-        //         'source': 'toronto_buildings',
-        //         'source-layer': 'toronto_buildings',
-        //         'type': 'line',
-        //         'paint': {
-        //             'line-color': 'hsl(280, 10%, 40%)',
-        //             'line-width': 2,
-        //             'line-opacity': ["interpolate", ["linear"], ["zoom"], 16, 0, 18, 1]
-        //         },
-        //         'minzoom': 16
-        //     }, 'poi-amenity');
-
-        //     // Add 3d buildings
-        //     map.addLayer({
-        //         'id': 'buildings',
-        //         'source': 'toronto_buildings',
-        //         'source-layer': 'toronto_buildings',
-        //         'type': 'fill-extrusion',
-        //         'paint': {
-        //             'fill-extrusion-color': 'hsl(280, 10%, 40%)',
-        //             'fill-extrusion-height': [
-        //                 'case',
-        //                 ['!=', ['get', 'max_height'], null], ['get', 'max_height'],
-        //                 ['!=', ['get', 'avg_height'], null], ['get', 'avg_height'],
-        //                 10
-        //             ],
-        //             'fill-extrusion-base': 0,
-        //             'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
-        //         },
-        //         'minzoom': 15
-        //     }, 'poi-amenity');
-
-        //     // Add neighborhood labels
-        //     map.addLayer({
-        //         id: 'neighborhoods-labels',
-        //         type: 'symbol',
-        //         source: 'toronto_neighborhoods_centroids',
-        //         layout: {
-        //             'text-field': ['get', 'area_name'],
-        //             'text-size': ['interpolate', ['exponential', 1.1], ['zoom'], 10, 1, 18, 50],
-        //             'text-font': ['montserrat-regular'],
-        //             'text-max-width': 5,
-        //             'text-line-height': 1,
-        //             'text-allow-overlap': true,
-        //             'text-ignore-placement': true,
-        //             //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-        //             'text-rotation-alignment': 'viewport',
-        //             'text-pitch-alignment': 'viewport'
-        //         },
-        //         paint: {
-        //             'text-color': 'hsl(227, 89%, 90%)',
-        //             'text-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.8, 14, 0.8, 16, 0]
-        //         },
-        //         "minzoom": 11,
-        //         "maxzoom": 16
-        //     });
 
         });
 

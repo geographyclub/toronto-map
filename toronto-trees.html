@@ -27,46 +27,53 @@
             style: "toronto-trees.json",
             center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
-            zoom: 12,
-            minZoom: 12,
-            maxZoom: 16,
+            zoom: 16,
+            minZoom: 16,
+            maxZoom: 18,
             bearing: -16,
             pitch: 25,
             hash: true,
-            pixelRatio: 2
+            pixelRatio: 1
         });
 
         map.on("load", () => {
             
             // Add tree source
-            map.addSource('toronto_trees', {
+            map.addSource('toronto-trees', {
                 type: 'vector',
-                tiles: ['https://geographyclub.github.io/toronto-map/data/toronto_trees/{z}/{x}/{y}.pbf']
+                tiles: ['https://geographyclub.github.io/toronto-map/data/toronto-trees/{z}/{x}/{y}.pbf']
             });
 
             // Add tree points
             map.addLayer({
-                id: 'neighborhoods-labels',
-                type: 'symbol',
-                source: 'toronto_neighborhoods_centroids',
-                layout: {
-                    'text-field': ['get', 'area_name'],
-                    'text-size': ['interpolate', ['exponential', 1.1], ['zoom'], 10, 1, 18, 50],
-                    'text-font': ['montserrat-regular'],
-                    'text-max-width': 5,
-                    'text-line-height': 1,
-                    'text-allow-overlap': true,
-                    'text-ignore-placement': true,
-                    //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
-                    'text-rotation-alignment': 'viewport',
-                    'text-pitch-alignment': 'viewport'
+                "id": "toronto-trees",
+                "source": "toronto-trees",
+                "source-layer": "toronto-trees",
+                "type": "symbol",
+                "layout": {
+                    "symbol-placement": "point",
+                    "icon-keep-upright": true,
+                    "icon-allow-overlap": true,
+                    "icon-ignore-placement": true,
+                    "icon-anchor": "bottom",
+                    "symbol-sort-key": 0,
+                    "icon-image": [
+                        "concat",
+                        "tree_",
+                        ["get", "icon_number"]
+                    ],
+                    "icon-size": 1.5
                 },
-                paint: {
-                    'text-color': 'hsl(227, 89%, 90%)',
-                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 12, 0.8, 14, 0.8, 16, 0]
+                "paint": {
+                    "icon-color": "hsl(0, 0%, 100%)",
+                    "icon-opacity": [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        15, 0, 16, 1
+                    ]
                 },
-                "minzoom": 11,
-                "maxzoom": 16
+                minZoom: 16
             });
 
         });
