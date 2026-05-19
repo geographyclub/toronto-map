@@ -11,6 +11,10 @@
 			"type": "vector",
 			"tiles": ["https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf"]
 		},
+		"toronto_centreline": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline/{z}/{x}/{y}.pbf"]
+		},
 		"toronto_property_boundary_lines": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_property_boundary_lines/{z}/{x}/{y}.pbf"]
@@ -29,13 +33,13 @@
 			}
 		},
 		{
-			"id": "toronto_property_boundary_lines",
+			"id": "property_boundary_line",
 			"source": "toronto_property_boundary_lines",
 			"source-layer": "toronto_property_boundary_lines",
 			"type": "line",
 			"paint": {
-				"line-color": "hsl(202, 90%, 16%)",
-				"line-width": 1,
+				"line-color": "hsl(202, 90%, 100%)",
+				"line-width": 2,
 				"line-dasharray": [2, 2],
 				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
@@ -63,7 +67,7 @@
 			}
 		},
 		{
-			"id": "toronto_buildings",
+			"id": "buildings",
 			"source": "toronto_buildings",
 			"source-layer": "toronto_buildings",
 			"type": "fill-extrusion",
@@ -76,14 +80,14 @@
 					10
 				],
 				"fill-extrusion-base": 0,
-				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
+				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
 			},
 			"minzoom": 15
 		},
 		{
 			"id": "centreline_label",
-			"source": "toronto",
-			"source-layer": "roads",
+			"source": "toronto_centreline",
+			"source-layer": "toronto_centreline",
 			"type": "symbol",
 			"layout": {
 				"text-field": "{LINEAR_NAME_FULL}",
