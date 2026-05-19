@@ -21,7 +21,7 @@
 			"id": "background",
 			"type": "background",
 			"paint": {
-				"background-color": "hsl(24, 32%, 100%)"
+				"background-color": "hsl(50, 10%, 93%)"
 			}
 		},
 		{
@@ -91,7 +91,9 @@
 			},
 			"paint": {
 				"text-color": "hsl(0, 0%, 40%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ]
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-halo-color": "hsl(50, 10%, 93%)",
+				"text-halo-width": 0
 			},
 			"minzoom": 15
 		}

@@ -20,15 +20,18 @@
 
     <script>
 
-        const torontoBounds = [[-79.6393, 43.5804], [-79.1158, 43.8554]];
+        const torontoBounds = [
+            [-79.67, 43.56],
+            [-79.09, 43.88]
+        ];
 
         const map = new maplibregl.Map({
             container: "map",
             style: "base.json",
             center: [-79.38245, 43.67831],
             maxBounds: torontoBounds,
-            zoom: 12,
-            minZoom: 12,
+            zoom: 10,
+            minZoom: 10,
             maxZoom: 18,
             bearing: -16,
             pitch: 25,
@@ -37,6 +40,12 @@
         });
 
         map.on("load", () => {
+
+            // Add ward source
+            map.addSource('toronto_wards', {
+                type: 'vector',
+                tiles: ['https://geographyclub.github.io/toronto-map/data/toronto_wards/{z}/{x}/{y}.pbf']
+            });
 
             // Add neighborhood source
             map.addSource('toronto_neighborhoods', {
@@ -50,6 +59,35 @@
                 'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
             });
 
+            // Add ward fill
+            map.addLayer({
+                'id': 'wards',
+                'source': 'toronto_wards',
+                'source-layer': 'toronto_wards',
+                'type': 'fill',
+                'paint': {
+                    'fill-color': 'hsl(50, 10%, 93%)',
+                    'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 12, 1, 13, 0]
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+
+            // Add ward outline
+            map.addLayer({
+                'id': 'ward-outlines',
+                'source': 'toronto_wards',
+                'source-layer': 'toronto_wards',
+                'type': 'line',
+                'paint': {
+                    'line-color': 'hsl(202, 90%, 16%)',
+                    'line-width': 1,
+                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 12, 1, 13, 0]
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+
             // Add neighborhood fill
             map.addLayer({
                 'id': 'neighborhoods',
@@ -58,7 +96,7 @@
                 'type': 'fill',
                 'paint': {
                     'fill-color': 'hsl(50, 10%, 93%)',
-                    'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 17, 1, 18, 0]
+                    'fill-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0]
                 },
                 "minzoom": 10,
                 "maxzoom": 18
@@ -66,14 +104,14 @@
 
             // Add neighborhood outline
             map.addLayer({
-                'id': 'neighborhoods-outlines',
+                'id': 'neighborhood-outlines',
                 'source': 'toronto_neighborhoods',
                 'source-layer': 'toronto_neighborhoods',
                 'type': 'line',
                 'paint': {
                     'line-color': 'hsl(202, 90%, 16%)',
                     'line-width': 1,
-                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 17, 1, 18, 0]
+                    'line-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0]
                 },
                 "minzoom": 10,
                 "maxzoom": 18
@@ -119,6 +157,39 @@
             //     'minzoom': 15
             // });
 
+            // Add ward labels
+            map.addLayer({
+                id: 'ward-labels',
+                type: 'symbol',
+                source: 'toronto_neighborhoods_centroids',
+                layout: {
+                    'text-field': ['get', 'area_name'],
+                    'text-size': [
+                        'interpolate',
+                        ['exponential', 1.8],
+                        ['zoom'],
+                        10, 4,
+                        16, 72
+                    ],
+                    'text-font': ['montserrat-semibold'],
+                    'text-max-width': 5,
+                    'text-line-height': 1,
+                    'text-allow-overlap': true,
+                    'text-ignore-placement': false,
+                    'text-rotation-alignment': 'map',
+                    'text-pitch-alignment': 'map',
+                    'text-rotate': -16
+                },
+                paint: {
+                    'text-color': 'hsl(202, 90%, 16%)',
+                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0],
+                    'text-halo-width': 2,
+                    'text-halo-color': 'hsl(50, 10%, 93%)'
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+            
             // Add neighborhood labels
             map.addLayer({
                 id: 'neighborhood-labels',
@@ -138,14 +209,13 @@
                     'text-line-height': 1,
                     'text-allow-overlap': true,
                     'text-ignore-placement': false,
-                    //'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
                     'text-rotation-alignment': 'map',
                     'text-pitch-alignment': 'map',
                     'text-rotate': -16
                 },
                 paint: {
                     'text-color': 'hsl(202, 90%, 16%)',
-                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 17, 1, 18, 0],
+                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0],
                     'text-halo-width': 2,
                     'text-halo-color': 'hsl(50, 10%, 93%)'
                 },
