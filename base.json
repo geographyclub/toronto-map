@@ -7,9 +7,13 @@
 	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
 	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
 	"sources": {
-		"toronto": {
+		"toronto_buildings": {
 			"type": "vector",
-			"tiles": ["https://mapcity.io/tiles/toronto/{z}/{x}/{y}.pbf"]
+			"tiles": ["https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_property_boundary_lines": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_property_boundary_lines/{z}/{x}/{y}.pbf"]
 		},
 		"toronto_roadway": {
 			"type": "vector",
@@ -25,39 +29,24 @@
 			}
 		},
 		{
-		"id": "property",
-		"source": "toronto",
-		"source-layer": "propertyboundaries",
-		"filter": ["in", "FEATURE_TYPE", "CONDO", "RESERVE", "COMMON", "CORRIDOR"],
-		"type": "fill",
-		"paint": {
-			"fill-color": [
-			"case",
-			["==", ["get", "FEATURE_TYPE"], "CORRIDOR"],    "hsl(210, 20%, 100%)",
-			"hsl(24, 32%, 100%)"
-			],
-			"fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
-		}
-		},
-		{
-			"id": "property-line",
-			"source": "toronto",
-			"source-layer": "propertyboundaries",
-            "filter": ["in", "FEATURE_TYPE", "COMMON"],
+			"id": "toronto_property_boundary_lines",
+			"source": "toronto_property_boundary_lines",
+			"source-layer": "toronto_property_boundary_lines",
 			"type": "line",
 			"paint": {
-				"line-color": "hsl(0, 0%, 95%)",
-				"line-width": ["interpolate", ["linear"], ["zoom"], 13, 0, 15, 0.2, 16, 1],
+				"line-color": "hsl(202, 90%, 16%)",
+				"line-width": 1,
+				"line-dasharray": [2, 2],
 				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
 		},
 		{
-			"id": "roadway-casing",
+			"id": "roadway_outline",
 			"source": "toronto_roadway",
 			"source-layer": "toronto_roadway",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(210, 20%, 40%)",
+			  "line-color": "hsl(202, 90%, 16%)",
 			  "line-width": 3,
 			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17, 1]
 			},
@@ -74,7 +63,25 @@
 			}
 		},
 		{
-			"id": "centreline-label",
+			"id": "toronto_buildings",
+			"source": "toronto_buildings",
+			"source-layer": "toronto_buildings",
+			"type": "fill-extrusion",
+			"paint": {
+				"fill-extrusion-color": "hsl(50, 10%, 93%)",
+				"fill-extrusion-height": [
+					"case",
+					["!=", ["get", "max_height"], null], ["get", "max_height"],
+					["!=", ["get", "avg_height"], null], ["get", "avg_height"],
+					10
+				],
+				"fill-extrusion-base": 0,
+				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
+			},
+			"minzoom": 15
+		},
+		{
+			"id": "centreline_label",
 			"source": "toronto",
 			"source-layer": "roads",
 			"type": "symbol",
@@ -90,7 +97,7 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 30 ]
 			},
 			"paint": {
-				"text-color": "hsl(0, 0%, 40%)",
+				"text-color": "hsl(202, 90%, 16%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 0

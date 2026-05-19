@@ -59,20 +59,6 @@
                 'data': 'https://torontotechweek.github.io/data/toronto_neighborhoods_centroids.geojson'
             });
 
-            // Add ward fill
-            map.addLayer({
-                'id': 'wards',
-                'source': 'toronto_wards',
-                'source-layer': 'toronto_wards',
-                'type': 'fill',
-                'paint': {
-                    'fill-color': 'hsl(50, 10%, 93%)',
-                    'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 12, 1, 13, 0]
-                },
-                "minzoom": 10,
-                "maxzoom": 18
-            });
-
             // Add ward outline
             map.addLayer({
                 'id': 'ward-outlines',
@@ -83,20 +69,6 @@
                     'line-color': 'hsl(202, 90%, 16%)',
                     'line-width': 1,
                     'line-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 12, 1, 13, 0]
-                },
-                "minzoom": 10,
-                "maxzoom": 18
-            });
-
-            // Add neighborhood fill
-            map.addLayer({
-                'id': 'neighborhoods',
-                'source': 'toronto_neighborhoods',
-                'source-layer': 'toronto_neighborhoods',
-                'type': 'fill',
-                'paint': {
-                    'fill-color': 'hsl(50, 10%, 93%)',
-                    'fill-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0]
                 },
                 "minzoom": 10,
                 "maxzoom": 18
@@ -116,12 +88,6 @@
                 "minzoom": 10,
                 "maxzoom": 18
             });
-
-            // Add building source
-            // map.addSource('toronto_buildings', {
-            //     type: 'vector',
-            //     tiles: ['https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf']
-            // });
 
             // // Add building outlines
             // map.addLayer({
