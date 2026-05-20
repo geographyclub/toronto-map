@@ -28,6 +28,14 @@
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_neighborhood_centroids/{z}/{x}/{y}.pbf"]
 		},
+		"toronto_bia": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_bia/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_bia_centroids": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_bia_centroids/{z}/{x}/{y}.pbf"]
+		},		
 		"toronto_buildings": {
 			"type": "vector",
 			"tiles": ["https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf"]
@@ -3451,14 +3459,14 @@
 			}
 		},
 		{
-			"id": "ward-outlines",
-			"source": "toronto_wards",
-			"source-layer": "toronto_wards",
+			"id": "bia-outlines",
+			"source": "toronto_bia",
+			"source-layer": "toronto_bia",
 			"type": "line",
 			"paint": {
 				"line-color": "hsl(202, 90%, 16%)",
-				"line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 13, 3],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 11, 0.4, 12, 0.4, 13, 0]
+				"line-width": ["interpolate", ["linear"], ["zoom"], 15, 1, 16, 3],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
 			}
 		},
 		{
@@ -3471,7 +3479,48 @@
 				"line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 16, 3],
 				"line-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 15, 0.4, 16, 0]
 			}
+		},		
+		{
+			"id": "ward-outlines",
+			"source": "toronto_wards",
+			"source-layer": "toronto_wards",
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(202, 90%, 16%)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 13, 3],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 11, 0.4, 12, 0.4, 13, 0]
+			}
 		},
+		{
+			"id": "bia-labels",
+			"type": "symbol",
+			"source": "toronto_bia_centroids",
+			"source-layer": "toronto_bia_centroids",
+			"layout": {
+				"text-field": ["get", "area_name"],
+				"text-size": [
+					"interpolate",
+					["linear"],
+					["zoom"],
+					12, 6,
+					16, 24
+				],
+				"text-font": ["notosans"],
+				"text-max-width": 5,
+				"text-line-height": 1.2,
+				"text-allow-overlap": true,
+				"text-ignore-placement": true,
+				"text-rotation-alignment": "map",
+				"text-pitch-alignment": "map",
+				"text-rotate": -16
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 16%)",
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.6],
+				"text-halo-width": 2,
+				"text-halo-color": "hsl(50, 10%, 93%)"
+			}
+		},		
 		{
 			"id": "neighborhood-labels",
 			"type": "symbol",
@@ -3497,7 +3546,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1, 15, 1, 16, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.6, 15, 0.6, 16, 0],
 				"text-halo-width": 2,
 				"text-halo-color": "hsl(50, 10%, 93%)"
 			}
@@ -3527,7 +3576,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 1, 13, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 13, 0],
 				"text-halo-width": 2,
 				"text-halo-color": "hsl(50, 10%, 93%)"
 			}
