@@ -26,7 +26,7 @@
 		},		
 		"toronto_neighborhood_centroids": {
 			"type": "vector",
-			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_neighborhood_centroids.geojson"]
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_neighborhood_centroids/{z}/{x}/{y}.pbf"]
 		},
 		"toronto_buildings": {
 			"type": "vector",
