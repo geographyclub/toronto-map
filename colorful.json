@@ -11,6 +11,10 @@
 		"versatiles-shortbread": {
 			"type": "vector",
 			"url": "https://vector.openstreetmap.org/shortbread_v1/tilejson.json"
+		},
+		"toronto_buildings": {
+			"type": "vector",
+			"tiles": ["https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf"]
 		}
 	},
 	"layers": [
@@ -512,25 +516,22 @@
 			}
 		},
 		{
-			"source": "versatiles-shortbread",
-			"id": "building:outline",
-			"type": "fill",
-			"source-layer": "buildings",
+			"id": "buildings",
+			"source": "toronto_buildings",
+			"source-layer": "toronto_buildings",
+			"type": "fill-extrusion",
 			"paint": {
-				"fill-color": "#dfdbd7",
-				"fill-opacity": { "stops": [ [ 14, 0 ], [ 15, 1 ] ] }
-			}
-		},
-		{
-			"source": "versatiles-shortbread",
-			"id": "building",
-			"type": "fill",
-			"source-layer": "buildings",
-			"paint": {
-				"fill-color": "#f2eae2",
-				"fill-opacity": { "stops": [ [ 14, 0 ], [ 15, 1 ] ] },
-				"fill-translate": [ -2, -2 ]
-			}
+				"fill-extrusion-color": "hsl(50, 10%, 93%)",
+				"fill-extrusion-height": [
+					"case",
+					["!=", ["get", "max_height"], null], ["get", "max_height"],
+					["!=", ["get", "avg_height"], null], ["get", "avg_height"],
+					10
+				],
+				"fill-extrusion-base": 0,
+				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
+			},
+			"minzoom": 15
 		},
 		{
 			"source": "versatiles-shortbread",
