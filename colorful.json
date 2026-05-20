@@ -5,8 +5,8 @@
 		"maputnik:renderer": "mbgljs",
 		"license": "https://creativecommons.org/publicdomain/zero/1.0/"
 	},
-	"glyphs": "https://tiles.versatiles.org/assets/glyphs/{fontstack}/{range}.pbf",
-	"sprite": "https://tiles.versatiles.org/assets/sprites/basics/sprites",
+	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
 	"sources": {
 		"versatiles-shortbread": {
 			"type": "vector",
@@ -353,8 +353,7 @@
 			"paint": {
 				"fill-color": "#ff0000",
 				"fill-outline-color": "#ff0000",
-				"fill-opacity": 0.3,
-				"fill-pattern": "pattern-warning"
+				"fill-opacity": 0.3
 			}
 		},
 		{
@@ -409,7 +408,6 @@
 			"filter": [ "in", "kind", "prison" ],
 			"paint": {
 				"fill-color": "#fdf2fc",
-				"fill-pattern": "pattern-striped",
 				"fill-opacity": 0.1
 			}
 		},
@@ -441,7 +439,6 @@
 			"filter": [ "in", "kind", "construction" ],
 			"paint": {
 				"fill-color": "#a9a9a9",
-				"fill-pattern": "pattern-hatched_thin",
 				"fill-opacity": 0.1
 			}
 		},
