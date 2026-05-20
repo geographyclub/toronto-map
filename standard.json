@@ -6,7 +6,7 @@
 		"license": "https://creativecommons.org/publicdomain/zero/1.0/"
 	},
 	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
-	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
 	"sources": {
 		"osm": {
 			"type": "vector",
@@ -3292,6 +3292,56 @@
 		},
 		{
 			"source": "osm",
+			"id": "highway-name-minor",
+			"type": "symbol",
+			"source-layer": "street_labels",
+			"filter": [ "in", "kind", "unclassified", "residential", "living_street" ],
+			"layout": {
+				"text-field": "{name}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "notosans" ],
+				"text-letter-spacing": 0.2,
+				"text-allow-overlap": false,
+				"text-ignore-placement": false,
+				"symbol-placement": "line",
+				"text-anchor": "center",
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 25 ],
+				"symbol-sort-key": 100
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 16%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
+			},
+			"minzoom": 15
+		},
+		{
+			"source": "osm",
+			"id": "highway-name-major",
+			"type": "symbol",
+			"source-layer": "street_labels",
+			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary" ],
+			"layout": {
+				"text-field": "{name}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "notosans" ],
+				"text-letter-spacing": 0.2,
+				"text-allow-overlap": false,
+				"text-ignore-placement": false,
+				"symbol-placement": "line",
+				"text-anchor": "center",
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 30 ],
+				"symbol-sort-key": 100
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 16%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
+			},
+			"minzoom": 15
+		},		
+		{
+			"source": "osm",
 			"id": "poi-amenity",
 			"type": "symbol",
 			"source-layer": "pois",
@@ -3300,8 +3350,8 @@
 				"icon-size": 0.6,
 				"symbol-placement": "point",
 				"icon-optional": true,
-				"icon-image": [ "match", [ "get", "amenity" ], "arts_centre", "icon-art_gallery", "atm", "icon-atm", "bank", "icon-bank", "bar", "icon-bar", "bench", "icon-bench", "bicycle_rental", "icon-bicycle_share", "biergarten", "icon-beergarden", "cafe", "icon-cafe", "car_rental", "icon-car_rental", "car_sharing", "icon-car_rental", "car_wash", "icon-car_wash", "cinema", "icon-cinema", "college", "icon-college", "community_centre", "icon-community", "dentist", "icon-dentist", "doctors", "icon-doctor", "dog_park", "icon-dog_park", "drinking_water", "icon-drinking_water", "embassy", "icon-embassy", "fast_food", "icon-fast_food", "fire_station", "icon-fire_station", "fountain", "icon-fountain", "grave_yard", "icon-cemetery", "hospital", "icon-hospital", "hunting_stand", "icon-huntingstand", "library", "icon-library", "marketplace", "icon-marketplace", "nightclub", "icon-nightclub", "nursing_home", "icon-nursinghome", "pharmacy", "icon-pharmacy", "place_of_worship", "icon-place_of_worship", "playground", "icon-playground", "police", "icon-police", "post_box", "icon-postbox", "post_office", "icon-post", "prison", "icon-prison", "pub", "icon-beer", "recycling", "icon-recycling", "restaurant", "icon-restaurant", "school", "icon-school", "shelter", "icon-shelter", "telephone", "icon-telephone", "theatre", "icon-theatre", "toilets", "icon-toilet", "townhall", "icon-town_hall", "vending_machine", "icon-vendingmachine", "veterinary", "icon-veterinary", "waste_basket", "icon-waste_basket", "unknown" ],
-				"text-font": [ "montserrat-semibold" ],
+				"icon-image": ["match",["get","amenity"],"arts_centre","art-gallery","atm","bank","bank","bank","bar","bar","bench","marker","bicycle_rental","bicycle-share","biergarten","beer","cafe","cafe","car_rental","car-rental","car_sharing","car-rental","car_wash","car","cinema","cinema","college","college","community_centre","home","dentist","dentist","doctors","doctor","dog_park","dog-park","drinking_water","drinking-water","embassy","embassy","fast_food","fast-food","fire_station","fire-station","fountain","water","grave_yard","cemetery","hospital","hospital","hunting_stand","marker","library","library","marketplace","grocery","nightclub","nightclub","nursing_home","home","pharmacy","pharmacy","place_of_worship","place-of-worship","playground","playground","police","police","post_box","post","post_office","post","prison","prison","pub","beer","recycling","recycling","restaurant","restaurant","school","school","shelter","shelter","telephone","telephone","theatre","theatre","toilets","toilet","townhall","town-hall","vending_machine","shop","veterinary","veterinary","waste_basket","waste-basket","marker"],
+				"text-font": [ "notosans" ],
 				"text-size": 10,
 				"text-field": ["get", "name"],
 				"text-max-width": 8,
@@ -3316,21 +3366,73 @@
 			"paint": {
 				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
-				"icon-color": [
-					"case",
-					["==", ["get", "amenity"], "bicycle_rental"], "#EEEDEA",
-					"#EEEDEA"
-				],
-				"text-color": [
-					"case",
-					["==", ["get", "amenity"], "bicycle_rental"], "#EEEDEA",
-					"#EEEDEA"
-				],
+				"icon-color": "hsl(202, 90%, 16%)",
+				"text-color": "hsl(202, 90%, 16%)",
 				"text-halo-color": "#EEEDEA",
 				"text-halo-width": 0,
 				"text-halo-blur": 0
 			},
 			"minzoom": 15
+		},
+		{
+			"source": "osm",
+			"id": "symbol-transit",
+			"type": "symbol",
+			"source-layer": "public_transport",
+			"filter": [ "in", "kind", "bus_stop", "tram_stop", "light_rail" ],
+			"layout": {
+				"text-field": "{name}",
+				"icon-size": 0.6,
+				"symbol-placement": "point",
+				"text-font": [ "notosans" ],
+				"text-size": 10,
+				"icon-anchor": "bottom",
+				"text-anchor": "top",
+				"icon-image": "bus",
+				"icon-allow-overlap": false,
+				"text-allow-overlap": false,
+				"icon-ignore-placement": false,
+				"text-ignore-placement": false
+			},
+			"paint": {
+				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
+				"icon-color": "hsl(14, 72%, 46%)",
+				"text-color": "hsl(14, 72%, 46%)",
+				"text-halo-color": "#EEEDEA",
+				"text-halo-width": 0,
+				"text-halo-blur": 0
+			}
+		},
+		{
+			"source": "osm",
+			"id": "symbol-transit-subway",
+			"type": "symbol",
+			"source-layer": "public_transport",
+			"filter": [ "in", "kind", "station" ],
+			"layout": {
+				"text-field": "{name}",
+				"icon-size": 0.6,
+				"symbol-placement": "point",
+				"text-font": [ "notosans" ],
+				"text-size": 10,
+				"icon-anchor": "bottom",
+				"text-anchor": "top",
+				"icon-image": "rail-metro",
+				"icon-allow-overlap": true,
+				"text-allow-overlap": true,
+				"icon-ignore-placement": false,
+				"text-ignore-placement": false
+			},
+			"paint": {
+				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
+				"icon-color": "hsl(170, 48%, 34%)",
+				"text-color": "hsl(170, 48%, 34%)",
+				"text-halo-color": "#EEEDEA",
+				"text-halo-width": 0,
+				"text-halo-blur": 0
+			}
 		}		
 	]
 }
