@@ -3427,8 +3427,8 @@
 			"paint": {
 				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
-				"icon-color": "hsl(170, 48%, 34%)",
-				"text-color": "hsl(170, 48%, 34%)",
+				"icon-color": "hsl(14, 72%, 46%)",
+				"text-color": "hsl(14, 72%, 46%)",
 				"text-halo-color": "#EEEDEA",
 				"text-halo-width": 0,
 				"text-halo-blur": 0
