@@ -65,7 +65,7 @@
 			  "fill-color": "hsl(210, 20%, 100%)",
 			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
-		},
+		},	
 		{
 			"id": "buildings",
 			"source": "toronto_buildings",
@@ -96,17 +96,16 @@
 				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
-				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 18, 300 ],
+				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 10, 250, 18, 300 ],
 				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 30 ]
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 4, 20, 30 ]
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 10, 0, 11, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
-				"text-halo-width": 0
-			},
-			"minzoom": 15
+				"text-halo-width": 1
+			}
 		}
 	]
 }

@@ -36,7 +36,8 @@
             bearing: -16,
             pitch: 25,
             hash: true,
-            pixelRatio: 2
+            pixelRatio: 2,
+            fadeDuration: 0
         });
 
         map.on("load", () => {
@@ -45,6 +46,12 @@
             map.addSource('toronto_wards', {
                 type: 'vector',
                 tiles: ['https://geographyclub.github.io/toronto-map/data/toronto_wards/{z}/{x}/{y}.pbf']
+            });
+
+            // Add ward centroids
+            map.addSource('toronto_ward_centroids', {
+                type: 'vector',
+                tiles: ['https://geographyclub.github.io/toronto-map/data/toronto_ward_centroids/{z}/{x}/{y}.pbf']
             });
 
             // Add neighborhood source
@@ -67,7 +74,7 @@
                 'type': 'line',
                 'paint': {
                     'line-color': 'hsl(202, 90%, 16%)',
-                    'line-width': 1,
+                    'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 13, 4],
                     'line-opacity': ['interpolate', ['linear'], ['zoom'], 10, 0, 11, 1, 12, 1, 13, 0]
                 },
                 "minzoom": 10,
@@ -82,75 +89,8 @@
                 'type': 'line',
                 'paint': {
                     'line-color': 'hsl(202, 90%, 16%)',
-                    'line-width': 1,
+                    'line-width': ['interpolate', ['linear'], ['zoom'], 12, 1, 16, 4],
                     'line-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0]
-                },
-                "minzoom": 10,
-                "maxzoom": 18
-            });
-
-            // // Add building outlines
-            // map.addLayer({
-            //     'id': 'buildings-outline',
-            //     'source': 'toronto_buildings',
-            //     'source-layer': 'toronto_buildings',
-            //     'type': 'line',
-            //     'paint': {
-            //         'line-color': 'hsl(280, 10%, 40%)',
-            //         'line-width': 2,
-            //         'line-opacity': ["interpolate", ["linear"], ["zoom"], 15, 0, 18, 1]
-            //     },
-            //     'minzoom': 15
-            // });
-
-            // // Add 3d buildings
-            // map.addLayer({
-            //     'id': 'buildings',
-            //     'source': 'toronto_buildings',
-            //     'source-layer': 'toronto_buildings',
-            //     'type': 'fill-extrusion',
-            //     'paint': {
-            //         'fill-extrusion-color': 'hsl(280, 10%, 40%)',
-            //         'fill-extrusion-height': [
-            //             'case',
-            //             ['!=', ['get', 'max_height'], null], ['get', 'max_height'],
-            //             ['!=', ['get', 'avg_height'], null], ['get', 'avg_height'],
-            //             10
-            //         ],
-            //         'fill-extrusion-base': 0,
-            //         'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.7, 17, 0.7, 18, 0]
-            //     },
-            //     'minzoom': 15
-            // });
-
-            // Add ward labels
-            map.addLayer({
-                id: 'ward-labels',
-                type: 'symbol',
-                source: 'toronto_neighborhoods_centroids',
-                layout: {
-                    'text-field': ['get', 'area_name'],
-                    'text-size': [
-                        'interpolate',
-                        ['exponential', 1.8],
-                        ['zoom'],
-                        10, 4,
-                        16, 72
-                    ],
-                    'text-font': ['montserrat-semibold'],
-                    'text-max-width': 5,
-                    'text-line-height': 1,
-                    'text-allow-overlap': true,
-                    'text-ignore-placement': false,
-                    'text-rotation-alignment': 'map',
-                    'text-pitch-alignment': 'map',
-                    'text-rotate': -16
-                },
-                paint: {
-                    'text-color': 'hsl(202, 90%, 16%)',
-                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0],
-                    'text-halo-width': 2,
-                    'text-halo-color': 'hsl(50, 10%, 93%)'
                 },
                 "minzoom": 10,
                 "maxzoom": 18
@@ -170,9 +110,9 @@
                         10, 4,
                         16, 72
                     ],
-                    'text-font': ['montserrat-semibold'],
+                    'text-font': ['montserrat-regular'],
                     'text-max-width': 5,
-                    'text-line-height': 1,
+                    'text-line-height': 1.2,
                     'text-allow-overlap': true,
                     'text-ignore-placement': false,
                     'text-rotation-alignment': 'map',
@@ -182,6 +122,40 @@
                 paint: {
                     'text-color': 'hsl(202, 90%, 16%)',
                     'text-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0, 13, 1, 15, 1, 16, 0],
+                    'text-halo-width': 2,
+                    'text-halo-color': 'hsl(50, 10%, 93%)'
+                },
+                "minzoom": 10,
+                "maxzoom": 18
+            });
+
+            // Add ward labels
+            map.addLayer({
+                id: 'ward-labels',
+                type: 'symbol',
+                source: 'toronto_ward_centroids',
+                'source-layer': 'toronto_ward_centroids',
+                layout: {
+                    'text-field': ['get', 'area_name'],
+                    'text-size': [
+                        'interpolate',
+                        ['exponential', 1.8],
+                        ['zoom'],
+                        10, 4,
+                        13, 40
+                    ],
+                    'text-font': ['montserrat-regular'],
+                    'text-max-width': 5,
+                    'text-line-height': 1.2,
+                    'text-allow-overlap': true,
+                    'text-ignore-placement': false,
+                    'text-rotation-alignment': 'map',
+                    'text-pitch-alignment': 'map',
+                    'text-rotate': -16
+                },
+                paint: {
+                    'text-color': 'hsl(202, 90%, 16%)',
+                    'text-opacity': ['interpolate', ['linear'], ['zoom'], 10, 1, 11, 1, 12, 1, 13, 0],
                     'text-halo-width': 2,
                     'text-halo-color': 'hsl(50, 10%, 93%)'
                 },
