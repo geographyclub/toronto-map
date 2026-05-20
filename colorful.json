@@ -516,24 +516,6 @@
 			}
 		},
 		{
-			"id": "buildings",
-			"source": "toronto_buildings",
-			"source-layer": "toronto_buildings",
-			"type": "fill-extrusion",
-			"paint": {
-				"fill-extrusion-color": "hsl(50, 10%, 93%)",
-				"fill-extrusion-height": [
-					"case",
-					["!=", ["get", "max_height"], null], ["get", "max_height"],
-					["!=", ["get", "avg_height"], null], ["get", "avg_height"],
-					10
-				],
-				"fill-extrusion-base": 0,
-				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
-			},
-			"minzoom": 15
-		},
-		{
 			"source": "versatiles-shortbread",
 			"id": "tunnel-street-pedestrian-zone",
 			"type": "fill",
@@ -3289,6 +3271,24 @@
 				"line-dasharray": [ 2, 2 ],
 				"line-opacity": { "stops": [ [ 14, 0 ], [ 15, 1 ] ] }
 			}
+		},
+		{
+			"id": "buildings",
+			"source": "toronto_buildings",
+			"source-layer": "toronto_buildings",
+			"type": "fill-extrusion",
+			"paint": {
+				"fill-extrusion-color": "hsl(50, 10%, 93%)",
+				"fill-extrusion-height": [
+					"case",
+					["!=", ["get", "max_height"], null], ["get", "max_height"],
+					["!=", ["get", "avg_height"], null], ["get", "avg_height"],
+					10
+				],
+				"fill-extrusion-base": 0,
+				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
+			},
+			"minzoom": 15
 		}
 	]
 }
