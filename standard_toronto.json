@@ -3297,6 +3297,28 @@
 			}
 		},
 		{
+			"id": "neighborhood-outlines",
+			"source": "toronto_neighborhoods",
+			"source-layer": "toronto_neighborhoods",
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(202, 90%, 16%)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 16, 3],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 15, 0.4, 16, 0]
+			}
+		},		
+		{
+			"id": "ward-outlines",
+			"source": "toronto_wards",
+			"source-layer": "toronto_wards",
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(202, 90%, 16%)",
+				"line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 13, 3],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 11, 0.4, 12, 0.4, 13, 0]
+			}
+		},			
+		{
 			"id": "buildings",
 			"source": "toronto_buildings",
 			"source-layer": "toronto_buildings",
@@ -3313,6 +3335,103 @@
 				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
 			},
 			"minzoom": 15
+		},
+		{
+			"source": "osm",
+			"id": "poi-amenity",
+			"type": "symbol",
+			"source-layer": "pois",
+			"filter": [ "all", [ "to-boolean", [ "get", "amenity" ] ], ["!=", ["get", "name"], null] ],
+			"layout": {
+				"icon-size": 0.6,
+				"symbol-placement": "point",
+				"icon-optional": true,
+				"icon-image": ["match",["get","amenity"],"arts_centre","art-gallery","atm","bank","bank","bank","bar","bar","bench","marker","bicycle_rental","bicycle-share","biergarten","beer","cafe","cafe","car_rental","car-rental","car_sharing","car-rental","car_wash","car","cinema","cinema","college","college","community_centre","home","dentist","dentist","doctors","doctor","dog_park","dog-park","drinking_water","drinking-water","embassy","embassy","fast_food","fast-food","fire_station","fire-station","fountain","water","grave_yard","cemetery","hospital","hospital","hunting_stand","marker","library","library","marketplace","grocery","nightclub","nightclub","nursing_home","home","pharmacy","pharmacy","place_of_worship","place-of-worship","playground","playground","police","police","post_box","post","post_office","post","prison","prison","pub","beer","recycling","recycling","restaurant","restaurant","school","school","shelter","shelter","telephone","telephone","theatre","theatre","toilets","toilet","townhall","town-hall","vending_machine","shop","veterinary","veterinary","waste_basket","waste-basket","marker"],
+				"text-font": [ "notosans" ],
+				"text-size": 10,
+				"text-field": ["get", "name"],
+				"text-max-width": 8,
+				"text-line-height": 1,
+				"icon-anchor": "bottom",
+				"text-anchor": "top",
+				"icon-allow-overlap": false,
+				"text-allow-overlap": false,
+				"icon-ignore-placement": false,
+				"text-ignore-placement": false,
+				"symbol-sort-key": 1
+			},
+			"paint": {
+				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
+				"icon-color": "hsl(202, 90%, 16%)",
+				"text-color": "hsl(202, 90%, 16%)",
+				"text-halo-color": "#EEEDEA",
+				"text-halo-width": 0,
+				"text-halo-blur": 0
+			},
+			"minzoom": 15
+		},
+		{
+			"source": "osm",
+			"id": "symbol-transit",
+			"type": "symbol",
+			"source-layer": "public_transport",
+			"filter": [ "in", "kind", "bus_stop", "tram_stop", "light_rail" ],
+			"layout": {
+				"text-field": "{name}",
+				"icon-size": 0.6,
+				"symbol-placement": "point",
+				"text-font": [ "notosans" ],
+				"text-size": 10,
+				"icon-anchor": "bottom",
+				"text-anchor": "top",
+				"icon-image": "bus",
+				"icon-allow-overlap": false,
+				"text-allow-overlap": false,
+				"icon-ignore-placement": false,
+				"text-ignore-placement": false,
+				"symbol-sort-key": 10
+			},
+			"paint": {
+				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
+				"icon-color": "hsl(14, 72%, 46%)",
+				"text-color": "hsl(14, 72%, 46%)",
+				"text-halo-color": "#EEEDEA",
+				"text-halo-width": 0,
+				"text-halo-blur": 0
+			}
+		},
+		{
+			"source": "osm",
+			"id": "symbol-transit-subway",
+			"type": "symbol",
+			"source-layer": "public_transport",
+			"filter": [ "in", "kind", "station" ],
+			"layout": {
+				"text-field": "{name}",
+				"icon-size": 0.6,
+				"symbol-placement": "point",
+				"text-font": [ "notosans" ],
+				"text-size": 10,
+				"icon-anchor": "bottom",
+				"text-anchor": "top",
+				"icon-image": "rail-metro",
+				"icon-allow-overlap": true,
+				"text-allow-overlap": true,
+				"icon-ignore-placement": false,
+				"text-ignore-placement": false,
+				"symbol-sort-key": 10
+			},
+			"paint": {
+				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
+				"icon-color": "hsl(14, 72%, 46%)",
+				"text-color": "hsl(14, 72%, 46%)",
+				"text-halo-color": "#EEEDEA",
+				"text-halo-width": 0,
+				"text-halo-blur": 0
+			}
 		},
 		{
 			"source": "osm",
@@ -3363,164 +3482,7 @@
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
 			},
 			"minzoom": 15
-		},		
-		{
-			"source": "osm",
-			"id": "poi-amenity",
-			"type": "symbol",
-			"source-layer": "pois",
-			"filter": [ "all", [ "to-boolean", [ "get", "amenity" ] ], ["!=", ["get", "name"], null] ],
-			"layout": {
-				"icon-size": 0.6,
-				"symbol-placement": "point",
-				"icon-optional": true,
-				"icon-image": ["match",["get","amenity"],"arts_centre","art-gallery","atm","bank","bank","bank","bar","bar","bench","marker","bicycle_rental","bicycle-share","biergarten","beer","cafe","cafe","car_rental","car-rental","car_sharing","car-rental","car_wash","car","cinema","cinema","college","college","community_centre","home","dentist","dentist","doctors","doctor","dog_park","dog-park","drinking_water","drinking-water","embassy","embassy","fast_food","fast-food","fire_station","fire-station","fountain","water","grave_yard","cemetery","hospital","hospital","hunting_stand","marker","library","library","marketplace","grocery","nightclub","nightclub","nursing_home","home","pharmacy","pharmacy","place_of_worship","place-of-worship","playground","playground","police","police","post_box","post","post_office","post","prison","prison","pub","beer","recycling","recycling","restaurant","restaurant","school","school","shelter","shelter","telephone","telephone","theatre","theatre","toilets","toilet","townhall","town-hall","vending_machine","shop","veterinary","veterinary","waste_basket","waste-basket","marker"],
-				"text-font": [ "notosans" ],
-				"text-size": 10,
-				"text-field": ["get", "name"],
-				"text-max-width": 8,
-				"text-line-height": 1,
-				"icon-anchor": "bottom",
-				"text-anchor": "top",
-				"icon-allow-overlap": false,
-				"text-allow-overlap": false,
-				"icon-ignore-placement": false,
-				"text-ignore-placement": false
-			},
-			"paint": {
-				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
-				"icon-color": "hsl(202, 90%, 16%)",
-				"text-color": "hsl(202, 90%, 16%)",
-				"text-halo-color": "#EEEDEA",
-				"text-halo-width": 0,
-				"text-halo-blur": 0
-			},
-			"minzoom": 15
 		},
-		{
-			"source": "osm",
-			"id": "symbol-transit",
-			"type": "symbol",
-			"source-layer": "public_transport",
-			"filter": [ "in", "kind", "bus_stop", "tram_stop", "light_rail" ],
-			"layout": {
-				"text-field": "{name}",
-				"icon-size": 0.6,
-				"symbol-placement": "point",
-				"text-font": [ "notosans" ],
-				"text-size": 10,
-				"icon-anchor": "bottom",
-				"text-anchor": "top",
-				"icon-image": "bus",
-				"icon-allow-overlap": false,
-				"text-allow-overlap": false,
-				"icon-ignore-placement": false,
-				"text-ignore-placement": false
-			},
-			"paint": {
-				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
-				"icon-color": "hsl(14, 72%, 46%)",
-				"text-color": "hsl(14, 72%, 46%)",
-				"text-halo-color": "#EEEDEA",
-				"text-halo-width": 0,
-				"text-halo-blur": 0
-			}
-		},
-		{
-			"source": "osm",
-			"id": "symbol-transit-subway",
-			"type": "symbol",
-			"source-layer": "public_transport",
-			"filter": [ "in", "kind", "station" ],
-			"layout": {
-				"text-field": "{name}",
-				"icon-size": 0.6,
-				"symbol-placement": "point",
-				"text-font": [ "notosans" ],
-				"text-size": 10,
-				"icon-anchor": "bottom",
-				"text-anchor": "top",
-				"icon-image": "rail-metro",
-				"icon-allow-overlap": true,
-				"text-allow-overlap": true,
-				"icon-ignore-placement": false,
-				"text-ignore-placement": false
-			},
-			"paint": {
-				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
-				"icon-color": "hsl(14, 72%, 46%)",
-				"text-color": "hsl(14, 72%, 46%)",
-				"text-halo-color": "#EEEDEA",
-				"text-halo-width": 0,
-				"text-halo-blur": 0
-			}
-		},
-		{
-			"id": "bia-outlines",
-			"source": "toronto_bia",
-			"source-layer": "toronto_bia",
-			"type": "line",
-			"paint": {
-				"line-color": "hsl(202, 90%, 16%)",
-				"line-width": ["interpolate", ["linear"], ["zoom"], 15, 1, 16, 3],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
-			}
-		},
-		{
-			"id": "neighborhood-outlines",
-			"source": "toronto_neighborhoods",
-			"source-layer": "toronto_neighborhoods",
-			"type": "line",
-			"paint": {
-				"line-color": "hsl(202, 90%, 16%)",
-				"line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 16, 3],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 15, 0.4, 16, 0]
-			}
-		},		
-		{
-			"id": "ward-outlines",
-			"source": "toronto_wards",
-			"source-layer": "toronto_wards",
-			"type": "line",
-			"paint": {
-				"line-color": "hsl(202, 90%, 16%)",
-				"line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 13, 3],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0, 11, 0.4, 12, 0.4, 13, 0]
-			}
-		},
-		{
-			"id": "bia-labels",
-			"type": "symbol",
-			"source": "toronto_bia_centroids",
-			"source-layer": "toronto_bia_centroids",
-			"layout": {
-				"text-field": ["get", "area_name"],
-				"text-size": [
-					"interpolate",
-					["linear"],
-					["zoom"],
-					12, 6,
-					16, 24
-				],
-				"text-font": ["notosans"],
-				"text-max-width": 5,
-				"text-line-height": 1.2,
-				"text-allow-overlap": true,
-				"text-ignore-placement": true,
-				"text-rotation-alignment": "map",
-				"text-pitch-alignment": "map",
-				"text-rotate": -16
-			},
-			"paint": {
-				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.6],
-				"text-halo-width": 2,
-				"text-halo-color": "hsl(50, 10%, 93%)"
-			}
-		},		
 		{
 			"id": "neighborhood-labels",
 			"type": "symbol",
@@ -3546,7 +3508,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.6, 15, 0.6, 16, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 15, 0.4, 16, 0],
 				"text-halo-width": 2,
 				"text-halo-color": "hsl(50, 10%, 93%)"
 			}
@@ -3576,7 +3538,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0.6, 13, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0.4, 13, 0],
 				"text-halo-width": 2,
 				"text-halo-color": "hsl(50, 10%, 93%)"
 			}

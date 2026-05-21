@@ -13,6 +13,7 @@
 
 <body>
     <div class="container">
+        <div id="toronto-events"></div>
         <div class="map-wrapper">
             <div id="map"></div>
         </div>
@@ -40,29 +41,96 @@
             pixelRatio: 2
         });
 
-        map.on("load", () => {
+map.on("load", async () => {
 
+    // =========================
+    // TORONTO EVENTS
+    // =========================
 
-            // map.addSource('toronto-ortho', {
-            //     type: 'raster',
-            //     tiles: [
-            //         'https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer/tile/{z}/{y}/{x}'
-            //     ],
-            //     tileSize: 256,
-            //     attribution: 'City of Toronto'
-            // });
+async function loadTorontoEvents() {
 
-            // map.addLayer({
-            //     id: 'toronto-ortho',
-            //     type: 'raster',
-            //     source: 'toronto-ortho',
-            //     paint: {
-            //         "raster-saturation": 0.6,
-            //         "raster-opacity": 0.6
-            //     }
-            // });
+    const res = await fetch("data/toronto_events.geojson");
+
+    const geojson = await res.json();
+
+    map.addSource("toronto-events", {
+        type: "geojson",
+        data: geojson
+    });
+
+map.addLayer({
+    id: "toronto-events",
+    type: "symbol",
+    source: "toronto-events",
+
+    layout: {
+        "text-field": "👇",
+
+        "text-font": ["notosans"],
+
+        "text-size": 40,
+
+        "text-anchor": "bottom",
+
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+    },
+
+    paint: {
+        "text-color": "#111111",
+
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 2
+    }
+});
+    renderTorontoEvents(geojson.features);
+}
+
+function renderTorontoEvents(features) {
+
+    const container = document.querySelector("#toronto-events");
+
+    container.innerHTML = "";
+
+    for (const feature of features) {
+
+        const props = feature.properties;
+
+        const card = document.createElement("div");
+
+        card.className = "toronto-event-card";
+
+        card.innerHTML = `
+            <div class="toronto-event-title">
+                ${props.title || ""}
+            </div>
+
+            <div class="toronto-event-location">
+                ${props.location_name || ""}
+            </div>
+
+            <div class="toronto-event-address">
+                ${props.location_address || ""}
+            </div>
+        `;
+
+        card.addEventListener("click", () => {
+
+            map.flyTo({
+                center: feature.geometry.coordinates,
+                zoom: 15,
+                duration: 1500
+            });
 
         });
+
+        container.appendChild(card);
+    }
+}
+
+loadTorontoEvents();
+
+});
 
     </script>
 

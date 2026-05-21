@@ -54,3 +54,128 @@ body {
     transform: skewY( 10deg )
 }
 
+#toronto-events {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    width: 320px;
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding-right: 4px;
+}
+
+/* =========================
+   EVENT CARD
+========================= */
+
+.toronto-event-card {
+    background: rgba(255,255,255,0.96);
+
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 14px;
+
+    padding: 12px 14px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.08);
+}
+
+.toronto-event-card:hover {
+    transform: translateY(-2px);
+
+    background: white;
+
+    border-color: rgba(0,0,0,0.18);
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.toronto-event-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    margin-bottom: 6px;
+
+    color: #111;
+}
+
+/* =========================
+   LOCATION
+========================= */
+
+.toronto-event-location {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #444;
+
+    margin-bottom: 2px;
+}
+
+.toronto-event-address {
+    font-size: 12px;
+    line-height: 1.4;
+
+    color: #777;
+}
+
+/* =========================
+   META
+========================= */
+
+.toronto-event-meta {
+    margin-top: 10px;
+
+    display: inline-flex;
+    align-items: center;
+
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    background: #f3f4f6;
+
+    color: #222;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+#toronto-events::-webkit-scrollbar {
+    width: 8px;
+}
+
+#toronto-events::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.18);
+    border-radius: 999px;
+}
+
+#toronto-events::-webkit-scrollbar-track {
+    background: transparent;
+}
