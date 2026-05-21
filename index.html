@@ -41,94 +41,36 @@
             pixelRatio: 2
         });
 
-map.on("load", async () => {
+        map.on("load", async () => {
 
-    // =========================
-    // TORONTO EVENTS
-    // =========================
+    // 1. load icon
+    const icon = await map.loadImage("assets/markers/finger.png");
+    map.addImage("finger-marker", icon.data);
 
-async function loadTorontoEvents() {
-
+    // 2. load geojson
     const res = await fetch("data/toronto_events.geojson");
-
     const geojson = await res.json();
 
+    // 3. add source
     map.addSource("toronto-events", {
         type: "geojson",
         data: geojson
     });
 
-map.addLayer({
-    id: "toronto-events",
-    type: "symbol",
-    source: "toronto-events",
+    // 4. add symbol layer
+    map.addLayer({
+        id: "toronto-events",
+        type: "symbol",
+        source: "toronto-events",
 
-    layout: {
-        "text-field": "👇",
-
-        "text-font": ["notosans"],
-
-        "text-size": 40,
-
-        "text-anchor": "bottom",
-
-        "text-allow-overlap": true,
-        "text-ignore-placement": true
-    },
-
-    paint: {
-        "text-color": "#111111",
-
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 2
-    }
-});
-    renderTorontoEvents(geojson.features);
-}
-
-function renderTorontoEvents(features) {
-
-    const container = document.querySelector("#toronto-events");
-
-    container.innerHTML = "";
-
-    for (const feature of features) {
-
-        const props = feature.properties;
-
-        const card = document.createElement("div");
-
-        card.className = "toronto-event-card";
-
-        card.innerHTML = `
-            <div class="toronto-event-title">
-                ${props.title || ""}
-            </div>
-
-            <div class="toronto-event-location">
-                ${props.location_name || ""}
-            </div>
-
-            <div class="toronto-event-address">
-                ${props.location_address || ""}
-            </div>
-        `;
-
-        card.addEventListener("click", () => {
-
-            map.flyTo({
-                center: feature.geometry.coordinates,
-                zoom: 15,
-                duration: 1500
-            });
-
-        });
-
-        container.appendChild(card);
-    }
-}
-
-loadTorontoEvents();
+        layout: {
+            "icon-image": "finger-marker",
+            "icon-size": 0.12,
+            "icon-anchor": "bottom",
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true
+        }
+    });
 
 });
 
