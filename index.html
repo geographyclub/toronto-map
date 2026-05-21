@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "standard_toronto.json",
+            style: "osm_highways.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -43,9 +43,50 @@
 
         map.on("load", async () => {
 
-    // 1. load icon
-    const icon = await map.loadImage("assets/markers/finger.png");
-    map.addImage("finger-marker", icon.data);
+    // 1. load markers
+const imageNames = [
+    "finger",
+    "hatch_diag"
+];
+
+for (const name of imageNames) {
+
+    const img = await map.loadImage(
+        `assets/markers/${name}.png`
+    );
+
+    if (!map.hasImage(name)) {
+        map.addImage(name, img.data);
+    }
+
+}
+
+
+map.on("styleimagemissing", async (e) => {
+
+    const id = e.id;
+
+    try {
+
+        const img = await map.loadImage(
+            `assets/markers/${id}.png`
+        );
+
+        if (!map.hasImage(id)) {
+            map.addImage(id, img.data);
+        }
+
+    } catch (err) {
+
+        console.error(
+            "missing image failed:",
+            id,
+            err
+        );
+
+    }
+
+});
 
     // 2. load geojson
     const res = await fetch("data/toronto_events.geojson");
@@ -64,7 +105,7 @@
         source: "toronto-events",
 
         layout: {
-            "icon-image": "finger-marker",
+            "icon-image": "finger",
             "icon-size": 0.12,
             "icon-anchor": "bottom",
             "icon-allow-overlap": true,
