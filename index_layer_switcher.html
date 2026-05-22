@@ -57,7 +57,7 @@ map.addLayer({
     filter: [
         "all",
         ["has", "place_name"],
-        ["==", ["get", "address_class_desc"], "Structure Entrance"]
+        ["==", ["get", "address_class_desc"], "Land"]
     ],
     paint: {
         "circle-radius": [
@@ -164,19 +164,82 @@ map.addLayer({
             });
 
             // 4. add symbol layer
-            // map.addLayer({
-            //     id: "toronto-events",
-            //     type: "symbol",
-            //     source: "toronto-events",
+            map.addLayer({
+                id: "toronto-events",
+                type: "symbol",
+                source: "toronto-events",
 
-            //     layout: {
-            //         "icon-image": "finger",
-            //         "icon-size": 0.2,
-            //         "icon-anchor": "bottom",
-            //         "icon-allow-overlap": true,
-            //         "icon-ignore-placement": true
-            //     }
-            // });
+                layout: {
+                    "icon-image": "finger",
+                    "icon-size": 0.2,
+                    "icon-anchor": "bottom",
+                    "icon-allow-overlap": true,
+                    "icon-ignore-placement": true
+                }
+            });
+
+const layers = {
+    events: [
+        "toronto-events"
+    ]
+};
+
+function createLayerControl() {
+
+    const layerControl = document.createElement("div");
+
+    layerControl.id = "layer-control";
+
+    for (const groupName in layers) {
+
+        const label = document.createElement("label");
+
+        const input = document.createElement("input");
+
+        input.type = "checkbox";
+        input.checked = true;
+
+        input.addEventListener("change", () => {
+
+            setGroupVisible(
+                groupName,
+                input.checked
+            );
+
+        });
+
+        label.appendChild(input);
+
+        label.append(
+            " " + groupName
+        );
+
+        layerControl.appendChild(label);
+
+    }
+
+    document.body.appendChild(layerControl);
+
+}
+
+createLayerControl();
+
+function setGroupVisible(group, visible) {
+
+    layers[group].forEach(id => {
+
+        map.setLayoutProperty(
+            id,
+            "visibility",
+            visible
+                ? "visible"
+                : "none"
+        );
+
+    });
+
+}
+
 
             map.on("click", (e) => {
                 const features = map.queryRenderedFeatures(

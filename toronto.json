@@ -110,6 +110,16 @@
 			"id": "centreline_label",
 			"source": "toronto_centreline",
 			"source-layer": "toronto_centreline",
+			"filter": [
+				"all",
+				["has", "LINEAR_NAME_FULL"],
+				[
+					"!in",
+					"FEATURE_CODE_DESC",
+					"Geostatistical line",
+					"Other"
+				]
+			],
 			"type": "symbol",
 			"layout": {
 				"text-field": "{LINEAR_NAME_FULL}",

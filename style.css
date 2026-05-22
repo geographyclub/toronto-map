@@ -54,6 +54,36 @@ body {
     transform: skewY( 10deg )
 }
 
+#layer-control {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    z-index: 1000;
+
+    background: rgba(255,255,255,0.95);
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.15);
+
+    font:
+        13px sans-serif;
+}
+
+#layer-control label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    cursor: pointer;
+}
+
+
 #toronto-events {
     position: absolute;
 
