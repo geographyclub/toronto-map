@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "osm_highways.json",
+            style: "osm_transpo_bw.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -43,77 +43,74 @@
 
         map.on("load", async () => {
 
-    // 1. load markers
-const imageNames = [
-    "finger",
-    "hatch_diag"
-];
+            // 1. load markers
+            const imageNames = [
+                "finger",
+                "hatch_diag"
+            ];
+            for (const name of imageNames) {
+                const img = await map.loadImage(
+                    `assets/markers/${name}.png`
+                );
+                if (!map.hasImage(name)) {
+                    map.addImage(name, img.data);
+                }
+            }
 
-for (const name of imageNames) {
+            map.on("styleimagemissing", async (e) => {
+                const id = e.id;
+                try {
+                    const img = await map.loadImage(
+                        `assets/markers/${id}.png`
+                    );
+                    if (!map.hasImage(id)) {
+                        map.addImage(id, img.data);
+                    }
+                } catch (err) {
+                    console.error(
+                        "missing image failed:",
+                        id,
+                        err
+                    );
+                }
+            });
 
-    const img = await map.loadImage(
-        `assets/markers/${name}.png`
+            // 2. load geojson
+            const res = await fetch("data/toronto_events.geojson");
+            const geojson = await res.json();
+
+            // 3. add source
+            map.addSource("toronto-events", {
+                type: "geojson",
+                data: geojson
+            });
+
+            // 4. add symbol layer
+            map.addLayer({
+                id: "toronto-events",
+                type: "symbol",
+                source: "toronto-events",
+
+                layout: {
+                    "icon-image": "finger",
+                    "icon-size": 0.1,
+                    "icon-anchor": "bottom",
+                    "icon-allow-overlap": true,
+                    "icon-ignore-placement": true
+                }
+            });
+
+map.on("click", (e) => {
+
+    const features = map.queryRenderedFeatures(
+        e.point
     );
 
-    if (!map.hasImage(name)) {
-        map.addImage(name, img.data);
-    }
-
-}
-
-
-map.on("styleimagemissing", async (e) => {
-
-    const id = e.id;
-
-    try {
-
-        const img = await map.loadImage(
-            `assets/markers/${id}.png`
-        );
-
-        if (!map.hasImage(id)) {
-            map.addImage(id, img.data);
-        }
-
-    } catch (err) {
-
-        console.error(
-            "missing image failed:",
-            id,
-            err
-        );
-
-    }
+    console.log(features);
 
 });
 
-    // 2. load geojson
-    const res = await fetch("data/toronto_events.geojson");
-    const geojson = await res.json();
-
-    // 3. add source
-    map.addSource("toronto-events", {
-        type: "geojson",
-        data: geojson
-    });
-
-    // 4. add symbol layer
-    map.addLayer({
-        id: "toronto-events",
-        type: "symbol",
-        source: "toronto-events",
-
-        layout: {
-            "icon-image": "finger",
-            "icon-size": 0.12,
-            "icon-anchor": "bottom",
-            "icon-allow-overlap": true,
-            "icon-ignore-placement": true
-        }
-    });
-
-});
+        });
 
     </script>
 

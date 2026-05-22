@@ -3450,7 +3450,7 @@
 				"symbol-placement": "line",
 				"text-anchor": "center",
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 25 ],
-				"symbol-sort-key": 100
+				"symbol-sort-key": 10
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
