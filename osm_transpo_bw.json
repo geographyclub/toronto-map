@@ -1339,32 +1339,7 @@
 			"id": "highway-name-minor",
 			"type": "symbol",
 			"source-layer": "street_labels",
-			"filter": [ "in", "kind", "unclassified", "residential", "living_street" ],
-			"layout": {
-				"text-field": "{name}",
-				"text-transform": "uppercase",
-				"text-rotation-alignment": "map",
-				"text-font": [ "notosans" ],
-				"text-letter-spacing": 0.2,
-				"text-allow-overlap": false,
-				"text-ignore-placement": false,
-				"symbol-placement": "line",
-				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 25 ],
-				"symbol-sort-key": 10
-			},
-			"paint": {
-				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
-			},
-			"minzoom": 15
-		},
-		{
-			"source": "osm",
-			"id": "highway-name-major",
-			"type": "symbol",
-			"source-layer": "street_labels",
-			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary", "tertiary" ],
+			"filter": [ "in", "kind", "unclassified", "service", "residential", "living_street", "tertiary" ],
 			"layout": {
 				"text-field": "{name}",
 				"text-transform": "uppercase",
@@ -1376,13 +1351,36 @@
 				"symbol-placement": "line",
 				"text-anchor": "center",
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 30 ],
+				"symbol-sort-key": 10
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 16%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
+			}
+		},
+		{
+			"source": "osm",
+			"id": "highway-name-major",
+			"type": "symbol",
+			"source-layer": "street_labels",
+			"filter": [ "in", "kind", "motorway", "trunk", "primary", "secondary" ],
+			"layout": {
+				"text-field": "{name}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "notosans" ],
+				"text-letter-spacing": 0.2,
+				"text-allow-overlap": false,
+				"text-ignore-placement": false,
+				"symbol-placement": "line",
+				"text-anchor": "center",
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 50 ],
 				"symbol-sort-key": 100
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
-			},
-			"minzoom": 15
+			}
 		}		
 	]
 }

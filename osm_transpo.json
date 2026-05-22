@@ -3010,8 +3010,7 @@
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
-			},
-			"minzoom": 15
+			}
 		},
 		{
 			"source": "osm",
@@ -3035,8 +3034,7 @@
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
-			},
-			"minzoom": 15
+			}
 		}		
 	]
 }

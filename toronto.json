@@ -1,0 +1,133 @@
+{
+	"version": 8,
+	"name": "osm",
+	"metadata": {
+		"maputnik:renderer": "mbgljs"
+	},
+	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
+	"sources": {
+		"toronto_wards": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_wards/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_ward_centroids": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_ward_centroids/{z}/{x}/{y}.pbf"]
+		},		
+		"toronto_neighborhoods": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_neighborhoods/{z}/{x}/{y}.pbf"]
+		},		
+		"toronto_neighborhood_centroids": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_neighborhood_centroids/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_bia": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_bia/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_bia_centroids": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_bia_centroids/{z}/{x}/{y}.pbf"]
+		},		
+		"toronto_buildings": {
+			"type": "vector",
+			"tiles": ["https://torontotechweek.github.io/data/toronto_buildings/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_centreline": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_property_boundary_lines": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_property_boundary_lines/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_roadway": {
+			"type": "vector",
+			"tiles": ["https://mapcity.io/toronto-bia/data/toronto_roadway/{z}/{x}/{y}.pbf"]
+		}
+	},
+	"layers": [
+		{
+			"id": "background",
+			"type": "background",
+			"paint": {
+				"background-color": "hsl(50, 10%, 93%)"
+			}
+		},
+		{
+			"id": "property_boundary_line",
+			"source": "toronto_property_boundary_lines",
+			"source-layer": "toronto_property_boundary_lines",
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(202, 90%, 100%)",
+				"line-width": 2,
+				"line-dasharray": [2, 2],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			}
+		},
+		{
+			"id": "roadway_outline",
+			"source": "toronto_roadway",
+			"source-layer": "toronto_roadway",
+            "type": "line",
+			"paint": {
+			  "line-color": "hsl(202, 90%, 16%)",
+			  "line-width": 3,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17, 0.4]
+			}
+		},
+		{
+			"id": "roadway",
+			"source": "toronto_roadway",
+			"source-layer": "toronto_roadway",
+            "type": "fill",
+			"paint": {
+			  "fill-color": "hsl(210, 20%, 100%)",
+			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			}
+		},	
+		{
+			"id": "buildings",
+			"source": "toronto_buildings",
+			"source-layer": "toronto_buildings",
+			"type": "fill-extrusion",
+			"paint": {
+				"fill-extrusion-color": "hsl(50, 10%, 93%)",
+				"fill-extrusion-height": [
+					"case",
+					["!=", ["get", "max_height"], null], ["get", "max_height"],
+					["!=", ["get", "avg_height"], null], ["get", "avg_height"],
+					10
+				],
+				"fill-extrusion-base": 0,
+				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
+			}
+		},	
+		{
+			"id": "centreline_label",
+			"source": "toronto_centreline",
+			"source-layer": "toronto_centreline",
+			"type": "symbol",
+			"layout": {
+				"text-field": "{LINEAR_NAME_FULL}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "montserrat-regular" ],
+				"text-letter-spacing": 0.2,
+				"symbol-placement": "line",
+				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 18, 300 ],
+				"text-anchor": "center",
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 30 ]
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 16%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-halo-color": "hsl(50, 10%, 93%)",
+				"text-halo-width": 0
+			}
+		}
+	]
+}

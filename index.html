@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "osm_transpo_bw.json",
+            style: "toronto.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -93,22 +93,21 @@
 
                 layout: {
                     "icon-image": "finger",
-                    "icon-size": 0.1,
+                    "icon-size": 0.2,
                     "icon-anchor": "bottom",
                     "icon-allow-overlap": true,
                     "icon-ignore-placement": true
                 }
             });
 
-map.on("click", (e) => {
+            map.on("click", (e) => {
+                const features = map.queryRenderedFeatures(
+                    e.point
+                );
+                console.log(features);
+            });
 
-    const features = map.queryRenderedFeatures(
-        e.point
-    );
-
-    console.log(features);
-
-});
+//map.showCollisionBoxes = true;
 
         });
 
