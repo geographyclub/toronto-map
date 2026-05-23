@@ -93,6 +93,7 @@ body {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    scroll-snap-type: y mandatory;
 }
 
 #infobox::-webkit-scrollbar {
@@ -100,13 +101,22 @@ body {
 }
 
 .infobox-content {
+    height: 100%;
+    width: 100%;
     overflow-wrap: anywhere;
     word-break: break-word;
 }
 
+#infobox .infobox-content section {
+    min-height: 100%;
+    scroll-snap-align: start;
+    display: block;
+}
+
 .infobox-image {
-    position: absolute;
-    inset: 0;
+position: relative;
+min-height: 100%;
+flex: 0 0 100%;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -116,6 +126,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 0;
+    scroll-snap-align: start;
 }
 
 .infobox-image img {
