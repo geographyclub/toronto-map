@@ -86,19 +86,26 @@
             });
 
             // 4. add symbol layer
-            map.addLayer({
-                id: "toronto-events",
-                type: "symbol",
-                source: "toronto-events",
+map.addLayer({
+    id: "toronto-events",
+    type: "symbol",
+    source: "toronto-events",
+    layout: {
+        "icon-image": "finger",
+        "icon-size": 0.2
+    }
+});
 
-                layout: {
-                    "icon-image": "finger",
-        "icon-size": 0.2,
-                    "icon-anchor": "bottom",
-                    "icon-allow-overlap": true,
-                    "icon-ignore-placement": true
-                }
-            });
+map.addLayer({
+    id: "toronto-events-active",
+    type: "symbol",
+    source: "toronto-events",
+    filter: ["==", ["get", "id"], ""],
+    layout: {
+        "icon-image": "finger",
+        "icon-size": 0.45
+    }
+});
 
 function getClosestEvent() {
 
@@ -166,16 +173,8 @@ function setActiveMarker(feature) {
 
     activeId = id;
 
-    map.setLayoutProperty(
-        "toronto-events",
-        "icon-size",
-        [
-            "case",
-            ["==", ["get", "id"], id],
-            0.4,
-            0.2
-        ]
-    );
+map.setFilter("toronto-events-active", ["==", ["get", "id"], id]);
+map.setFilter("toronto-events", ["!=", ["get", "id"], id]);
 }
 
 function updateClosestEvent() {
