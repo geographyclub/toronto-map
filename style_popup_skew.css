@@ -5,21 +5,10 @@
     font-family: sans-serif;
 }
 
-html {
-    font-size: 16px;
-}
-
 body {
     height: 100%;
     width: 100%;
     background-color: hsl(0, 0%, 100%);
-        font-family:
-        Inter,
-        system-ui,
-        sans-serif;
-
-    font-size: 1rem;
-    line-height: 1.4;
 }
 
 .container {
@@ -44,46 +33,25 @@ body {
 }
 
 .maplibregl-popup-content {
-    background: transparent;
-
-    padding: 0;
-    margin: 2rem;
-
-    box-shadow: none;
-
+    padding: 0 5px;
+    margin: -1px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     pointer-events: none !important;
+    transform: skewY(10deg);
 }
 
-.maplibregl-popup-tip {
-    display: none;
+.maplibregl-popup-content p {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .maplibregl-popup-close-button {
     display: none !important;
 }
 
-.maplibregl-popup-content p {
-
-    margin: 0;
-
-    display: inline;
-
-    font-size: 2rem;
-
-    font-weight: 700;
-
-    line-height: 1.2;
-
-    color: white;
-
-    background: rgba(0,0,0,0.85);
-
-    padding:
-        0.08rem
-        0.35rem;
-
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
+.maplibregl-popup-tip {
+    transform: skewY( 10deg )
 }
 
 #layer-control {

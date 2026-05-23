@@ -46,7 +46,11 @@
 		"toronto_roadway": {
 			"type": "vector",
 			"tiles": ["https://mapcity.io/toronto-bia/data/toronto_roadway/{z}/{x}/{y}.pbf"]
-		}
+		},
+		"toronto_address_points": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_address_points/{z}/{x}/{y}.pbf"]
+		}		
 	},
 	"layers": [
 		{
@@ -105,7 +109,43 @@
 				"fill-extrusion-base": 0,
 				"fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
 			}
-		},	
+		},
+		{
+    "id": "toronto-address-labels",
+    "type": "symbol",
+    "source": "toronto_address_points",
+    "source-layer": "toronto_address_points",
+    "filter": [
+        "all",
+        ["has", "place_name"],
+        ["!=", ["get", "place_name"], "None"]
+    ],
+    "layout": {
+        "text-font": [ "notosans" ],
+        "text-size": 10,
+        "text-field": ["get", "place_name"],
+        "text-max-width": 8,
+        "text-line-height": 1,
+        "icon-anchor": "bottom",
+        "text-anchor": "top",
+        "icon-allow-overlap": false,
+        "text-allow-overlap": false,
+        "icon-ignore-placement": false,
+        "text-ignore-placement": false
+    },
+    "paint": {
+        "text-color": "hsl(202, 90%, 16%)",
+        "text-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15, 0,
+            16, 1
+        ],
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 0
+    }
+},
 		{
 			"id": "centreline_label",
 			"source": "toronto_centreline",

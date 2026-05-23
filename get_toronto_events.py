@@ -32,6 +32,10 @@ CALENDAR_IDS = [
     "da506e92-d63c-43fa-864a-78a53b52f706",
 ]
 
+# =========================================================
+# DATE RANGE (30 DAYS)
+# =========================================================
+
 start = datetime.now(timezone.utc)
 end = start + timedelta(days=30)
 
@@ -41,61 +45,8 @@ DATE_END = end.strftime("%Y-%m-%dT%H:%M:%SZ")
 TOP = 5000
 SKIP = 0
 
-SELECT_FIELDS = [
-    "id",
-    "submission_id",
-
-    "short_name",
-    "short_description",
-
-    "event_name",
-    "event_description",
-
-    "event_category",
-    "event_sub_category",
-    "event_theme",
-
-    "calendar_name",
-    "calendar_id",
-
-    "event_website",
-    "ticket_website",
-
-    "facebook_url",
-    "instagram_url",
-    "twitter_url",
-
-    "event_email",
-    "event_telephone",
-
-    "free_event",
-    "featured_event",
-    "accessible_event",
-    "reservations_required",
-
-    "event_price",
-    "cost_notes",
-
-    "event_startdate",
-    "event_enddate",
-    "event_expirydate",
-
-    "calendar_date",
-    "calendar_date_group",
-    "calendar_time_of_day",
-
-    "event_locations",
-    "event_image",
-]
-
-ORDER_BY = [
-    "calendar_date_group",
-    "featured_event desc",
-    "calendar_date",
-]
-
 # =========================================================
-# BUILD FILTER
+# FILTER
 # =========================================================
 
 calendar_filter = " or ".join(
@@ -108,16 +59,10 @@ filter_query = (
     f"and calendar_date lt {DATE_END}"
 )
 
-# =========================================================
-# BUILD QUERY
-# =========================================================
-
 params = {
     "$format": "application/json;odata.metadata=none",
     "$skip": str(SKIP),
     "$top": str(TOP),
-    "$select": ",".join(SELECT_FIELDS),
-    "$orderby": ",".join(ORDER_BY),
     "$filter": filter_query,
 }
 
@@ -128,10 +73,6 @@ query_string = urllib.parse.urlencode(
 )
 
 url = f"{BASE_URL}?{query_string}"
-
-# =========================================================
-# DOWNLOAD
-# =========================================================
 
 print("Downloading events...")
 
@@ -149,12 +90,12 @@ with urllib.request.urlopen(req) as response:
 events = data.get("value", [])
 
 # =========================================================
-# BUILD GEOJSON
+# GEOJSON BUILD
 # =========================================================
 
 features = []
 
-for e in events:
+for i, e in enumerate(events):
 
     loc = (e.get("event_locations") or [None])[0]
 
@@ -162,23 +103,28 @@ for e in events:
     lng = None
 
     if loc and loc.get("location_gps"):
-
         try:
-
             gps = json.loads(loc["location_gps"])[0]
-
             lat = float(gps.get("gps_lat"))
             lng = float(gps.get("gps_lng"))
-
         except:
             pass
 
-    # skip invalid coordinates
     if lat is None or lng is None:
         continue
 
+    # =====================================================
+    # STABLE ID
+    # =====================================================
+
+    raw_id = e.get("id") or e.get("submission_id")
+    feature_id = f"event-{raw_id or i}"
+
     feature = {
         "type": "Feature",
+
+        # optional but useful for MapLibre indexing
+        "id": feature_id,
 
         "geometry": {
             "type": "Point",
@@ -186,7 +132,9 @@ for e in events:
         },
 
         "properties": {
-            "id": e.get("id"),
+
+            # ✅ CRITICAL: THIS IS NOW THE MAIN ID
+            "id": feature_id,
 
             "title": e.get("short_name"),
             "description": e.get("short_description"),
@@ -212,15 +160,8 @@ for e in events:
                 else None
             ),
 
-            "location_name": (
-                loc.get("location_name")
-                if loc else None
-            ),
-
-            "location_address": (
-                loc.get("location_address")
-                if loc else None
-            ),
+            "location_name": loc.get("location_name") if loc else None,
+            "location_address": loc.get("location_address") if loc else None,
         }
     }
 
@@ -231,18 +172,10 @@ geojson = {
     "features": features
 }
 
-# =========================================================
-# SAVE
-# =========================================================
-
 Path(OUTPUT_FILE).write_text(
     json.dumps(geojson, indent=2),
     encoding="utf-8",
 )
-
-# =========================================================
-# SUMMARY
-# =========================================================
 
 print(f"Saved to: {OUTPUT_FILE}")
 print(f"Features: {len(features)}")

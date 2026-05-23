@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
     <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="toronto_events.css">
 </head>
 
 <body>
@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "osm_transpo_bw.json",
+            style: "osm_standard.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -86,31 +86,124 @@
             });
 
             // 4. add symbol layer
-            // map.addLayer({
-            //     id: "toronto-events",
-            //     type: "symbol",
-            //     source: "toronto-events",
+            map.addLayer({
+                id: "toronto-events",
+                type: "symbol",
+                source: "toronto-events",
 
-            //     layout: {
-            //         "icon-image": "finger",
-            //         "icon-size": 0.2,
-            //         "icon-anchor": "bottom",
-            //         "icon-allow-overlap": true,
-            //         "icon-ignore-placement": true
-            //     }
-            // });
+                layout: {
+                    "icon-image": "finger",
+        "icon-size": 0.2,
+                    "icon-anchor": "bottom",
+                    "icon-allow-overlap": true,
+                    "icon-ignore-placement": true
+                }
+            });
 
-map.addLayer({
-    id: "toronto-events",
-    type: "circle",
-    source: "toronto-events",
+function getClosestEvent() {
 
-    paint: {
-        "circle-radius": 6,
-        "circle-color": "hsl(0, 0%, 100%)",
-        "circle-stroke-width": 2,
-        "circle-stroke-color": "#04304C"
+    const center = map.getCenter();
+
+    const features = map.querySourceFeatures("toronto-events");
+
+    if (!features || !features.length) return null;
+
+    let closest = null;
+    let minDist = Infinity;
+
+    for (const f of features) {
+
+        if (!f.geometry?.coordinates) continue;
+
+        const [lng, lat] = f.geometry.coordinates;
+
+        const dx = lng - center.lng;
+        const dy = lat - center.lat;
+
+        const dist = dx * dx + dy * dy;
+
+        if (dist < minDist) {
+            minDist = dist;
+            closest = f;
+        }
     }
+
+    return closest;
+}
+
+let closestPopup = null;
+
+function showEventPopup(feature) {
+
+    if (!feature) return;
+
+    const [lng, lat] = feature.geometry.coordinates;
+    const props = feature.properties;
+
+    if (closestPopup) closestPopup.remove();
+
+    closestPopup = new maplibregl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        offset: 12
+    })
+        .setLngLat([lng, lat])
+        .setHTML(`
+            <p>${props.title ?? ""}</p>
+        `)
+        .addTo(map);
+}
+
+let activeId = null;
+
+function setActiveMarker(feature) {
+
+    if (!feature) return;
+
+    const id = feature.properties?.id; // ✅ use properties ONLY
+
+    if (!id || activeId === id) return;
+
+    activeId = id;
+
+    map.setLayoutProperty(
+        "toronto-events",
+        "icon-size",
+        [
+            "case",
+            ["==", ["get", "id"], id],
+            0.4,
+            0.2
+        ]
+    );
+}
+
+function updateClosestEvent() {
+
+    const closest = getClosestEvent();
+
+    if (!closest) return;
+
+    setActiveMarker(closest);
+    showEventPopup(closest);
+
+}
+
+map.on("sourcedata", (e) => {
+
+    if (
+        e.sourceId === "toronto-events" &&
+        e.isSourceLoaded
+    ) {
+
+        updateClosestEvent();
+
+    }
+
+});
+
+map.on("moveend", () => {
+    updateClosestEvent();
 });
 
             map.on("click", (e) => {
