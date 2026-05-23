@@ -33,13 +33,13 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: 100vw;
+    height: 100dvh;
 }
 
-.map-wrapper {
-    height: 50%;
-    width: 100%;
+.map-wrapper,
+#infobox {
+    flex: 1;
+    min-height: 0;
 }
 
 #map {
@@ -84,7 +84,6 @@ body {
 
 #infobox {
     position: relative;
-    height: 50%;
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -95,7 +94,6 @@ body {
 
 #infobox::-webkit-scrollbar {
     display: none;
-    /* Chrome / Safari / Edge */
 }
 
 .infobox-content {
@@ -130,19 +128,8 @@ body {
     display: none;
 }
 
-/* wide screens */
 @media (min-width: 768px) {
     .container {
         flex-direction: row;
-    }
-
-    #infobox {
-        width: 50%;
-        height: 100%;
-    }
-
-    .map-wrapper {
-        width: 50%;
-        height: 100%;
     }
 }
