@@ -86,214 +86,214 @@
             });
 
             // 4. add symbol layer
-map.addLayer({
-    id: "toronto-events",
-    type: "symbol",
-    source: "toronto-events",
-    layout: {
-        "icon-image": "finger",
-        "icon-size": 0.2
-    }
-});
+            map.addLayer({
+                id: "toronto-events",
+                type: "symbol",
+                source: "toronto-events",
+                layout: {
+                    "icon-image": "finger",
+                    "icon-size": 0.2
+                }
+            });
 
-map.addLayer({
-    id: "toronto-events-active",
-    type: "symbol",
-    source: "toronto-events",
-    filter: ["==", ["get", "id"], ""],
-    layout: {
-        "icon-image": "finger",
-        "icon-size": 0.45
-    }
-});
+            map.addLayer({
+                id: "toronto-events-active",
+                type: "symbol",
+                source: "toronto-events",
+                filter: ["==", ["get", "id"], ""],
+                layout: {
+                    "icon-image": "finger",
+                    "icon-size": 0.45
+                }
+            });
 
-function getClosestEvent() {
+            function getClosestEvent() {
 
-    const center = map.getCenter();
+                const center = map.getCenter();
 
-    const features = map.querySourceFeatures("toronto-events");
+                const features = map.querySourceFeatures("toronto-events");
 
-    if (!features || !features.length) return null;
+                if (!features || !features.length) return null;
 
-    let closest = null;
-    let minDist = Infinity;
+                let closest = null;
+                let minDist = Infinity;
 
-    for (const f of features) {
+                for (const f of features) {
 
-        if (!f.geometry?.coordinates) continue;
+                    if (!f.geometry?.coordinates) continue;
 
-        const [lng, lat] = f.geometry.coordinates;
+                    const [lng, lat] = f.geometry.coordinates;
 
-        const dx = lng - center.lng;
-        const dy = lat - center.lat;
+                    const dx = lng - center.lng;
+                    const dy = lat - center.lat;
 
-        const dist = dx * dx + dy * dy;
+                    const dist = dx * dx + dy * dy;
 
-        if (dist < minDist) {
-            minDist = dist;
-            closest = f;
-        }
-    }
+                    if (dist < minDist) {
+                        minDist = dist;
+                        closest = f;
+                    }
+                }
 
-    return closest;
-}
+                return closest;
+            }
 
-let closestPopup = null;
+            let closestPopup = null;
 
-function showEventPopup(feature) {
+            function showEventPopup(feature) {
 
-    if (!feature) return;
+                if (!feature) return;
 
-    const [lng, lat] = feature.geometry.coordinates;
-    const props = feature.properties;
+                const [lng, lat] = feature.geometry.coordinates;
+                const props = feature.properties;
 
-    if (closestPopup) closestPopup.remove();
+                if (closestPopup) closestPopup.remove();
 
-    closestPopup = new maplibregl.Popup({
-        closeButton: false,
-        closeOnClick: false,
-        offset: 12,
-        anchor: 'bottom'
-    })
-        .setLngLat([lng, lat])
-        .setHTML(`
-            <p>${props.event_name ?? ""}</p>
-        `)
-        .addTo(map);
-}
-
-let activeId = null;
-
-function setActiveMarker(feature) {
-
-    if (!feature) return;
-
-    const id = feature.properties?.id; // ✅ use properties ONLY
-
-    if (!id || activeId === id) return;
-
-    activeId = id;
-
-map.setFilter("toronto-events-active", ["==", ["get", "id"], id]);
-map.setFilter("toronto-events", ["!=", ["get", "id"], id]);
-}
-
-function updateInfobox(feature) {
-
-    const box = document.getElementById("infobox");
-    if (!box || !feature) return;
-
-    const props = feature.properties || {};
-
-    // ----------------------------
-    // IMAGE (FIXED + SAFE)
-    // ----------------------------
-    let img = null;
-
-    try {
-        const raw = props.event_image;
-
-        img = typeof raw === "string"
-            ? JSON.parse(raw)?.[0]
-            : raw?.[0];
-    } catch (e) {
-        img = null;
-    }
-
-    const imageUrl = img?.bin_id
-        ? `https://secure.toronto.ca/c3api_upload/retrieve/festivals_events/${img.bin_id}`
-        : null;
-
-    // ----------------------------
-    // HELPERS
-    // ----------------------------
-    const isValid = (v) => {
-        if (v === null || v === undefined) return false;
-        if (typeof v === "string" && v.trim() === "") return false;
-        if (Array.isArray(v) && v.length === 0) return false;
-        return true;
-    };
-
-    const format = (v) => {
-        if (!isValid(v)) return "";
-
-        if (Array.isArray(v)) {
-            return v.join(", ");
-        }
-
-        if (typeof v === "object") {
-            return Object.entries(v)
-                .map(([k, val]) => {
-                    const formatted = format(val);
-                    return formatted ? `<div><strong>${k}:</strong> ${formatted}</div>` : "";
+                closestPopup = new maplibregl.Popup({
+                    closeButton: false,
+                    closeOnClick: false,
+                    offset: 12,
+                    anchor: 'bottom'
                 })
-                .filter(Boolean)
-                .join("");
-        }
+                    .setLngLat([lng, lat])
+                    .setHTML(`
+                        <p>${props.event_name ?? ""}</p>
+                    `)
+                    .addTo(map);
+            }
 
-        return v;
-    };
+            let activeId = null;
 
-    // ----------------------------
-    // BUILD CONTENT
-    // ----------------------------
-    const entries = Object.entries(props)
-        .filter(([_, v]) => isValid(v))
-        .map(([key, value]) => `
-            <section>
-                <h4>${key}</h4>
-                <div>${format(value)}</div>
-            </section>
-        `)
-        .join("");
+            function setActiveMarker(feature) {
 
-    // ----------------------------
-    // RENDER
-    // ----------------------------
-    box.innerHTML = `
-        <div class="infobox-content">
+                if (!feature) return;
 
-            ${imageUrl ? `
-                <div class="infobox-image">
-                    <img src="${imageUrl}"
-                         alt="${img?.fields?.alt ?? ""}" />
-                </div>
-            ` : ""}
+                const id = feature.properties?.id; // ✅ use properties ONLY
 
-            ${entries}
+                if (!id || activeId === id) return;
 
-        </div>
-    `;
-}
+                activeId = id;
 
-function updateClosestEvent() {
+                map.setFilter("toronto-events-active", ["==", ["get", "id"], id]);
+                map.setFilter("toronto-events", ["!=", ["get", "id"], id]);
+            }
 
-    const closest = getClosestEvent();
+            function updateInfobox(feature) {
 
-    if (!closest) return;
+                const box = document.getElementById("infobox");
+                if (!box || !feature) return;
 
-    setActiveMarker(closest);
-    showEventPopup(closest);
-    updateInfobox(closest);
+                const props = feature.properties || {};
 
-}
+                // ----------------------------
+                // IMAGE (FIXED + SAFE)
+                // ----------------------------
+                let img = null;
 
-map.on("sourcedata", (e) => {
+                try {
+                    const raw = props.event_image;
 
-    if (
-        e.sourceId === "toronto-events" &&
-        e.isSourceLoaded
-    ) {
+                    img = typeof raw === "string"
+                        ? JSON.parse(raw)?.[0]
+                        : raw?.[0];
+                } catch (e) {
+                    img = null;
+                }
 
-        updateClosestEvent();
+                const imageUrl = img?.bin_id
+                    ? `https://secure.toronto.ca/c3api_upload/retrieve/festivals_events/${img.bin_id}`
+                    : null;
 
-    }
+                // ----------------------------
+                // HELPERS
+                // ----------------------------
+                const isValid = (v) => {
+                    if (v === null || v === undefined) return false;
+                    if (typeof v === "string" && v.trim() === "") return false;
+                    if (Array.isArray(v) && v.length === 0) return false;
+                    return true;
+                };
 
-});
+                const format = (v) => {
+                    if (!isValid(v)) return "";
 
-map.on("moveend", () => {
-    updateClosestEvent();
-});
+                    if (Array.isArray(v)) {
+                        return v.join(", ");
+                    }
+
+                    if (typeof v === "object") {
+                        return Object.entries(v)
+                            .map(([k, val]) => {
+                                const formatted = format(val);
+                                return formatted ? `<div><strong>${k}:</strong> ${formatted}</div>` : "";
+                            })
+                            .filter(Boolean)
+                            .join("");
+                    }
+
+                    return v;
+                };
+
+                // ----------------------------
+                // BUILD CONTENT
+                // ----------------------------
+                const entries = Object.entries(props)
+                    .filter(([_, v]) => isValid(v))
+                    .map(([key, value]) => `
+                        <section>
+                            <h4>${key}</h4>
+                            <div>${format(value)}</div>
+                        </section>
+                    `)
+                    .join("");
+
+                // ----------------------------
+                // RENDER
+                // ----------------------------
+                box.innerHTML = `
+                    <div class="infobox-content">
+
+                        ${imageUrl ? `
+                            <div class="infobox-image">
+                                <img src="${imageUrl}"
+                                    alt="${img?.fields?.alt ?? ""}" />
+                            </div>
+                        ` : ""}
+
+                        ${entries}
+
+                    </div>
+                `;
+            }
+
+            function updateClosestEvent() {
+
+                const closest = getClosestEvent();
+
+                if (!closest) return;
+
+                setActiveMarker(closest);
+                showEventPopup(closest);
+                updateInfobox(closest);
+
+            }
+
+            map.on("sourcedata", (e) => {
+
+                if (
+                    e.sourceId === "toronto-events" &&
+                    e.isSourceLoaded
+                ) {
+
+                    updateClosestEvent();
+
+                }
+
+            });
+
+            map.on("moveend", () => {
+                updateClosestEvent();
+            });
 
             map.on("click", (e) => {
                 const features = map.queryRenderedFeatures(
@@ -302,7 +302,7 @@ map.on("moveend", () => {
                 console.log(features);
             });
 
-//map.showCollisionBoxes = true;
+            //map.showCollisionBoxes = true;
 
         });
 
