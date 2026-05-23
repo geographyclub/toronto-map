@@ -13,10 +13,10 @@
 
 <body>
     <div class="container">
-        <div id="toronto-events"></div>
         <div class="map-wrapper">
             <div id="map"></div>
         </div>
+        <div id="infobox"></div>
     </div>
 
     <script>
@@ -152,11 +152,12 @@ function showEventPopup(feature) {
     closestPopup = new maplibregl.Popup({
         closeButton: false,
         closeOnClick: false,
-        offset: 12
+        offset: 12,
+        anchor: 'bottom'
     })
         .setLngLat([lng, lat])
         .setHTML(`
-            <p>${props.title ?? ""}</p>
+            <p>${props.event_name ?? ""}</p>
         `)
         .addTo(map);
 }
@@ -177,6 +178,80 @@ map.setFilter("toronto-events-active", ["==", ["get", "id"], id]);
 map.setFilter("toronto-events", ["!=", ["get", "id"], id]);
 }
 
+function updateInfobox(feature) {
+
+    const box = document.getElementById("infobox");
+    if (!box || !feature) return;
+
+    const props = feature.properties || {};
+    const img = props.event_image?.[0];
+
+    function isValid(v) {
+        if (v === null || v === undefined) return false;
+        if (typeof v === "string" && v.trim() === "") return false;
+        if (Array.isArray(v) && v.length === 0) return false;
+        return true;
+    }
+
+    function formatValue(v) {
+
+        if (!isValid(v)) return null;
+
+        // arrays
+        if (Array.isArray(v)) {
+            return v.map(formatValue).filter(Boolean).join(", ");
+        }
+
+        // objects (like event_locations, image fields, etc.)
+        if (typeof v === "object") {
+            return Object.entries(v)
+                .map(([k, val]) => {
+                    const formatted = formatValue(val);
+                    return formatted ? `<div><strong>${k}:</strong> ${formatted}</div>` : null;
+                })
+                .filter(Boolean)
+                .join("");
+        }
+
+        return v;
+    }
+
+    const content = Object.entries(props)
+        .map(([key, value]) => {
+
+            if (!isValid(value)) return null;
+
+            const formatted = formatValue(value);
+            if (!formatted) return null;
+
+            return `
+                <section>
+                    <h4>${key}</h4>
+                    <div>${formatted}</div>
+                </section>
+            `;
+        })
+        .filter(Boolean)
+        .join("");
+
+    box.innerHTML = `
+        <div class="infobox-content">
+
+            ${img?.file_name ? `
+                <div class="infobox-image">
+                    <img src="https://secure.toronto.ca/webapps/CC/fileAPI/edc_eventcal/${img.file_name}"
+                         alt="${img?.fields?.alt ?? ""}" />
+                </div>
+            ` : ""}
+
+            <h2>${props.event_name || props.short_name || "Untitled"}</h2>
+
+            ${content}
+
+        </div>
+    `;
+}
+
 function updateClosestEvent() {
 
     const closest = getClosestEvent();
@@ -185,6 +260,7 @@ function updateClosestEvent() {
 
     setActiveMarker(closest);
     showEventPopup(closest);
+    updateInfobox(closest);
 
 }
 

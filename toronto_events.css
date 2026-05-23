@@ -1,3 +1,12 @@
+:root {
+    --color-primary: hsl(210, 80%, 45%);
+    --color-secondary: hsl(210, 60%, 60%);
+    --color-bg1: hsl(210, 30%, 30%);
+    --color-bg2: hsl(120, 30%, 70%);
+    --color-bg3: hsl(340, 35%, 72%);
+    --color-text1: hsl(210, 29%, 28%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -24,18 +33,14 @@ body {
 
 .container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
     height: 100vh;
-    position: relative;
+    width: 100%;
 }
 
+
 .map-wrapper {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
 }
 
 #map {
@@ -43,14 +48,16 @@ body {
     height: 100%;
 }
 
+.maplibregl-popup {
+    min-width: 0 !important;
+    max-width: 300px !important;
+}
+
 .maplibregl-popup-content {
     background: transparent;
-
     padding: 0;
     margin: 2rem;
-
     box-shadow: none;
-
     pointer-events: none !important;
 }
 
@@ -63,181 +70,42 @@ body {
 }
 
 .maplibregl-popup-content p {
-
     margin: 0;
-
     display: inline;
-
-    font-size: 2rem;
-
+    font-size: 1.4rem;
     font-weight: 700;
-
-    line-height: 1.2;
-
+    line-height: 1.4;
     color: white;
-
-    background: rgba(0,0,0,0.85);
-
+    background: hsla(0, 0%, 0%, 1);
     padding:
-        0.08rem
-        0.35rem;
-
+        0.2rem
+        0.4rem;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
 }
 
-#layer-control {
-    position: absolute;
-
-    top: 10px;
-    right: 10px;
-
-    z-index: 1000;
-
-    background: rgba(255,255,255,0.95);
-
-    padding: 10px 12px;
-
-    border-radius: 8px;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,0.15);
-
-    font:
-        13px sans-serif;
-}
-
-#layer-control label {
-    display: block;
-
-    margin-bottom: 6px;
-
-    cursor: pointer;
-}
-
-
-#toronto-events {
-    position: absolute;
-
-    top: 20px;
-    right: 20px;
-
-    width: 320px;
-    max-height: calc(100vh - 40px);
-
+#infobox {
+    width: 50%;
     overflow-y: auto;
-
-    z-index: 10;
-
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    padding-right: 4px;
 }
 
-/* =========================
-   EVENT CARD
-========================= */
-
-.toronto-event-card {
-    background: rgba(255,255,255,0.96);
-
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 14px;
-
-    padding: 12px 14px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        border-color 0.15s ease;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,0.08);
+.infobox-content {
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
-.toronto-event-card:hover {
-    transform: translateY(-2px);
+/* small screens */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
 
-    background: white;
+    #infobox {
+        width: 100%;
+        height: 50%;
+    }
 
-    border-color: rgba(0,0,0,0.18);
-}
-
-/* =========================
-   TITLE
-========================= */
-
-.toronto-event-title {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.3;
-
-    margin-bottom: 6px;
-
-    color: #111;
-}
-
-/* =========================
-   LOCATION
-========================= */
-
-.toronto-event-location {
-    font-size: 13px;
-    font-weight: 600;
-
-    color: #444;
-
-    margin-bottom: 2px;
-}
-
-.toronto-event-address {
-    font-size: 12px;
-    line-height: 1.4;
-
-    color: #777;
-}
-
-/* =========================
-   META
-========================= */
-
-.toronto-event-meta {
-    margin-top: 10px;
-
-    display: inline-flex;
-    align-items: center;
-
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-
-    padding: 5px 8px;
-
-    border-radius: 999px;
-
-    background: #f3f4f6;
-
-    color: #222;
-}
-
-/* =========================
-   SCROLLBAR
-========================= */
-
-#toronto-events::-webkit-scrollbar {
-    width: 8px;
-}
-
-#toronto-events::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.18);
-    border-radius: 999px;
-}
-
-#toronto-events::-webkit-scrollbar-track {
-    background: transparent;
+    .map-wrapper {
+        height: 50%;
+    }
 }

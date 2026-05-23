@@ -33,7 +33,7 @@ CALENDAR_IDS = [
 ]
 
 # =========================================================
-# DATE RANGE (30 DAYS)
+# DATE RANGE
 # =========================================================
 
 start = datetime.now(timezone.utc)
@@ -41,9 +41,6 @@ end = start + timedelta(days=30)
 
 DATE_START = start.strftime("%Y-%m-%dT%H:%M:%SZ")
 DATE_END = end.strftime("%Y-%m-%dT%H:%M:%SZ")
-
-TOP = 5000
-SKIP = 0
 
 # =========================================================
 # FILTER
@@ -61,18 +58,15 @@ filter_query = (
 
 params = {
     "$format": "application/json;odata.metadata=none",
-    "$skip": str(SKIP),
-    "$top": str(TOP),
+    "$top": "5000",
     "$filter": filter_query,
 }
 
-query_string = urllib.parse.urlencode(
+url = BASE_URL + "?" + urllib.parse.urlencode(
     params,
     safe="(),':$",
     quote_via=urllib.parse.quote,
 )
-
-url = f"{BASE_URL}?{query_string}"
 
 print("Downloading events...")
 
@@ -90,8 +84,16 @@ with urllib.request.urlopen(req) as response:
 events = data.get("value", [])
 
 # =========================================================
-# GEOJSON BUILD
+# GEOJSON BUILD (RAW DUMP)
 # =========================================================
+
+def build_date_range(e):
+    start = e.get("DateBeginShow") or e.get("event_startdate")
+    end = e.get("DateEndShow") or e.get("event_enddate")
+
+    if start and end:
+        return f"{start} → {end}"
+    return start or end
 
 features = []
 
@@ -113,17 +115,11 @@ for i, e in enumerate(events):
     if lat is None or lng is None:
         continue
 
-    # =====================================================
-    # STABLE ID
-    # =====================================================
-
     raw_id = e.get("id") or e.get("submission_id")
     feature_id = f"event-{raw_id or i}"
 
     feature = {
         "type": "Feature",
-
-        # optional but useful for MapLibre indexing
         "id": feature_id,
 
         "geometry": {
@@ -132,36 +128,8 @@ for i, e in enumerate(events):
         },
 
         "properties": {
-
-            # ✅ CRITICAL: THIS IS NOW THE MAIN ID
-            "id": feature_id,
-
-            "title": e.get("short_name"),
-            "description": e.get("short_description"),
-
-            "start": e.get("event_startdate"),
-            "end": e.get("event_enddate"),
-
-            "category": e.get("event_category"),
-            "subcategory": e.get("event_sub_category"),
-
-            "calendar_name": e.get("calendar_name"),
-
-            "free": e.get("free_event") == "Yes",
-            "featured": e.get("featured_event") == "Yes",
-            "accessible": e.get("accessible_event") == "Yes",
-
-            "website": e.get("event_website"),
-            "tickets": e.get("ticket_website"),
-
-            "image": (
-                e.get("event_image")[0]
-                if e.get("event_image")
-                else None
-            ),
-
-            "location_name": loc.get("location_name") if loc else None,
-            "location_address": loc.get("location_address") if loc else None,
+            **e,
+            "event_dates": build_date_range(e)
         }
     }
 
