@@ -32,12 +32,14 @@ body {
 
 .container {
     display: flex;
-    height: 100dvh;
+    flex-direction: column;
+    height: 100vh;
     width: 100%;
 }
 
 .map-wrapper {
     flex: 1;
+    min-height: 50vh;
     min-width: 0;
 }
 
@@ -83,8 +85,12 @@ body {
 }
 
 #infobox {
-    width: 50%;
+    flex: 1;
+    min-height: 50vh;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
 }
 
 .infobox-content {
@@ -92,19 +98,39 @@ body {
     word-break: break-word;
 }
 
-/* small screens */
-@media (max-width: 768px) {
+.infobox-image {
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.infobox-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   /* key change */
+    object-position: center;
+    display: block;
+}
+
+/* wide screens */
+@media (min-width: 768px) {
     .container {
-        flex-direction: column;
-        height: 100dvh;
+        flex-direction: row;
+        width: 100dvw;
     }
 
     #infobox {
-        width: 100%;
-        height: 50%;
+        width: 50%;
+        height: 100%;
     }
 
     .map-wrapper {
-        height: 50%;
+        width: 50%;
     }
 }
