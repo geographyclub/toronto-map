@@ -134,7 +134,7 @@ body {
 @media (min-width: 768px) {
     .container {
         flex-direction: row;
-        width: 100dvw;
+        width: 100vw;
     }
 
     #infobox {
