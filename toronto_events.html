@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "osm_standard.json",
+            style: "open_data_toronto.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -76,25 +76,54 @@
             });
 
             // 2. load geojson
-            const res = await fetch("data/toronto_events.geojson");
-            const geojson = await res.json();
+const res = await fetch("data/toronto_events.geojson");
+const geojson = await res.json();
 
-            // 3. add source
-            map.addSource("toronto-events", {
-                type: "geojson",
-                data: geojson
-            });
+const daysAhead = 7; // tomorrow + next 6 days
+
+const today = new Date();
+
+const validDates = new Set();
+
+for (let i = 1; i <= daysAhead; i++) {
+
+    const d = new Date(today);
+
+    d.setDate(d.getDate() + i);
+
+    const dateStr =
+        d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+
+    validDates.add(dateStr);
+}
+
+geojson.features = geojson.features.filter(feature => {
+
+    const start = feature.properties?.event_startdate;
+
+    if (!start) return false;
+
+    return validDates.has(start.slice(0, 10));
+
+});
+
+map.addSource("toronto-events", {
+    type: "geojson",
+    data: geojson
+});
 
             // 4. add symbol layer
-            map.addLayer({
-                id: "toronto-events",
-                type: "symbol",
-                source: "toronto-events",
-                layout: {
-                    "icon-image": "finger",
-                    "icon-size": 0.2
-                }
-            });
+map.addLayer({
+    id: "toronto-events",
+    type: "circle",
+    source: "toronto-events",
+    paint: {
+        "circle-radius": 5,
+        "circle-color": "hsl(202, 90%, 16%)"
+    }
+});
 
             map.addLayer({
                 id: "toronto-events-active",
@@ -103,7 +132,9 @@
                 filter: ["==", ["get", "id"], ""],
                 layout: {
                     "icon-image": "finger",
-                    "icon-size": 0.45
+                    "icon-size": 0.3,
+                    "icon-anchor": "bottom",
+                    "icon-offset": [-10, -30]
                 }
             });
 
@@ -152,7 +183,7 @@
                 closestPopup = new maplibregl.Popup({
                     closeButton: false,
                     closeOnClick: false,
-                    offset: 12,
+                    offset: 16,
                     anchor: 'bottom'
                 })
                     .setLngLat([lng, lat])
@@ -175,7 +206,7 @@
                 activeId = id;
 
                 map.setFilter("toronto-events-active", ["==", ["get", "id"], id]);
-                map.setFilter("toronto-events", ["!=", ["get", "id"], id]);
+                //map.setFilter("toronto-events", ["!=", ["get", "id"], id]);
             }
 
             function updateInfobox(feature) {
@@ -253,12 +284,14 @@
                 box.innerHTML = `
                     <div class="infobox-content">
 
-                        ${imageUrl ? `
-                            <div class="infobox-image">
-                                <img src="${imageUrl}"
-                                    alt="${img?.fields?.alt ?? ""}" />
-                            </div>
-                        ` : ""}
+${imageUrl ? `
+    <div class="infobox-image">
+        <img src="${imageUrl}"
+            alt="${img?.fields?.alt ?? ""}" />
+    </div>
+` : `
+    <div class="infobox-image infobox-image-placeholder"></div>
+`}
 
                         ${entries}
 
@@ -273,7 +306,7 @@
                 if (!closest) return;
 
                 setActiveMarker(closest);
-                showEventPopup(closest);
+                //showEventPopup(closest);
                 updateInfobox(closest);
 
             }

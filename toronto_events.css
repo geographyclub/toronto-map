@@ -1,10 +1,14 @@
 :root {
-    --color-primary: hsl(210, 80%, 45%);
-    --color-secondary: hsl(210, 60%, 60%);
-    --color-bg1: hsl(210, 30%, 30%);
-    --color-bg2: hsl(120, 30%, 70%);
-    --color-bg3: hsl(340, 35%, 72%);
-    --color-text1: hsl(210, 29%, 28%);
+    /* Primary Brand Colours */
+    --color-sand: #EEEDEA;
+    --color-ocean: #0070E0;
+    --color-mountain: #04304C;
+
+    /* Highlight Brand Colours */
+    --color-emerald: #018B76;
+    --color-coral: #D74417;
+
+    --color-cobalt: #0F478D;
 }
 
 * {
@@ -21,8 +25,8 @@ html {
 body {
     height: 100%;
     width: 100%;
-    background-color: hsl(0, 0%, 100%);
-    font-family:
+    background-color: var(--color-cobalt);
+    color: var(--color-sand)
         Inter,
         system-ui,
         sans-serif;
@@ -34,6 +38,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100dvh;
+    width: 100dvw;
 }
 
 .map-wrapper,
@@ -45,41 +50,6 @@ body {
 #map {
     width: 100%;
     height: 100%;
-}
-
-.maplibregl-popup {
-    min-width: 0 !important;
-    max-width: 300px !important;
-}
-
-.maplibregl-popup-content {
-    background: transparent;
-    padding: 0;
-    margin: 2rem;
-    box-shadow: none;
-    pointer-events: none !important;
-}
-
-.maplibregl-popup-tip {
-    display: none;
-}
-
-.maplibregl-popup-close-button {
-    display: none !important;
-}
-
-.maplibregl-popup-content p {
-    margin: 0;
-    display: inline;
-    font-size: 1.4rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: white;
-    background: hsla(0, 0%, 0%, 1);
-    padding:
-        0.2rem 0.4rem;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
 }
 
 #infobox {
@@ -122,6 +92,45 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.infobox-image-placeholder {
+    background: hsl(210, 20%, 92%);
+}
+
+.maplibregl-popup {
+    min-width: 0 !important;
+    max-width: 300px !important;
+}
+
+.maplibregl-popup-content {
+    background: transparent;
+    padding: 0;
+    margin: 2rem;
+    box-shadow: none;
+    pointer-events: none !important;
+}
+
+.maplibregl-popup-tip {
+    display: none;
+}
+
+.maplibregl-popup-close-button {
+    display: none !important;
+}
+
+.maplibregl-popup-content p {
+    margin: 0;
+    display: inline;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: white;
+    background: hsla(0, 0%, 0%, 1);
+    padding:
+        0.2rem 0.4rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
 
 .maplibregl-ctrl-bottom-right {

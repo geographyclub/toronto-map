@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "osm_transpo_bw.json",
+            style: "toronto_roadway.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -100,18 +100,18 @@
             //     }
             // });
 
-map.addLayer({
-    id: "toronto-events",
-    type: "circle",
-    source: "toronto-events",
+// map.addLayer({
+//     id: "toronto-events",
+//     type: "circle",
+//     source: "toronto-events",
 
-    paint: {
-        "circle-radius": 6,
-        "circle-color": "hsl(0, 0%, 100%)",
-        "circle-stroke-width": 2,
-        "circle-stroke-color": "#04304C"
-    }
-});
+//     paint: {
+//         "circle-radius": 6,
+//         "circle-color": "hsl(0, 0%, 100%)",
+//         "circle-stroke-width": 2,
+//         "circle-stroke-color": "#04304C"
+//     }
+// });
 
             map.on("click", (e) => {
                 const features = map.queryRenderedFeatures(

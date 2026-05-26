@@ -1,0 +1,35 @@
+{
+  "version": 8,
+  "name": "toronto-ortho",
+  "metadata": {
+    "maputnik:renderer": "mbgljs"
+  },
+  "glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+  "sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
+  "sources": {
+    "toronto_ortho": {
+      "type": "raster",
+      "tiles": [
+        "https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer/tile/{z}/{y}/{x}"
+      ],
+      "tileSize": 256
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "hsl(50, 10%, 93%)"
+      }
+    },
+    {
+      "id": "toronto_ortho",
+      "type": "raster",
+      "source": "toronto_ortho",
+      "paint": {
+        "raster-saturation": 0.2
+      }
+    }
+  ]
+}

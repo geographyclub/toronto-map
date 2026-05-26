@@ -1373,13 +1373,13 @@
 				"text-allow-overlap": false,
 				"text-ignore-placement": false,
 				"symbol-placement": "line",
-				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 10, 0, 20, 50 ],
+				"text-anchor": "bottom",
+				"text-size": [ "interpolate", [ "linear" ], [ "zoom" ], 10, 0, 20, 20 ],
 				"symbol-sort-key": 100
 			},
 			"paint": {
-				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
+				"text-color": "hsl(202, 90%, 100%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 10, 0, 11, 1 ]
 			}
 		}		
 	]
