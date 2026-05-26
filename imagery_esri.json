@@ -1,0 +1,38 @@
+{
+  "version": 8,
+  "name": "imagery_esri",
+  "metadata": {
+    "maputnik:renderer": "mbgljs"
+  },
+  "glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
+  "sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
+  "sources": {
+    "esri_imagery": {
+      "type": "raster",
+      "tiles": [
+        "https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+      ],
+      "tileSize": 256
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "hsl(50, 10%, 93%)"
+      }
+    },
+    {
+      "id": "esri_imagery",
+      "type": "raster",
+      "source": "esri_imagery",
+      "paint": {
+        "raster-saturation": 0,
+        "raster-contrast": 0,
+        "raster-brightness-min": 0,
+        "raster-brightness-max": 1
+      }
+    }
+  ]
+}
