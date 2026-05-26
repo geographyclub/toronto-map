@@ -43,6 +43,10 @@
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline/{z}/{x}/{y}.pbf"]
 		},
+		"toronto_intersections": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_intersections/{z}/{x}/{y}.pbf"]
+		},    
 		"toronto_centreline_low": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline_low/{z}/{x}/{y}.pbf"]
@@ -80,10 +84,10 @@
       "type": "raster",
       "source": "toronto_ortho",
       "paint": {
-        "raster-saturation": 0.4,
-        "raster-contrast": 0.4,
+        "raster-saturation": 0.2,
+        "raster-contrast": -0.2,
         "raster-brightness-min": 0,
-        "raster-brightness-max": 0.6      
+        "raster-brightness-max": 0.8
       }
     },
 		{
@@ -95,7 +99,7 @@
 			  "fill-color": "hsl(210, 20%, 0%)",
 			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
 			}
-		},    
+		},                
 		{
 			"source": "osm",
 			"id": "highway-name-minor",
