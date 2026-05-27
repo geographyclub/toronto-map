@@ -84,7 +84,7 @@
       "type": "raster",
       "source": "toronto_ortho",
       "paint": {
-        "raster-saturation": 0.2,
+        "raster-saturation": 0.8,
         "raster-contrast": -0.2,
         "raster-brightness-min": 0,
         "raster-brightness-max": 0.8
