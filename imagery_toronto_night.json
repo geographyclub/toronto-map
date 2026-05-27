@@ -71,6 +71,12 @@
 				"https://geographyclub.github.io/toronto-map/data/toronto_centreline_low/{z}/{x}/{y}.pbf"
 			]
 		},
+		"toronto_property_boundaries": {
+			"type": "vector",
+			"tiles": [
+				"https://geographyclub.github.io/toronto-map/data/toronto_property_boundaries/{z}/{x}/{y}.pbf"
+			]
+		},
 		"toronto_property_boundary_lines": {
 			"type": "vector",
 			"tiles": [
@@ -122,13 +128,8 @@
 			"source-layer": "toronto_property_boundaries",
 			"type": "fill",
 			"paint": {
-				"line-color": "hsl(202, 90%, 100%)",
-				"line-width": 2,
-				"line-dasharray": [
-					2,
-					2
-				],
-				"line-opacity": [
+				"fill-color": "hsl(202, 90%, 100%)",
+				"fill-opacity": [
 					"interpolate",
 					[
 						"linear"
@@ -182,10 +183,11 @@
 						],
 						null
 					],
-					[
-						"get",
-						"max_height"
-					],
+[
+    "*",
+    ["get", "max_height"],
+    0.5
+],
 					[
 						"!=",
 						[
@@ -194,11 +196,12 @@
 						],
 						null
 					],
-					[
-						"get",
-						"avg_height"
-					],
-					10
+[
+    "*",
+    ["get", "avg_height"],
+    0.5
+],
+					5
 				],
 				"fill-extrusion-base": 0,
 				"fill-extrusion-opacity": [

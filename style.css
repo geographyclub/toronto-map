@@ -18,15 +18,20 @@
     font-family: sans-serif;
 }
 
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
 html {
     font-size: 16px;
 }
 
 body {
-    height: 100%;
-    width: 100%;
     background-color: var(--color-cobalt);
-    color: var(--color-sand)
+    color: var(--color-sand);
+    font-family:
         Inter,
         system-ui,
         sans-serif;
@@ -35,16 +40,13 @@ body {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100dvh;
     width: 100dvw;
+    height: 100dvh;
 }
 
-.map-wrapper,
-#infobox {
-    flex: 1;
-    min-height: 0;
+.map-wrapper {
+    width: 100%;
+    height: 100%;
 }
 
 #map {
@@ -67,7 +69,6 @@ body {
 }
 
 .infobox-content {
-    height: 100%;
     width: 100%;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -81,7 +82,6 @@ body {
 
 .infobox-image {
     overflow: hidden;
-    flex: 0 0 100%;
     height: 100%;
     background: #f2f2f2;
     scroll-snap-align: start;
@@ -127,18 +127,11 @@ body {
     line-height: 1.4;
     color: white;
     background: hsla(0, 0%, 0%, 1);
-    padding:
-        0.2rem 0.4rem;
+    padding: 0.2rem 0.4rem;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
 }
 
 .maplibregl-ctrl-bottom-right {
     display: none;
-}
-
-@media (min-width: 768px) {
-    .container {
-        flex-direction: row;
-    }
 }
