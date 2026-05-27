@@ -5,7 +5,7 @@
 		"maputnik:renderer": "mbgljs"
 	},
 	"glyphs": "https://geographyclub.github.io/toronto-map/assets/fonts/{fontstack}/{range}.pbf",
-	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-hero",
+	"sprite": "https://geographyclub.github.io/toronto-map/assets/sprites/sprites-maki",
 	"sources": {
 		"osm": {
 			"type": "vector",
@@ -39,7 +39,7 @@
 			"filter": ["all", ["to-boolean", ["get", "amenity"]], ["!=", ["get", "name"], null]],
 			"layout": {
 				"symbol-placement": "point",
-				"icon-image":["match",["get","amenity"],"arts_centre","academic-cap","atm","banknotes","bank","building-office","bar","sparkles","bench","rectangle-stack","bicycle_rental","arrow-path","biergarten","sparkles","cafe","beaker","car_rental","truck","car_sharing","truck","car_wash","truck","cinema","film","college","academic-cap","community_centre","building-library","dentist","face-smile","doctors","heart","dog_park","user-group","drinking_water","beaker","embassy","building-office","fast_food","bolt","fire_station","fire","fountain","cloud","grave_yard","x-circle","hospital","heart","hunting_stand","arrow-path","library","book-open","marketplace","shopping-cart","nightclub","sparkles","nursing_home","user-group","pharmacy","plus-circle","place_of_worship","building-library","playground","face-smile","police","shield-check","post_box","inbox","post_office","inbox-stack","prison","lock-closed","pub","sparkles","recycling","arrows-right-left","restaurant","sparkles","school","academic-cap","shelter","home","telephone","phone","theatre","film","toilets","circle-stack","townhall","building-office","vending_machine","cube","veterinary","heart","waste_basket","trash","map-pin"],
+				"icon-image": ["match", ["get", "amenity"], "arts_centre", "art-gallery", "atm", "bank", "bank", "bank", "bar", "bar", "bench", "marker", "bicycle_rental", "bicycle-share", "biergarten", "beer", "cafe", "cafe", "car_rental", "car-rental", "car_sharing", "car-rental", "car_wash", "car-repair", "cinema", "cinema", "college", "college", "community_centre", "town", "dentist", "dentist", "doctors", "doctor", "dog_park", "dog-park", "drinking_water", "drinking-water", "embassy", "embassy", "fast_food", "fast-food", "fire_station", "fire-station", "fountain", "water", "grave_yard", "cemetery", "hospital", "hospital", "hunting_stand", "viewpoint", "library", "library", "marketplace", "shop", "nightclub", "music", "nursing_home", "lodging", "pharmacy", "pharmacy", "place_of_worship", "place-of-worship", "playground", "playground", "police", "police", "post_box", "post", "post_office", "post", "prison", "prison", "pub", "beer", "recycling", "recycling", "restaurant", "restaurant", "school", "school", "shelter", "shelter", "telephone", "telephone", "theatre", "theatre", "toilets", "toilet", "townhall", "town-hall", "vending_machine", "shop", "veterinary", "veterinary", "waste_basket", "waste-basket", "information"],
 
 				"icon-size": 1,
 				"icon-anchor": "bottom",
