@@ -47,7 +47,7 @@
 
 				"text-field": ["get", "name"],
 				"text-font": ["notosans"],
-				"text-size": 10,
+				"text-size": 14,
 				"text-max-width": 10,
 				"text-line-height": 1.1,
 
@@ -67,9 +67,12 @@
 				"icon-color": "#fff",
 				"text-color": "#fff",
 
-				"text-halo-color": "rgba(0,0,0,0.7)",
-				"text-halo-width": 0,
-				"text-halo-blur": 0
+				"icon-halo-color": "hsla( 0, 0%, 0%, 0.2)",
+				"icon-halo-width": 1,
+				"icon-halo-blur": 1,
+				"text-halo-color": "hsla( 0, 0%, 0%, 0.2)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1
 			}
 		}
 	]

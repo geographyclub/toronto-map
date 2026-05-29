@@ -3296,7 +3296,7 @@
 			"source-layer": "pois",
 			"filter": [ "all", [ "to-boolean", [ "get", "amenity" ] ], ["!=", ["get", "name"], null] ],
 			"layout": {
-				"icon-size": 0.6,
+				"icon-size": 1,
 				"symbol-placement": "point",
 				"icon-optional": true,
 				"icon-image": ["match",["get","amenity"],"arts_centre","art-gallery","atm","bank","bank","bank","bar","bar","bench","marker","bicycle_rental","bicycle-share","biergarten","beer","cafe","cafe","car_rental","car-rental","car_sharing","car-rental","car_wash","car","cinema","cinema","college","college","community_centre","home","dentist","dentist","doctors","doctor","dog_park","dog-park","drinking_water","drinking-water","embassy","embassy","fast_food","fast-food","fire_station","fire-station","fountain","water","grave_yard","cemetery","hospital","hospital","hunting_stand","marker","library","library","marketplace","grocery","nightclub","nightclub","nursing_home","home","pharmacy","pharmacy","place_of_worship","place-of-worship","playground","playground","police","police","post_box","post","post_office","post","prison","prison","pub","beer","recycling","recycling","restaurant","restaurant","school","school","shelter","shelter","telephone","telephone","theatre","theatre","toilets","toilet","townhall","town-hall","vending_machine","shop","veterinary","veterinary","waste_basket","waste-basket","marker"],
@@ -3317,9 +3317,12 @@
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.8 ],
 				"icon-color": "hsl(202, 90%, 16%)",
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-halo-color": "#EEEDEA",
+				"text-halo-color": "hsla(0, 0%, 0%, 1)",
 				"text-halo-width": 0,
-				"text-halo-blur": 0
+				"text-halo-blur": 0,
+				"icon-halo-color": "hsla(0, 0%, 0%, 1)",
+				"icon-halo-width": 0,
+				"icon-halo-blur": 0				
 			},
 			"minzoom": 15
 		},
@@ -3348,9 +3351,12 @@
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 0.8 ],
 				"icon-color": "hsl(14, 72%, 46%)",
 				"text-color": "hsl(14, 72%, 46%)",
-				"text-halo-color": "#EEEDEA",
-				"text-halo-width": 0,
-				"text-halo-blur": 0
+				"text-halo-color": "hsla(0, 0%, 0%, 0.1)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1,
+				"icon-halo-color": "hsla(0, 0%, 0%, 0.1)",
+				"icon-halo-width": 1,
+				"icon-halo-blur": 1	
 			}
 		},
 		{
@@ -3378,9 +3384,12 @@
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 13, 0, 14, 0.8 ],
 				"icon-color": "hsl(14, 72%, 46%)",
 				"text-color": "hsl(14, 72%, 46%)",
-				"text-halo-color": "#EEEDEA",
-				"text-halo-width": 0,
-				"text-halo-blur": 0
+				"text-halo-color": "hsla(0, 0%, 0%, 0.1)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1,
+				"icon-halo-color": "hsla(0, 0%, 0%, 0.1)",
+				"icon-halo-width": 1,
+				"icon-halo-blur": 1	
 			}
 		},
 		{
@@ -3430,7 +3439,10 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ]
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 14, 0, 15, 1 ],
+				"text-halo-color": "hsla(0, 0%, 0%, 0.1)",
+				"text-halo-width": 1,
+				"text-halo-blur": 1			
 			}
 		}		
 	]

@@ -28,7 +28,7 @@
 
         const map = new maplibregl.Map({
             container: "map",
-            style: "imagery_toronto.json",
+            style: "toronto_basemap.json",
             center: [-79.381394, 43.656482],
             maxBounds: torontoBounds,
             zoom: 16,
@@ -38,7 +38,7 @@
             pitch: 0,
             fadeDuration: 0,
             hash: true,
-            pixelRatio: 2
+            pixelRatio: 1
         });
 
         map.on("load", async () => {
@@ -46,7 +46,7 @@
             // 1. load markers
             const imageNames = [
                 "finger",
-                "hatch_diag"
+                "red_pin"
             ];
             for (const name of imageNames) {
                 const img = await map.loadImage(
@@ -92,26 +92,16 @@
             //     source: "toronto-events",
 
             //     layout: {
-            //         "icon-image": "finger",
-            //         "icon-size": 0.2,
+            //         "icon-image": "red_pin",
+            //         "icon-size":  ["interpolate", ["linear"], ["zoom"], 10, 0, 16, 0.6],
             //         "icon-anchor": "bottom",
             //         "icon-allow-overlap": true,
             //         "icon-ignore-placement": true
+            //     },
+            //     paint: {
+            //         "icon-color": "#fff"
             //     }
             // });
-
-// map.addLayer({
-//     id: "toronto-events",
-//     type: "circle",
-//     source: "toronto-events",
-
-//     paint: {
-//         "circle-radius": 6,
-//         "circle-color": "hsl(0, 0%, 100%)",
-//         "circle-stroke-width": 2,
-//         "circle-stroke-color": "#04304C"
-//     }
-// });
 
             map.on("click", (e) => {
                 const features = map.queryRenderedFeatures(
@@ -120,7 +110,7 @@
                 console.log(features);
             });
 
-//map.showCollisionBoxes = true;
+            //map.showCollisionBoxes = true;
 
         });
 

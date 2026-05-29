@@ -75,29 +75,6 @@
 			}
 		},
 		{
-			"id": "toronto_centreline_low",
-			"source": "toronto_centreline_low",
-			"source-layer": "toronto_centreline_low",
-			"filter": [
-				"all",
-				["has", "LINEAR_NAME_FULL"],
-				[
-					"in",
-					"FEATURE_CODE_DESC",
-					"Collector", "Expressway"
-				]
-			],			
-            "type": "line",
-			"paint": {
-			  "line-color": "hsl(202, 90%, 16%)",
-			  "line-width": 2,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 14, 1, 15, 0]
-			},
-			"layout": {
-				"line-join": "round",
-				"line-cap": "round"
-			}
-		},		{
 			"id": "centreline-label-minor",
 			"source": "toronto_centreline",
 			"source-layer": "toronto_centreline",
