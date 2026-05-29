@@ -65,12 +65,35 @@
 			}
 		},
 		{
+			"id": "property_boundary_line",
+			"source": "toronto_property_boundary_lines",
+			"source-layer": "toronto_property_boundary_lines",
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(50, 10%, 0%)",
+				"line-width": 2,
+				"line-dasharray": [2, 2],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			}
+		},		
+		{
+			"id": "roadway-outline",
+			"source": "toronto_roadway",
+			"source-layer": "toronto_roadway",
+            "type": "line",
+			"paint": {
+			  "line-color": "hsl(50, 10%, 0%)",
+			  "line-width": 6,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			}
+		},
+		{
 			"id": "roadway",
 			"source": "toronto_roadway",
 			"source-layer": "toronto_roadway",
             "type": "fill",
 			"paint": {
-			  "fill-color": "hsl(50, 10%, 83%)",
+			  "fill-color": "hsl(50, 10%, 93%)",
 			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
 		},
@@ -100,8 +123,8 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 30 ]
 			},
 			"paint": {
-				"text-color": "hsl(202, 90%, 100%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-color": "hsl(50, 10%, 0%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 0
 			}
@@ -124,7 +147,7 @@
 				"text-field": "{LINEAR_NAME_FULL}",
 				"text-transform": "uppercase",
 				"text-rotation-alignment": "map",
-				"text-font": [ "montserrat-semibold" ],
+				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
@@ -132,8 +155,8 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 60 ]
 			},
 			"paint": {
-				"text-color": "hsl(202, 90%, 100%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-color": "hsl(50, 10%, 0%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 0
 			}
@@ -147,7 +170,7 @@
 				"text-field": "{LINEAR_NAME_FULL}",
 				"text-transform": "uppercase",
 				"text-rotation-alignment": "map",
-				"text-font": [ "montserrat-semibold" ],
+				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
