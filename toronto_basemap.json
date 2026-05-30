@@ -163,36 +163,6 @@
 			}
 		},
 		{
-			"id": "ward-labels",
-			"type": "symbol",
-			"source": "toronto_ward_centroids",
-			"source-layer": "toronto_ward_centroids",
-			"layout": {
-				"text-field": ["get", "area_name"],
-				"text-size": [
-					"interpolate",
-					["linear"],
-					["zoom"],
-					10, 4,
-					13, 40
-				],
-				"text-font": ["notosans"],
-				"text-max-width": 5,
-				"text-line-height": 1.2,
-				"text-allow-overlap": true,
-				"text-ignore-placement": false,
-				"text-rotation-alignment": "map",
-				"text-pitch-alignment": "map",
-				"text-rotate": -16
-			},
-			"paint": {
-				"text-color": "hsl(202, 90%, 100%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0.8, 13, 0],
-				"text-halo-width": 0,
-				"text-halo-color": "hsl(50, 10%, 93%)"
-			}
-		},
-		{
 			"id": "centreline_label",
 			"source": "toronto_centreline",
 			"source-layer": "toronto_centreline",

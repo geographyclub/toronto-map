@@ -79,10 +79,10 @@
                "type": "raster",
                "source": "toronto_ortho",
                "paint": {
-                    "raster-saturation": -0.8,
-                    "raster-contrast": 0.6,
+                    "raster-saturation": -1,
+                    "raster-contrast": 0.8,
                     "raster-brightness-min": 0,
-                    "raster-brightness-max": 0.4,
+                    "raster-brightness-max": 0.2,
                     "raster-hue-rotate": 90
                }
           },
@@ -92,10 +92,10 @@
                "source-layer": "toronto_buildings",
                "type": "fill-extrusion",
                "paint": {
-                    "fill-extrusion-color": "hsl(50, 10%, 93%)",
+                    "fill-extrusion-color": "#018B76",
                     "fill-extrusion-height": ["case", ["!=", ["get", "max_height"], null], ["*", ["get", "max_height"], 0.5], ["!=", ["get", "avg_height"], null], ["*", ["get", "avg_height"], 0.5], 5],
                     "fill-extrusion-base": 0,
-                    "fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
+                    "fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2, 17, 0.2, 18, 0]
                }
           },
           {

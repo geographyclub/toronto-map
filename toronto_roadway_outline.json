@@ -94,9 +94,32 @@
             "type": "fill",
 			"paint": {
 			  "fill-color": "hsl(50, 10%, 93%)",
-			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			  "fill-opacity": 1
 			}
-		},
+		},	
+		{
+			"id": "address-points",
+			"source": "toronto_address_points",
+			"source-layer": "toronto_address_points",
+			"type": "symbol",
+			"layout": {
+				"text-field": "{address_number}",
+				"text-transform": "uppercase",
+				"text-rotation-alignment": "map",
+				"text-font": [ "montserrat-regular" ],
+				"text-letter-spacing": 0.2,
+				"symbol-placement": "point",
+				"text-anchor": "center",
+				"text-rotate": -16,
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ]
+			},
+			"paint": {
+				"text-color": "hsl(50, 10%, 0%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
+				"text-halo-color": "hsl(50, 10%, 93%)",
+				"text-halo-width": 10
+			}
+		},		
 		{
 			"id": "centreline-label-minor",
 			"source": "toronto_centreline",
@@ -178,11 +201,42 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 60 ]
 			},
 			"paint": {
-				"text-color": "hsl(202, 90%, 16%)",
+				"text-color": "hsl(50, 10%, 0%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 10, 0, 11, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 0
 			}
-		}					
+		},
+		{
+			"id": "neighborhood-labels",
+			"type": "symbol",
+			"source": "toronto_neighborhood_centroids",
+			"source-layer": "toronto_neighborhood_centroids",
+			"layout": {
+				"text-field": ["get", "area_name"],
+				"text-size": [
+					"interpolate",
+					["linear"],
+					["zoom"],
+					12, 6,
+					16, 40
+				],
+				"text-font": ["montserrat-regular"],
+				"text-transform": "uppercase",
+				"text-max-width": 5,
+				"text-line-height": 1.2,
+				"text-allow-overlap": true,
+				"text-ignore-placement": false,
+				"text-rotation-alignment": "map",
+				"text-pitch-alignment": "map",
+				"text-rotate": -16
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 0%)",
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.2, 15, 0.2, 16, 0],
+				"text-halo-width": 0,
+				"text-halo-color": "hsl(50, 10%, 93%)"
+			}
+		}		
 	]
 }
