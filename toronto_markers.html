@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>toronto-map</title>
+    <meta property="og:description" content="Toronto Map" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="toronto-events"></div>
+        <div class="map-wrapper">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script>
+
+        const torontoBounds = [
+            [-79.67, 43.56],
+            [-79.09, 43.88]
+        ];
+
+        const map = new maplibregl.Map({
+            container: "map",
+            style: "toronto_roadway.json",
+            center: [-79.381394, 43.656482],
+            maxBounds: "",
+            zoom: 16,
+            minZoom: 0,
+            maxZoom: 18,
+            bearing: -16.8,
+            pitch: 0,
+            fadeDuration: 0,
+            hash: true,
+            pixelRatio: 1
+        });
+
+        map.on("load", async () => {
+
+            // 1. load markers
+            const imageNames = [
+                "finger",
+                "red_pin"
+            ];
+            for (const name of imageNames) {
+                const img = await map.loadImage(
+                    `assets/markers/${name}.png`
+                );
+                if (!map.hasImage(name)) {
+                    map.addImage(name, img.data);
+                }
+            }
+
+            map.on("styleimagemissing", async (e) => {
+                const id = e.id;
+                try {
+                    const img = await map.loadImage(
+                        `assets/markers/${id}.png`
+                    );
+                    if (!map.hasImage(id)) {
+                        map.addImage(id, img.data);
+                    }
+                } catch (err) {
+                    console.error(
+                        "missing image failed:",
+                        id,
+                        err
+                    );
+                }
+            });
+
+            // 2. load geojson
+            const res = await fetch("data/toronto_events.geojson");
+            const geojson = await res.json();
+
+            // 3. add source
+            map.addSource("toronto-events", {
+                type: "geojson",
+                data: geojson
+            });
+
+            // 4. add symbol layer
+            // map.addLayer({
+            //     id: "toronto-events",
+            //     type: "symbol",
+            //     source: "toronto-events",
+
+            //     layout: {
+            //         "icon-image": "red_pin",
+            //         "icon-size":  ["interpolate", ["linear"], ["zoom"], 10, 0, 16, 0.6],
+            //         "icon-anchor": "bottom",
+            //         "icon-allow-overlap": true,
+            //         "icon-ignore-placement": true
+            //     },
+            //     paint: {
+            //         "icon-color": "#fff"
+            //     }
+            // });
+
+            map.on("click", (e) => {
+                const features = map.queryRenderedFeatures(
+                    e.point
+                );
+                console.log(features);
+            });
+
+            //map.showCollisionBoxes = true;
+
+        });
+
+    </script>
+
+</body>
+
+</html>
