@@ -38,10 +38,6 @@
 		"toronto_centreline": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline/{z}/{x}/{y}.pbf"]
-		},
-		"toronto_centreline_low": {
-			"type": "vector",
-			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline_low/{z}/{x}/{y}.pbf"]
 		},		
 		"toronto_property_boundary_lines": {
 			"type": "vector",
@@ -137,29 +133,6 @@
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 0
 			}
-		},
-		{
-			"id": "centreline-label-low",
-			"source": "toronto_centreline_low",
-			"source-layer": "toronto_centreline_low",
-			"type": "symbol",
-			"layout": {
-				"text-field": "{LINEAR_NAME_FULL}",
-				"text-transform": "uppercase",
-				"text-rotation-alignment": "map",
-				"text-font": [ "montserrat-semibold" ],
-				"text-letter-spacing": 0.2,
-				"symbol-placement": "line",
-				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
-				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 60 ]
-			},
-			"paint": {
-				"text-color": "hsl(202, 90%, 16%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 10, 0, 11, 1 ],
-				"text-halo-color": "hsl(50, 10%, 93%)",
-				"text-halo-width": 0
-			}
-		}					
+		}			
 	]
 }
