@@ -95,7 +95,7 @@
                     "fill-extrusion-color": "#018B76",
                     "fill-extrusion-height": ["case", ["!=", ["get", "max_height"], null], ["*", ["get", "max_height"], 0.5], ["!=", ["get", "avg_height"], null], ["*", ["get", "avg_height"], 0.5], 5],
                     "fill-extrusion-base": 0,
-                    "fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2, 17, 0.2, 18, 0]
+                    "fill-extrusion-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4, 17, 0.4, 18, 0]
                }
           },
           {

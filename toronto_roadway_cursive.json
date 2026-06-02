@@ -71,6 +71,36 @@
 			}
 		},
 		{
+			"id": "neighborhood-labels",
+			"type": "symbol",
+			"source": "toronto_neighborhood_centroids",
+			"source-layer": "toronto_neighborhood_centroids",
+			"layout": {
+				"text-field": ["get", "area_name"],
+				"text-size": [
+					"interpolate",
+					["linear"],
+					["zoom"],
+					12, 12,
+					16, 40
+				],
+				"text-font": ["dancing-script"],
+				"text-max-width": 5,
+				"text-line-height": 1.2,
+				"text-allow-overlap": true,
+				"text-ignore-placement": false,
+				"text-rotation-alignment": "map",
+				"text-pitch-alignment": "map",
+				"text-rotate": -16
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 100%)",
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 15, 0.4, 16, 0],
+				"text-halo-width": 0,
+				"text-halo-color": "hsl(50, 10%, 93%)"
+			}
+		},		
+		{
 			"id": "centreline-label-minor",
 			"source": "toronto_centreline",
 			"source-layer": "toronto_centreline",
