@@ -73,6 +73,29 @@
 			}
 		},
 		{
+			"id": "property_boundary_line",
+			"source": "toronto_property_boundary_lines",
+			"source-layer": "toronto_property_boundary_lines",
+			"type": "line",
+			"paint": {
+				"line-color": "hsl(50, 10%, 0%)",
+				"line-width": 2,
+				"line-dasharray": [2, 2],
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			}
+		},
+		{
+			"id": "green-spaces-outline",
+			"source": "toronto_green_spaces",
+			"source-layer": "toronto_green_spaces",
+            "type": "line",
+			"paint": {
+			  "line-color": "hsl(50, 10%, 0%)",
+			  "line-width": 6,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			}
+		},		
+		{
 			"id": "green-spaces",
 			"source": "toronto_green_spaces",
 			"source-layer": "toronto_green_spaces",
@@ -81,7 +104,7 @@
 			  "fill-color": "hsl(50, 10%, 93%)",
 			  "fill-opacity": 1
 			}
-		},
+		},		
 		{
 			"id": "green-spaces-hatch",
 			"source": "toronto_green_spaces_hatch",
@@ -93,18 +116,6 @@
 			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
 			}
 		},				
-		{
-			"id": "property_boundary_line",
-			"source": "toronto_property_boundary_lines",
-			"source-layer": "toronto_property_boundary_lines",
-			"type": "line",
-			"paint": {
-				"line-color": "hsl(50, 10%, 0%)",
-				"line-width": 2,
-				"line-dasharray": [2, 2],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
-			}
-		},		
 		{
 			"id": "roadway-outline",
 			"source": "toronto_roadway",
@@ -125,7 +136,17 @@
 			  "fill-color": "hsl(50, 10%, 93%)",
 			  "fill-opacity": 1
 			}
-		},		
+		},
+		{
+			"id": "sidewalk",
+			"source": "toronto_sidewalks",
+			"source-layer": "toronto_sidewalks",
+            "type": "fill",
+			"paint": {
+			  "fill-color": "hsl(50, 10%, 70%)",
+			  "fill-opacity": 0.1
+			}
+		},						
 		{
 			"id": "address-points",
 			"source": "toronto_address_points",
@@ -146,9 +167,45 @@
 				"text-color": "hsl(50, 10%, 0%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
-				"text-halo-width": 10
+				"text-halo-width": 5
 			}
-		},		
+		},
+		{
+			"id": "toronto-address-labels",
+			"type": "symbol",
+			"source": "toronto_address_points",
+			"source-layer": "toronto_address_points",
+			"filter": [
+				"all",
+				["has", "place_name"],
+				["!=", ["get", "place_name"], "None"]
+			],
+			"layout": {
+				"text-font": [ "montserrat-regular" ],
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ],
+				"text-field": ["get", "place_name"],
+				"text-max-width": 8,
+				"text-line-height": 1,
+				"icon-anchor": "bottom",
+				"text-anchor": "top",
+				"icon-allow-overlap": false,
+				"text-allow-overlap": false,
+				"icon-ignore-placement": false,
+				"text-ignore-placement": false
+			},
+			"paint": {
+				"text-color": "hsl(50, 10%, 0%)",
+				"text-opacity": [
+					"interpolate",
+					["linear"],
+					["zoom"],
+					15, 0,
+					16, 0.4
+				],
+				"text-halo-color": "hsl(50, 10%, 93%)",
+				"text-halo-width": 5
+			}
+		},				
 		{
 			"id": "centreline-label-minor",
 			"source": "toronto_centreline",
