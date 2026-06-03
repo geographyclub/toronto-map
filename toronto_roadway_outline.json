@@ -50,7 +50,15 @@
 		"toronto_sidewalks": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_sidewalks/{z}/{x}/{y}.pbf"]
-		},		
+		},
+		"toronto_green_spaces": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_green_spaces/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_green_spaces_hatch": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_green_spaces_hatch/{z}/{x}/{y}.pbf"]
+		},						
 		"toronto_address_points": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_address_points/{z}/{x}/{y}.pbf"]
@@ -64,6 +72,27 @@
 				"background-color": "hsl(50, 10%, 93%)"
 			}
 		},
+		{
+			"id": "green-spaces",
+			"source": "toronto_green_spaces",
+			"source-layer": "toronto_green_spaces",
+            "type": "fill",
+			"paint": {
+			  "fill-color": "hsl(50, 10%, 93%)",
+			  "fill-opacity": 1
+			}
+		},
+		{
+			"id": "green-spaces-hatch",
+			"source": "toronto_green_spaces_hatch",
+			"source-layer": "toronto_green_spaces_hatch",
+            "type": "line",
+			"paint": {
+			  "line-color": "hsl(50, 10%, 0%)",
+			  "line-width": 1,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			}
+		},				
 		{
 			"id": "property_boundary_line",
 			"source": "toronto_property_boundary_lines",
