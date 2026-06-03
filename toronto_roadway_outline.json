@@ -78,10 +78,10 @@
 			"source-layer": "toronto_property_boundary_lines",
 			"type": "line",
 			"paint": {
-				"line-color": "hsl(50, 10%, 0%)",
+				"line-color": "hsl(0, 0%, 50%)",
 				"line-width": 2,
 				"line-dasharray": [2, 2],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
 			}
 		},
 		{
@@ -90,9 +90,9 @@
 			"source-layer": "toronto_green_spaces",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(50, 10%, 0%)",
+			  "line-color": "hsl(0, 0%, 50%)",
 			  "line-width": 6,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
 			}
 		},		
 		{
@@ -111,9 +111,9 @@
 			"source-layer": "toronto_green_spaces_hatch",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(50, 10%, 0%)",
+			  "line-color": "hsl(0, 0%, 50%)",
 			  "line-width": 1,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
 			}
 		},				
 		{
@@ -122,9 +122,9 @@
 			"source-layer": "toronto_roadway",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(50, 10%, 0%)",
+			  "line-color": "hsl(0, 0%, 50%)",
 			  "line-width": 6,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.2]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
 			}
 		},
 		{
@@ -159,49 +159,41 @@
 				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "point",
+				"symbol-sort-key": 1,
 				"text-anchor": "center",
 				"text-rotate": -16,
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ]
 			},
 			"paint": {
-				"text-color": "hsl(50, 10%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
+				"text-color": "hsl(0, 0%, 60%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
 			}
 		},
 		{
-			"id": "toronto-address-labels",
-			"type": "symbol",
+			"id": "address-labels",
 			"source": "toronto_address_points",
 			"source-layer": "toronto_address_points",
 			"filter": [
 				"all",
 				["has", "place_name"],
 				["!=", ["get", "place_name"], "None"]
-			],
+			],			
+			"type": "symbol",
 			"layout": {
-				"text-font": [ "montserrat-regular" ],
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ],
 				"text-field": ["get", "place_name"],
-				"text-max-width": 8,
-				"text-line-height": 1,
-				"icon-anchor": "bottom",
-				"text-anchor": "top",
-				"icon-allow-overlap": false,
-				"text-allow-overlap": false,
-				"icon-ignore-placement": false,
-				"text-ignore-placement": false
+				"text-rotation-alignment": "map",
+				"text-font": [ "montserrat-regular" ],
+				"symbol-placement": "point",
+				"symbol-sort-key": 10,
+				"text-anchor": "center",
+				"text-rotate": -16,
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ]
 			},
 			"paint": {
-				"text-color": "hsl(50, 10%, 0%)",
-				"text-opacity": [
-					"interpolate",
-					["linear"],
-					["zoom"],
-					15, 0,
-					16, 0.4
-				],
+				"text-color": "hsl(0, 0%, 60%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
 			}
@@ -227,15 +219,16 @@
 				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
+				"symbol-sort-key": 100,
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 30 ]
 			},
 			"paint": {
-				"text-color": "hsl(50, 10%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
+				"text-color": "hsl(0, 0%, 60%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
-				"text-halo-width": 0
+				"text-halo-width": 5
 			}
 		},
 		{
@@ -259,15 +252,16 @@
 				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
+				"symbol-sort-key": 100,
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 60 ]
 			},
 			"paint": {
-				"text-color": "hsl(50, 10%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 0.4 ],
+				"text-color": "hsl(0, 0%, 60%)",
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
-				"text-halo-width": 0
+				"text-halo-width": 5
 			}
 		},
 		{
@@ -284,7 +278,7 @@
 					12, 6,
 					16, 40
 				],
-				"text-font": ["montserrat-regular"],
+				"text-font": ["montserrat-semibold"],
 				"text-transform": "uppercase",
 				"text-max-width": 5,
 				"text-line-height": 1.2,
@@ -296,7 +290,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 0%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 17, 0.4, 18, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.2, 17, 0.2, 18, 0],
 				"text-halo-width": 0,
 				"text-halo-color": "hsl(50, 10%, 93%)"
 			}
