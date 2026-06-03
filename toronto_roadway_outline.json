@@ -47,6 +47,10 @@
 			"type": "vector",
 			"tiles": ["https://mapcity.io/toronto-bia/data/toronto_roadway/{z}/{x}/{y}.pbf"]
 		},
+		"toronto_sidewalks": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_sidewalks/{z}/{x}/{y}.pbf"]
+		},		
 		"toronto_address_points": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_address_points/{z}/{x}/{y}.pbf"]
@@ -92,7 +96,7 @@
 			  "fill-color": "hsl(50, 10%, 93%)",
 			  "fill-opacity": 1
 			}
-		},	
+		},		
 		{
 			"id": "address-points",
 			"source": "toronto_address_points",
@@ -206,7 +210,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 0%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.2, 15, 0.2, 16, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.4, 17, 0.4, 18, 0],
 				"text-halo-width": 0,
 				"text-halo-color": "hsl(50, 10%, 93%)"
 			}
