@@ -159,7 +159,7 @@
 				"text-font": [ "montserrat-regular" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "point",
-				"symbol-sort-key": 1,
+				"symbol-sort-key": 0,
 				"text-anchor": "center",
 				"text-rotate": -16,
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ]

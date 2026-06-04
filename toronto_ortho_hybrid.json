@@ -67,16 +67,21 @@
                "type": "raster",
                "tiles": ["https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer/tile/{z}/{y}/{x}"],
                "tileSize": 256
-          }
+          },
+		"toronto_green_spaces": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_green_spaces/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_green_spaces_hatch": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_green_spaces_hatch/{z}/{x}/{y}.pbf"]
+		},
+          "toronto_contours": {
+               "type": "vector",
+               "tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_contours/{z}/{x}/{y}.pbf"]
+          }                   
      },
      "layers": [
-          {
-               "id": "background",
-               "type": "background",
-               "paint": {
-                    "background-color": "hsl(50, 10%, 93%)"
-               }
-          },
           {
                "id": "toronto_ortho",
                "type": "raster",
@@ -89,6 +94,49 @@
                     "raster-hue-rotate": 0
                }
           },
+		{
+			"id": "roadway",
+			"source": "toronto_roadway",
+			"source-layer": "toronto_roadway",
+               "type": "fill",
+			"paint": {
+			  "fill-color": "hsl(50, 10%, 0%)",
+			  "fill-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.6]
+			}
+		},
+		{
+			"id": "green-spaces-outline",
+			"source": "toronto_green_spaces",
+			"source-layer": "toronto_green_spaces",
+               "type": "line",
+			"paint": {
+			  "line-color": "hsl(0, 0%, 100%)",
+			  "line-width": 1,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+			}
+		},				
+		{
+			"id": "green-spaces-hatch",
+			"source": "toronto_green_spaces_hatch",
+			"source-layer": "toronto_green_spaces_hatch",
+            "type": "line",
+			"paint": {
+			  "line-color": "hsl(0, 0%, 100%)",
+			  "line-width": 1,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+			}
+		},		          
+		{
+			"id": "buildings",
+			"source": "toronto_buildings",
+			"source-layer": "toronto_buildings",
+               "type": "line",
+			"paint": {
+			  "line-color": "hsl(50, 10%, 100%)",
+                 "line-width": 1,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+			}
+		},                      
           {
                "source": "osm",
                "id": "poi-amenity",
