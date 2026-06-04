@@ -96,15 +96,14 @@ map.addLayer({
     type: "symbol",
     source: "osm",
     "source-layer": "pois",
-    filter: ["any", ["has", "amenity"], ["has", "leisure"], ["has", "tourism"], ["has", "shop"], ["has", "man_made"], ["has", "historic"], ["has", "emergency"], ["has", "highway"], ["has", "office"]],
-    minzoom: 16,
+    filter: ["all", ["any", ["has", "amenity"], ["has", "leisure"], ["has", "tourism"], ["has", "shop"], ["has", "man_made"], ["has", "historic"], ["has", "emergency"], ["has", "highway"], ["has", "office"]], ["has", "name"]],
     layout: {
         "symbol-placement": "point",
         "icon-optional": true,
         "text-size": 10,
         "icon-anchor": "bottom",
         "text-anchor": "top",
-        "text-field": "{name}",
+        "text-field": ["concat", ["coalesce", ["get", "name"], ""], "\n(", ["coalesce", ["get", "amenity"], ["get", "leisure"], ["get", "tourism"], ["get", "shop"], ["get", "man_made"], ["get", "historic"], ["get", "emergency"], "misc"], ")"],
         "text-font": ["notosans"],
         "icon-size": ["interpolate", ["linear"], ["zoom"], 16, 0.5, 19, 0.5, 20, 1],
         "icon-image": ["match",
@@ -122,6 +121,73 @@ map.addLayer({
     paint: {
         "icon-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17, 0.4],
         "text-opacity": ["interpolate", ["linear"], ["zoom"], 16, 0, 17, 0.4],
+        "icon-color": "#555555",
+        "text-color": "#555555"
+    }
+});
+
+map.addLayer({
+    id: "symbol-transit",
+    type: "symbol",
+    source: "osm",
+    "source-layer": "public_transport",
+
+    filter: [
+        "all",
+        ["any",
+            ["==", "kind", "bus_stop"],
+            ["==", "kind", "tram_stop"],
+            ["==", "kind", "aerodrome"],
+            ["in", "kind", "station", "halt"]
+        ]
+    ],
+
+    layout: {
+        "text-field": "{name}",
+        "symbol-placement": "point",
+        "icon-keep-upright": true,
+        "text-font": ["notosans"],
+        "text-size": 10,
+        "icon-anchor": "bottom",
+        "text-anchor": "top",
+        "icon-size": ["interpolate", ["linear"], ["zoom"], 16, 0.5, 19, 0.5, 20, 1],
+        "icon-image": [
+            "match",
+            ["coalesce", ["get", "kind"], ["get", "station"]],
+
+            "bus_stop", "icon-bus",
+            "tram_stop", "transport-tram",
+
+            "subway", "icon-rail_metro",
+            "light_rail", "icon-rail_light",
+
+            "station", "icon-rail",
+
+            "aerodrome", [
+                "case",
+                ["has", "iata"], "icon-airport",
+                "icon-airfield"
+            ],
+
+            "icon-rail"
+        ]
+    },
+
+    paint: {
+        "icon-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            16, 0,
+            17, 0.4
+        ],
+        "text-opacity": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            16, 0,
+            17, 0.4
+        ],
         "icon-color": "#555555",
         "text-color": "#555555"
     }
