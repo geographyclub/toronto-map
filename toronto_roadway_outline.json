@@ -81,7 +81,7 @@
 				"line-color": "hsl(0, 0%, 0%)",
 				"line-width": 1,
 				"line-dasharray": [2, 2],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 15.5, 1]
 			}
 		},
 		{
@@ -92,7 +92,7 @@
 			"paint": {
 			  "line-color": "hsl(0, 0%, 0%)",
 			  "line-width": 3,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 15.5, 1]
 			}
 		},		
 		{
@@ -113,7 +113,7 @@
 			"paint": {
 			  "line-color": "hsl(0, 0%, 0%)",
 			  "line-width": 1,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 15.5, 1]
 			}
 		},				
 		{
@@ -124,7 +124,7 @@
 			"paint": {
 			  "line-color": "hsl(0, 0%, 0%)",
 			  "line-width": 3,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 15.5, 1]
 			}
 		},
 		{
@@ -145,7 +145,7 @@
 			"paint": {
 			  "line-color": "hsl(0, 0%, 0%)",
 			  "line-width": 2,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 1, 11, 0.4, 16, 0.4, 17, 0]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 1, 10.5, 0.4, 16.5, 0.4, 17, 0]
 			}
 		},								
 		{
@@ -167,7 +167,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(0, 0%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 15.5, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
 			}
@@ -194,7 +194,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(0, 0%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 15.5, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
 			}
@@ -227,7 +227,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(0, 0%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 15.5, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
 			}
@@ -260,7 +260,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(0, 0%, 0%)",
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
+				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 15.5, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
 			}
@@ -276,8 +276,8 @@
 					"interpolate",
 					["linear"],
 					["zoom"],
-					12, 6,
-					16, 40
+					12, 4,
+					18, 60
 				],
 				"text-font": ["montserrat-semibold"],
 				"text-transform": "uppercase",
@@ -292,7 +292,7 @@
 			},
 			"paint": {
 				"text-color": "hsl(50, 10%, 93%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1, 17, 1, 18, 0],
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 12.5, 1, 17.5, 1, 18, 0],
 				"text-halo-width": 2,
 				"text-halo-color": "hsla(0, 0%, 0%, 1)"
 			}
