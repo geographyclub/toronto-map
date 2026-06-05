@@ -88,12 +88,12 @@
 				"text-field": "{LINEAR_NAME_FULL}",
 				"text-transform": "uppercase",
 				"text-rotation-alignment": "map",
-				"text-font": [ "montserrat-regular" ],
+				"text-font": [ "montserrat-semibold" ],
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 30 ]
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 35 ]
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 100%)",
@@ -125,7 +125,7 @@
 				"symbol-placement": "line",
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 60 ]
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 40 ]
 			},
 			"paint": {
 				"text-color": "hsl(202, 90%, 100%)",
@@ -133,6 +133,37 @@
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 0
 			}
-		}			
+		},
+		{
+			"id": "neighborhood-labels",
+			"type": "symbol",
+			"source": "toronto_neighborhood_centroids",
+			"source-layer": "toronto_neighborhood_centroids",
+			"layout": {
+				"text-field": ["get", "area_name"],
+				"text-size": [
+					"interpolate",
+					["linear"],
+					["zoom"],
+					12, 6,
+					16, 40
+				],
+				"text-font": ["montserrat-semibold"],
+				"text-transform": "uppercase",
+				"text-max-width": 5,
+				"text-line-height": 1.2,
+				"text-allow-overlap": true,
+				"text-ignore-placement": false,
+				"text-rotation-alignment": "map",
+				"text-pitch-alignment": "map",
+				"text-rotate": -16
+			},
+			"paint": {
+				"text-color": "hsl(202, 90%, 0%)",
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.2, 17, 0.2, 18, 0],
+				"text-halo-width": 0,
+				"text-halo-color": "hsl(50, 10%, 93%)"
+			}
+		}					
 	]
 }

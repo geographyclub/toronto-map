@@ -217,37 +217,6 @@
 				"line-dasharray": [ 2, 2 ],
 				"line-opacity": { "stops": [ [ 14, 0 ], [ 15, 1 ] ] }
 			}
-		},
-		{
-			"source": "osm",
-			"id": "poi-amenity",
-			"type": "symbol",
-			"source-layer": "pois",
-			"filter": [ "all", [ "to-boolean", [ "get", "amenity" ] ], ["!=", ["get", "name"], null] ],
-			"layout": {
-				"icon-size": 0.5,
-				"symbol-placement": "point",
-				"icon-optional": true,
-				"icon-image": ["match", ["get", "amenity"], "arts_centre", "art-gallery", "atm", "bank", "bank", "bank", "bar", "bar", "bench", "picnic-site", "bicycle_rental", "bicycle-share", "biergarten", "beergarden", "bus_stop", "bus", "cafe", "cafe", "car_rental", "car-rental", "car_sharing", "car-rental", "car_wash", "car-rental", "cinema", "cinema", "college", "college", "community_centre", "building", "dentist", "dentist", "doctors", "doctor", "dog_park", "dog_park", "drinking_water", "drinking_water", "embassy", "embassy", "fast_food", "fast-food", "fire_station", "fire-station", "fountain", "water", "grave_yard", "cemetery", "hospital", "hospital", "hunting_stand", "huntingstand", "library", "library", "light_rail", "rail-light", "marketplace", "grocery", "nightclub", "nightclub", "nursing_home", "nursinghome", "pharmacy", "pharmacy", "place_of_worship", "place-of-worship", "playground", "playground", "police", "police", "post_box", "post", "post_office", "post", "prison", "prison", "pub", "beer", "recycling", "recycling", "restaurant", "restaurant", "school", "school", "shelter", "shelter", "station", "rail-metro", "telephone", "telephone", "theatre", "theatre", "toilets", "toilet", "townhall", "town-hall", "tram_stop", "rail-light", "vending_machine", "convenience", "veterinary", "veterinary", "waste_basket", "waste_basket", "marker"],
-				"text-font": [ "montserrat-semibold" ],
-				"text-size": 10,
-				"text-field": ["get", "name"],
-				"text-max-width": 8,
-				"text-line-height": 1,
-				"icon-anchor": "bottom",
-				"text-anchor": "top",
-				"icon-allow-overlap": false,
-				"text-allow-overlap": false,
-				"icon-ignore-placement": false,
-				"text-ignore-placement": false
-			},
-			"paint": {
-				"icon-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
-				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
-				"icon-color": "hsl(227, 89%, 90%)",
-				"text-color": "hsl(227, 89%, 90%)"
-			},
-			"minzoom": 15
 		}
 	]
 }

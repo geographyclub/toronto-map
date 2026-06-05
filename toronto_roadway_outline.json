@@ -78,10 +78,10 @@
 			"source-layer": "toronto_property_boundary_lines",
 			"type": "line",
 			"paint": {
-				"line-color": "hsl(0, 0%, 50%)",
-				"line-width": 2,
+				"line-color": "hsl(0, 0%, 0%)",
+				"line-width": 1,
 				"line-dasharray": [2, 2],
-				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+				"line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
 		},
 		{
@@ -90,9 +90,9 @@
 			"source-layer": "toronto_green_spaces",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(0, 0%, 50%)",
-			  "line-width": 6,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+			  "line-color": "hsl(0, 0%, 0%)",
+			  "line-width": 3,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
 		},		
 		{
@@ -111,9 +111,9 @@
 			"source-layer": "toronto_green_spaces_hatch",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(0, 0%, 50%)",
+			  "line-color": "hsl(0, 0%, 0%)",
 			  "line-width": 1,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
 		},				
 		{
@@ -122,9 +122,9 @@
 			"source-layer": "toronto_roadway",
             "type": "line",
 			"paint": {
-			  "line-color": "hsl(0, 0%, 50%)",
-			  "line-width": 6,
-			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 0.4]
+			  "line-color": "hsl(0, 0%, 0%)",
+			  "line-width": 3,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 15, 0, 16, 1]
 			}
 		},
 		{
@@ -138,15 +138,16 @@
 			}
 		},
 		{
-			"id": "sidewalk",
-			"source": "toronto_sidewalks",
-			"source-layer": "toronto_sidewalks",
-            "type": "fill",
+			"id": "neighborhoods",
+			"source": "toronto_neighborhoods",
+			"source-layer": "toronto_neighborhoods",
+            "type": "line",
 			"paint": {
-			  "fill-color": "hsl(50, 10%, 70%)",
-			  "fill-opacity": 0.1
+			  "line-color": "hsl(0, 0%, 0%)",
+			  "line-width": 2,
+			  "line-opacity": ["interpolate", ["linear"], ["zoom"], 10, 1, 11, 0.4, 16, 0.4, 17, 0]
 			}
-		},						
+		},								
 		{
 			"id": "address-points",
 			"source": "toronto_address_points",
@@ -165,7 +166,7 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ]
 			},
 			"paint": {
-				"text-color": "hsl(0, 0%, 60%)",
+				"text-color": "hsl(0, 0%, 0%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
@@ -192,7 +193,7 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 0, 18, 12 ]
 			},
 			"paint": {
-				"text-color": "hsl(0, 0%, 60%)",
+				"text-color": "hsl(0, 0%, 0%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
@@ -225,7 +226,7 @@
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 30 ]
 			},
 			"paint": {
-				"text-color": "hsl(0, 0%, 60%)",
+				"text-color": "hsl(0, 0%, 0%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
@@ -255,10 +256,10 @@
 				"symbol-sort-key": 100,
 				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
-				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 60 ]
+				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 40 ]
 			},
 			"paint": {
-				"text-color": "hsl(0, 0%, 60%)",
+				"text-color": "hsl(0, 0%, 0%)",
 				"text-opacity": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 0, 16, 1 ],
 				"text-halo-color": "hsl(50, 10%, 93%)",
 				"text-halo-width": 5
@@ -282,6 +283,7 @@
 				"text-transform": "uppercase",
 				"text-max-width": 5,
 				"text-line-height": 1.2,
+				"text-letter-spacing": 0.4,
 				"text-allow-overlap": true,
 				"text-ignore-placement": false,
 				"text-rotation-alignment": "map",
@@ -289,11 +291,11 @@
 				"text-rotate": -16
 			},
 			"paint": {
-				"text-color": "hsl(202, 90%, 0%)",
-				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 0.2, 17, 0.2, 18, 0],
-				"text-halo-width": 0,
-				"text-halo-color": "hsl(50, 10%, 93%)"
+				"text-color": "hsl(50, 10%, 93%)",
+				"text-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1, 17, 1, 18, 0],
+				"text-halo-width": 2,
+				"text-halo-color": "hsla(0, 0%, 0%, 1)"
 			}
-		}		
+		}			
 	]
 }
