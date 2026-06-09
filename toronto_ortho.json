@@ -67,7 +67,15 @@
                "type": "raster",
                "tiles": ["https://gis.toronto.ca/arcgis/rest/services/basemap/cot_ortho/MapServer/tile/{z}/{y}/{x}"],
                "tileSize": 256
-          }
+          },
+		"toronto_green_spaces": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_green_spaces/{z}/{x}/{y}.pbf"]
+		},
+		"toronto_green_spaces_hatch": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_green_spaces_hatch/{z}/{x}/{y}.pbf"]
+		}          
      },
      "layers": [
           {
