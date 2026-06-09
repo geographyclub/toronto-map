@@ -79,7 +79,11 @@
 		"toronto_zoning": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_zoning/{z}/{x}/{y}.pbf"]
-		}                      
+		},
+		"toronto_zoning_centroids": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_zoning_centroids/{z}/{x}/{y}.pbf"]
+		}                                 
      },
      "layers": [
           {
@@ -140,7 +144,25 @@
                     ],
                     "fill-opacity": 0.2
                }
-          },          
+          },
+          {
+               "id": "toronto-zoning-labels",
+               "type": "symbol",
+               "source": "toronto_zoning_centroids",
+               "source-layer": "toronto_zoning_centroids",
+               "layout": {
+                         "text-field": ["get", "zn_zone"],
+                         "text-font": ["montserrat-black"],
+                         "text-size": ["interpolate", ["exponential", 1.5], ["zoom"], 10, 10, 16, 60],
+                         "text-letter-spacing": 0,
+                         "text-allow-overlap": true,
+                         "text-ignore-placement": true
+               },
+               "paint": {
+                         "text-color": "#fff",
+                         "text-opacity": 0.4
+               }
+          },                    
           {
                "source": "osm",
                "id": "poi-amenity",
@@ -286,6 +308,6 @@
                     "text-halo-width": 0,
                     "text-halo-color": "hsl(0, 0%, 0%)"
                }
-          }
+          }       
      ]
 }
