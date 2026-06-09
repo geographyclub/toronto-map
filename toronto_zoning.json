@@ -153,7 +153,16 @@
                "layout": {
                          "text-field": ["get", "zn_zone"],
                          "text-font": ["montserrat-black"],
-                         "text-size": ["interpolate", ["exponential", 1.5], ["zoom"], 10, 10, 16, 60],
+                         "text-size": [
+                              "interpolate",
+                              ["linear"],
+                              ["get", "area"],
+                              10000, 10,
+                              100000, 20,
+                              1000000, 30,
+                              10000000, 40,
+                              100000000, 60
+                         ],
                          "text-letter-spacing": 0,
                          "text-allow-overlap": true,
                          "text-ignore-placement": true
