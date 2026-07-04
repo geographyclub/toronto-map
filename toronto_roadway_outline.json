@@ -39,6 +39,10 @@
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_centreline/{z}/{x}/{y}.pbf"]
 		},
+		"toronto_property_boundaries": {
+			"type": "vector",
+			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_property_boundaries/{z}/{x}/{y}.pbf"]
+		},		
 		"toronto_property_boundary_lines": {
 			"type": "vector",
 			"tiles": ["https://geographyclub.github.io/toronto-map/data/toronto_property_boundary_lines/{z}/{x}/{y}.pbf"]
@@ -221,7 +225,6 @@
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
 				"symbol-sort-key": 100,
-				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 4, 20, 30 ]
 			},
@@ -254,7 +257,6 @@
 				"text-letter-spacing": 0.2,
 				"symbol-placement": "line",
 				"symbol-sort-key": 100,
-				"symbol-spacing": [ "interpolate", [ "linear" ], [ "zoom" ], 15, 250, 20, 300 ],
 				"text-anchor": "center",
 				"text-size": [ "interpolate", [ "exponential", 1.5 ], [ "zoom" ], 15, 6, 20, 40 ]
 			},
