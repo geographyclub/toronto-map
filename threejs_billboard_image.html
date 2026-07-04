@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Multiple Flat Panels from GeoJSON using three.js</title>
+    <meta property="og:description" content="Use a custom style layer with three.js to add multiple flat 3D panels with images from GeoJSON data to the map." />
+    <meta property="og:created" content="2026-07-03" />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js'></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<script type="importmap">
+    {
+        "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+    }
+</script>
+<div id="map"></div>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+    const map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://tiles.openfreemap.org/styles/bright',
+        zoom: 18,
+        center: [148.9819, -35.3981],
+        pitch: 60,
+        canvasContextAttributes: {antialias: true} // create the gl context with MSAA antialiasing, so custom layers are antialiased
+    });
+
+    // Helper function to convert degrees to radians
+    function degToRad(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    // GeoJSON data for multiple panels with random coordinates
+    const panelsGeoJSON = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [148.9815, -35.3982] // [longitude, latitude] - Random location 1
+                },
+                "properties": {
+                    "id": "panel-1",
+                    "image_url": "img/directory/dtw_6145.png",
+                    "title": "South Korea Flag",
+                    "orientation": 11.5,  // Rotation in degrees
+                    "width": 20,           // Width in meters
+                    "height": null        // Will be calculated from aspect ratio
+                }
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [148.9823, -35.3985] // [longitude, latitude] - Random location 2
+                },
+                "properties": {
+                    "id": "panel-2",
+                    "image_url": "https://upload.wikimedia.org/wikipedia/en/f/f3/Flag_of_Russia.svg",
+                    "title": "Russia Flag",
+                    "orientation": -17.2,  // Rotation in degrees
+                    "width": 20,          // Width in meters
+                    "height": null        // Will be calculated from aspect ratio
+                }
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [148.9812, -35.3987] // [longitude, latitude] - Random location 3
+                },
+                "properties": {
+                    "id": "panel-3",
+                    "image_url": "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg",
+                    "title": "UK Flag",
+                    "orientation": 28.6,   // Rotation in degrees
+                    "width": 20,            // Width in meters
+                    "height": null        // Will be calculated from aspect ratio
+                }
+            }
+        ]
+    };
+
+    // Process GeoJSON data to extract panel information
+    const panelTransforms = panelsGeoJSON.features.map(feature => {
+        const coordinates = feature.geometry.coordinates;
+        const props = feature.properties;
+        
+        const panelAsMercatorCoordinate = maplibregl.MercatorCoordinate.fromLngLat(
+            [coordinates[0], coordinates[1]], // [longitude, latitude]
+            0  // altitude defaults to 0
+        );
+        
+        return {
+            id: props.id,
+            origin: [coordinates[0], coordinates[1]],
+            textureUrl: props.image_url,
+            title: props.title || '',
+            orientation: degToRad(props.orientation || 0), // Convert degrees to radians
+            width: props.width || 100,  // Width from properties (in meters)
+            height: props.height,       // Height from properties (null if should be calculated from aspect ratio)
+            transform: {
+                translateX: panelAsMercatorCoordinate.x,
+                translateY: panelAsMercatorCoordinate.y,
+                translateZ: panelAsMercatorCoordinate.z,
+                rotateX: Math.PI / 2, // Fixed rotation to stand vertically
+                rotateY: 0,
+                rotateZ: 0,
+                scale: panelAsMercatorCoordinate.meterInMercatorCoordinateUnits()
+            }
+        };
+    });
+
+
+    // configuration of the custom layer for multiple 3D panels from GeoJSON
+    const customLayer = {
+        id: 'geojson-panels',
+        type: 'custom',
+        renderingMode: '3d',
+        onAdd (map, gl) {
+            this.camera = new THREE.Camera();
+            this.scene = new THREE.Scene();
+
+            // Create each panel from GeoJSON data
+            this.panels = [];
+            
+            panelTransforms.forEach((panelData, index) => {
+                // Load texture for this specific panel
+                const texture = new THREE.TextureLoader().load(panelData.textureUrl);
+                
+                // Wait for texture to load to get its dimensions
+                texture.onLoad = () => {
+                    // Calculate aspect ratio from the loaded image
+                    const imageAspect = texture.image.width / texture.image.height;
+                    
+                    // Calculate dimensions preserving aspect ratio
+                    const width = panelData.width;
+                    const height = panelData.height !== null ? panelData.height : width / imageAspect;
+                    
+                    // Create a flat panel using PlaneGeometry with calculated dimensions
+                    const panelGeometry = new THREE.PlaneGeometry(width, height);
+                    
+                    // Move the pivot point of the panel to the bottom so it stands on the ground
+                    const matrix = new THREE.Matrix4().makeTranslation(0, height/2, 0); // half of height
+                    panelGeometry.applyMatrix4(matrix);
+                    
+                    // Create material with the loaded texture
+                    const panelMaterial = new THREE.MeshBasicMaterial({ 
+                        map: texture,
+                        side: THREE.DoubleSide // Show both sides of the panel
+                    });
+                    
+                    // Create the panel mesh
+                    const panelMesh = new THREE.Mesh(panelGeometry, panelMaterial);
+                    
+                    // Add the panel to the scene (at origin for now)
+                    this.scene.add(panelMesh);
+                    
+                    // Store reference to this panel along with its transform data
+                    this.panels.push({
+                        id: panelData.id,
+                        mesh: panelMesh,
+                        transform: panelData.transform,
+                        orientation: panelData.orientation
+                    });
+                };
+                
+                // Fallback for cases where texture doesn't load quickly enough
+                // Create a temporary panel with default dimensions
+                const width = panelData.width;
+                const height = width / 2; // Default aspect ratio
+                
+                const panelGeometry = new THREE.PlaneGeometry(width, height);
+                const matrix = new THREE.Matrix4().makeTranslation(0, height/2, 0);
+                panelGeometry.applyMatrix4(matrix);
+                
+                const defaultMaterial = new THREE.MeshBasicMaterial({ 
+                    color: 0x888888, // Gray fallback color
+                    side: THREE.DoubleSide
+                });
+                
+                const panelMesh = new THREE.Mesh(panelGeometry, defaultMaterial);
+                this.scene.add(panelMesh);
+                
+                // Store reference to this panel along with its transform data
+                this.panels.push({
+                    id: panelData.id,
+                    mesh: panelMesh,
+                    transform: panelData.transform,
+                    orientation: panelData.orientation,
+                    pendingTexture: texture // Store reference to the texture to update later
+                });
+            });
+            
+            this.map = map;
+
+            // use the MapLibre GL JS map canvas for three.js
+            this.renderer = new THREE.WebGLRenderer({
+                canvas: map.getCanvas(),
+                context: gl,
+                antialias: true
+            });
+
+            this.renderer.autoClear = false;
+        },
+        render (gl, args) {
+            if (!args || !args.defaultProjectionData || !args.defaultProjectionData.mainMatrix) {
+                return;
+            }
+
+            // Render each panel individually with its own transformation matrix
+            this.panels.forEach((panel, currentIndex) => {
+                // Check if we have a pending texture to update
+                if (panel.pendingTexture && panel.pendingTexture.image && panel.pendingTexture.image.width) {
+                    // Calculate aspect ratio from the loaded image
+                    const imageAspect = panel.pendingTexture.image.width / panel.pendingTexture.image.height;
+                    const newHeight = panel.mesh.geometry.parameters.width / imageAspect;
+                    
+                    // Update the geometry to match the correct aspect ratio
+                    panel.mesh.geometry.dispose(); // Clean up old geometry
+                    const newGeometry = new THREE.PlaneGeometry(panel.mesh.geometry.parameters.width, newHeight);
+                    const matrix = new THREE.Matrix4().makeTranslation(0, newHeight/2, 0);
+                    newGeometry.applyMatrix4(matrix);
+                    panel.mesh.geometry = newGeometry;
+                    
+                    // Update the material with the loaded texture
+                    panel.mesh.material = new THREE.MeshBasicMaterial({ 
+                        map: panel.pendingTexture,
+                        side: THREE.DoubleSide
+                    });
+                    
+                    // Remove the pending texture reference
+                    delete panel.pendingTexture;
+                }
+
+                // Hide all other panels except the current one
+                this.panels.forEach((otherPanel, index) => {
+                    otherPanel.mesh.visible = (index === currentIndex);
+                });
+
+                // Calculate rotation matrices (fixed rotation for vertical panels + orientation)
+                const rotationX = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(1, 0, 0),
+                    panel.transform.rotateX
+                );
+                const rotationY = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(0, 1, 0),
+                    panel.transform.rotateY + panel.orientation  // Apply the orientation rotation (converted to radians)
+                );
+                const rotationZ = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(0, 0, 1),
+                    panel.transform.rotateZ
+                );
+
+                const m = new THREE.Matrix4().fromArray(args.defaultProjectionData.mainMatrix);
+                const l = new THREE.Matrix4()
+                    .makeTranslation(
+                        panel.transform.translateX,
+                        panel.transform.translateY,
+                        panel.transform.translateZ
+                    )
+                    .scale(
+                        new THREE.Vector3(
+                            panel.transform.scale,
+                            -panel.transform.scale,
+                            panel.transform.scale
+                        )
+                    )
+                    .multiply(rotationX)
+                    .multiply(rotationY)
+                    .multiply(rotationZ);
+
+                this.camera.projectionMatrix = m.multiply(l);
+                
+                // Render only the current visible panel
+                this.renderer.resetState();
+                this.renderer.render(this.scene, this.camera);
+            });
+            
+            // Make all panels visible again after rendering
+            this.panels.forEach(panel => {
+                panel.mesh.visible = true;
+            });
+            
+            this.map.triggerRepaint();
+        }
+    };
+
+    map.on('style.load', () => {
+        map.addLayer(customLayer);
+    });
+</script>
+</body>
+</html>

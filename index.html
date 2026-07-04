@@ -33,7 +33,7 @@
             maxBounds: "",
             zoom: 16,
             minZoom: 0,
-            maxZoom: 18,
+            maxZoom: 18.9,
             bearing: -16.8,
             pitch: 0,
             fadeDuration: 0,
@@ -104,16 +104,16 @@
             //     }
             // });
 
-            map.addLayer({
-                id: "toronto-green-spaces",
-                type: "fill",
-                source: "toronto_green_spaces",
-                "source-layer": "toronto_green_spaces",
-                paint: {
-                    "fill-pattern": "dots_medium",
-                    "fill-opacity": 0.2
-                }
-            });
+            // map.addLayer({
+            //     id: "toronto-green-spaces",
+            //     type: "fill",
+            //     source: "toronto_green_spaces",
+            //     "source-layer": "toronto_green_spaces",
+            //     paint: {
+            //         "fill-pattern": "dots_medium",
+            //         "fill-opacity": 0.2
+            //     }
+            // });
 
 
             map.on("click", (e) => {

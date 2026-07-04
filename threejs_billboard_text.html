@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Multiple Flat Panels from GeoJSON using three.js (Text)</title>
+    <meta property="og:description" content="Use a custom style layer with three.js to add multiple flat 3D panels with text content from GeoJSON data to the map." />
+    <meta property="og:created" content="2026-07-04" />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js'></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<script type="importmap">
+    {
+        "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+    }
+</script>
+<div id="map"></div>
+
+<script type="module">
+    import * as THREE from 'three';
+
+    const map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://tiles.openfreemap.org/styles/bright',
+        zoom: 18,
+        center: [148.9819, -35.3981],
+        pitch: 60,
+        canvasContextAttributes: {antialias: true}
+    });
+
+    function degToRad(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    // Modified GeoJSON: Replaced image_url with textField
+    const panelsGeoJSON = {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [148.9815, -35.3982]
+                },
+                "properties": {
+                    "id": "panel-1",
+                    "textField": "Hello World!",
+                    "title": "Panel 1 Text",
+                    "orientation": 11.5,
+                    "width": 20,
+                    "height": null
+                }
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [148.9823, -35.3985]
+                },
+                "properties": {
+                    "id": "panel-2",
+                    "textField": "<b>Bold</b> and <i>Italic</i> Text",
+                    "title": "Panel 2 Text",
+                    "orientation": -17.2,
+                    "width": 20,
+                    "height": null
+                }
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [148.9812, -35.3987]
+                },
+                "properties": {
+                    "id": "panel-3",
+                    "textField": "Third Panel<br/>Second Line",
+                    "title": "Panel 3 Text",
+                    "orientation": 28.6,
+                    "width": 20,
+                    "height": null
+                }
+            }
+        ]
+    };
+
+    const panelTransforms = panelsGeoJSON.features.map(feature => {
+        const coordinates = feature.geometry.coordinates;
+        const props = feature.properties;
+        
+        const panelAsMercatorCoordinate = maplibregl.MercatorCoordinate.fromLngLat(
+            [coordinates[0], coordinates[1]],
+            0
+        );
+        
+        return {
+            id: props.id,
+            origin: [coordinates[0], coordinates[1]],
+            textField: props.textField || '', // Use text field instead of image_url
+            title: props.title || '',
+            orientation: degToRad(props.orientation || 0),
+            width: props.width || 100,
+            height: props.height,
+            transform: {
+                translateX: panelAsMercatorCoordinate.x,
+                translateY: panelAsMercatorCoordinate.y,
+                translateZ: panelAsMercatorCoordinate.z,
+                rotateX: Math.PI / 2,
+                rotateY: 0,
+                rotateZ: 0,
+                scale: panelAsMercatorCoordinate.meterInMercatorCoordinateUnits()
+            }
+        };
+    });
+
+    // --- NEW: Function to create SVG canvas from text ---
+    function createTextCanvas(text, widthMeters, heightMeters) {
+        // Resolution factor for clarity
+        const resolutionFactor = 100; 
+        const canvasWidth = Math.max(128, Math.round(widthMeters * resolutionFactor));
+        const canvasHeight = Math.max(64, Math.round(heightMeters * resolutionFactor));
+
+        const canvas = document.createElement('canvas');
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        const ctx = canvas.getContext('2d');
+
+        // --- Draw background ---
+        ctx.fillStyle = 'white'; // User preference for solid color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // --- Draw text ---
+        ctx.fillStyle = 'black'; // Or any preferred text color
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Simple text wrapping logic (basic implementation)
+        const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
+            const words = text.split(' ');
+            let line = '';
+            let currentY = y;
+
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                const metrics = context.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    context.fillText(line.trim(), x, currentY);
+                    line = words[n] + ' ';
+                    currentY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line.trim(), x, currentY);
+        };
+
+        // Estimate font size based on canvas dimensions
+        const fontSize = Math.min(canvasHeight * 0.15, canvasWidth * 0.15); // Adjust multiplier as needed
+        ctx.font = `${fontSize}px Arial`; // Use a standard font
+        const lineHeight = fontSize * 1.2;
+
+        // Handle line breaks in the text field
+        const lines = text.split('<br/>'); // Simple split on <br/>
+        const startX = canvasWidth / 2;
+        const startY = canvasHeight / 2 - ((lines.length - 1) * lineHeight) / 2; // Center multiple lines vertically
+
+        lines.forEach((line, i) => {
+             // Note: This basic implementation does NOT parse HTML tags like <b>, <i>.
+             // It treats them as literal text.
+             // To parse HTML tags, you'd need the dom-to-image approach from before.
+             // For plain text or simple line breaks, this works.
+             const processedLine = line.replace(/<[^>]*>/g, ''); // Strip HTML tags if present
+             wrapText(ctx, processedLine, startX, startY + (i * lineHeight), canvasWidth * 0.9, lineHeight);
+        });
+
+        return canvas;
+    }
+
+
+    const customLayer = {
+        id: 'geojson-text-panels',
+        type: 'custom',
+        renderingMode: '3d',
+        onAdd (map, gl) {
+            this.camera = new THREE.Camera();
+            this.scene = new THREE.Scene();
+
+            this.panels = [];
+            
+            panelTransforms.forEach((panelData, index) => {
+                // --- Generate texture from text field instead of loading image ---
+                const text = panelData.textField;
+                
+                // Calculate initial dimensions (use default aspect ratio if height not specified)
+                let width = panelData.width;
+                let height = panelData.height;
+                if (height === null) {
+                    height = width / 1.5; // Default aspect ratio, adjust as needed
+                }
+                
+                const canvas = createTextCanvas(text, width, height);
+                const texture = new THREE.CanvasTexture(canvas);
+
+                // Create geometry with calculated dimensions
+                const panelGeometry = new THREE.PlaneGeometry(width, height);
+                const matrix = new THREE.Matrix4().makeTranslation(0, height/2, 0);
+                panelGeometry.applyMatrix4(matrix);
+
+                // Create material with the generated texture
+                const panelMaterial = new THREE.MeshBasicMaterial({ 
+                    map: texture,
+                    side: THREE.DoubleSide,
+                    transparent: true, // Enable if your canvas background allows it
+                    alphaTest: 0.1    // Helps with transparency if needed
+                });
+
+                // Create the panel mesh
+                const panelMesh = new THREE.Mesh(panelGeometry, panelMaterial);
+                this.scene.add(panelMesh);
+
+                // Store reference to this panel along with its transform data
+                this.panels.push({
+                    id: panelData.id,
+                    mesh: panelMesh,
+                    transform: panelData.transform,
+                    orientation: panelData.orientation,
+                    // No pending texture needed as canvas is created synchronously
+                    // However, if you need to update the text/texture later, you'd store the canvas/texture reference
+                });
+            });
+            
+            this.map = map;
+
+            this.renderer = new THREE.WebGLRenderer({
+                canvas: map.getCanvas(),
+                context: gl,
+                antialias: true
+            });
+
+            this.renderer.autoClear = false;
+        },
+        render (gl, args) {
+            if (!args || !args.defaultProjectionData || !args.defaultProjectionData.mainMatrix) {
+                return;
+            }
+
+            // Render each panel individually (as per your original logic)
+            this.panels.forEach((panel, currentIndex) => {
+                // Hide all other panels except the current one
+                this.panels.forEach((otherPanel, index) => {
+                    otherPanel.mesh.visible = (index === currentIndex);
+                });
+
+                const rotationX = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(1, 0, 0),
+                    panel.transform.rotateX
+                );
+                const rotationY = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(0, 1, 0),
+                    panel.transform.rotateY + panel.orientation
+                );
+                const rotationZ = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(0, 0, 1),
+                    panel.transform.rotateZ
+                );
+
+                const m = new THREE.Matrix4().fromArray(args.defaultProjectionData.mainMatrix);
+                const l = new THREE.Matrix4()
+                    .makeTranslation(
+                        panel.transform.translateX,
+                        panel.transform.translateY,
+                        panel.transform.translateZ
+                    )
+                    .scale(
+                        new THREE.Vector3(
+                            panel.transform.scale,
+                            -panel.transform.scale,
+                            panel.transform.scale
+                        )
+                    )
+                    .multiply(rotationX)
+                    .multiply(rotationY)
+                    .multiply(rotationZ);
+
+                this.camera.projectionMatrix = m.multiply(l);
+                
+                this.renderer.resetState();
+                this.renderer.render(this.scene, this.camera);
+            });
+            
+            // Make all panels visible again after rendering
+            this.panels.forEach(panel => {
+                panel.mesh.visible = true;
+            });
+            
+            this.map.triggerRepaint();
+        }
+    };
+
+    map.on('style.load', () => {
+        map.addLayer(customLayer);
+    });
+</script>
+</body>
+</html>

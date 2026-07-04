@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MapLibre + Deck.gl 3D Vertical Objects Example</title>
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/deck.gl@8.9.32/dist.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        // Initialize MapLibre with OpenFreeMap
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://tiles.openfreemap.org/styles/liberty',
+            center: [2.343957, 48.862011],
+            zoom: 10.5,
+            pitch: 45,
+            bearing: -20
+        });
+
+        map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+        // Sample 3D vertical object data
+        const data = [
+            { position: [2.3, 48.9], angle: 0, name: "3D Object 1", height: 100 },
+            { position: [2.4, 48.85], angle: 45, name: "3D Object 2", height: 150 },
+            { position: [2.35, 48.8], angle: 90, name: "3D Object 3", height: 80 }
+        ];
+
+        // Wait for map to load
+        map.on('load', () => {
+            // Create Deck.gl layer with vertical 3D objects
+            const layer = new deck.ColumnLayer({
+                id: '3d-column-layer',
+                data: data,
+                diskResolution: 12, // Resolution of the column (higher = smoother)
+                radius: 50,         // Radius of the column base
+                extruded: true,     // Enable 3D extrusion
+                elevationScale: 1,  // Scale factor for height
+                getPosition: d => d.position,
+                getFillColor: [255, 0, 0, 180], // RGBA color with transparency
+                getLineColor: [255, 255, 255],
+                getLineWidth: 1,
+                getElevation: d => d.height, // Height of the column
+                pickable: true,
+                onClick: (info) => {
+                    new maplibregl.Popup()
+                        .setLngLat(info.coordinate)
+                        .setHTML(`<p>${info.object.name}</p>`)
+                        .addTo(map);
+                }
+            });
+
+            // Create the Deck.gl overlay
+            const overlay = new deck.MapboxOverlay({
+                layers: [layer],
+            });
+            
+            // Add overlay to map
+            map.addControl(overlay);
+        });
+    </script>
+</body>
+</html>

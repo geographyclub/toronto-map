@@ -1,0 +1,95 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [148.9815, -35.3982]
+            },
+            "properties": {
+                "id": "panel-1",
+                "image_url": "img/directory/dtw_6145.png",
+                "title": "Local Image Test",
+                "orientation": 11.5,
+                "width": 20,
+                "height": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [148.9823, -35.3985]
+            },
+            "properties": {
+                "id": "panel-2",
+                "image_url": "https://upload.wikimedia.org/wikipedia/en/f/f3/Flag_of_Russia.svg",
+                "title": "Russia Flag",
+                "orientation": -17.2,
+                "width": 20,
+                "height": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [148.9812, -35.3987]
+            },
+            "properties": {
+                "id": "panel-3",
+                "image_url": "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg",
+                "title": "UK Flag",
+                "orientation": 28.6,
+                "width": 20,
+                "height": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [148.9825, -35.3972]
+            },
+            "properties": {
+                "id": "panel-4",
+                "image_url": "img/directory/dtw_6145.png",
+                "title": "Local Image Test",
+                "orientation": 11.5,
+                "width": 20,
+                "height": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [148.9813, -35.3975]
+            },
+            "properties": {
+                "id": "panel-5",
+                "image_url": "https://upload.wikimedia.org/wikipedia/en/f/f3/Flag_of_Russia.svg",
+                "title": "Russia Flag",
+                "orientation": -17.2,
+                "width": 20,
+                "height": null
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [148.9822, -35.3997]
+            },
+            "properties": {
+                "id": "panel-6",
+                "image_url": "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg",
+                "title": "UK Flag",
+                "orientation": 28.6,
+                "width": 20,
+                "height": null
+            }
+        }        
+    ]
+}

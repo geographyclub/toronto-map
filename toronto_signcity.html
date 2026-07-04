@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Multiple Flat Panels from DowntownWest GeoJSON using three.js</title>
+    <meta property="og:description" content="Use a custom style layer with three.js to add multiple flat 3D panels with images from the downtownwest GeoJSON file to the map." />
+    <meta property="og:created" content="2026-07-04" />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <!-- Import Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    // --- Helper function to convert degrees to radians ---
+    function degToRad(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    // Define your map container and initial settings
+    const mapContainer = "map";
+    const mapCenter = [-79.381394, 43.656482]; // Toronto center
+    const mapZoom = 16;
+    const mapPitch = 60; // Increase pitch to see 3D panels better
+
+    const map = new maplibregl.Map({
+        container: mapContainer,
+        style: "toronto_roadway_outline.json",
+        center: mapCenter,
+        zoom: mapZoom,
+        pitch: mapPitch, // Set initial pitch
+        bearing: -16.8, // Set initial bearing if needed
+        fadeDuration: 0,
+        hash: true,
+        pixelRatio: 1,
+        canvasContextAttributes: { antialias: true }
+    });
+
+    // --- Load GeoJSON data BEFORE creating the map or adding the layer ---
+    let geojsonDataPromise = fetch('data/bia/downtownwest_updated.geojson') // Updated path
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to load GeoJSON: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error("Error loading external GeoJSON during initialization:", error);
+            return null; // Or handle error appropriately
+        });
+
+    // configuration of the custom layer for multiple 3D panels from GeoJSON
+    const customLayer = {
+        id: 'downtownwest-panels-external-outside',
+        type: 'custom',
+        renderingMode: '3d',
+        // Pass the loaded data via closure or assign it to the layer object beforehand
+        // Option 1: Assign to layer object (requires async setup before addLayer)
+        // Option 2: Use closure (shown here)
+        onAdd: async function (map, gl) { // Make onAdd async to await the data
+            this.camera = new THREE.Camera();
+            this.scene = new THREE.Scene();
+            this.panels = [];
+            this.map = map;
+
+            this.renderer = new THREE.WebGLRenderer({
+                canvas: map.getCanvas(),
+                context: gl,
+                antialias: true
+            });
+            this.renderer.autoClear = false;
+
+            // Await the GeoJSON data before proceeding
+            let geojsonData = await geojsonDataPromise;
+            if (!geojsonData) {
+                console.error("GeoJSON data not available, cannot create panels.");
+                return; // Exit if data failed to load
+            }
+
+            // Process the loaded GeoJSON data to extract panel information
+            const panelTransforms = geojsonData.features.map(feature => {
+                const coordinates = feature.geometry.coordinates;
+                const props = feature.properties;
+
+                // Check if the feature has an 'img' property before processing
+                if (!props.img) {
+                    console.warn(`Feature ${props.id || index} does not have an 'img' property. Skipping.`);
+                    // Returning null/undefined here would break the map() function.
+                    // Instead, we could filter these out later or return a special marker.
+                    // For now, let's skip adding them by filtering after the map.
+                    return null; // Mark this item for removal
+                }
+
+                const panelAsMercatorCoordinate = maplibregl.MercatorCoordinate.fromLngLat(
+                    [coordinates[0], coordinates[1]],
+                    0
+                );
+
+                // Use properties from GeoJSON if available, otherwise use fallbacks
+                const width = props.width || 10; // Fallback width in meters
+                const height = props.height || 5; // Fallback height in meters
+                const orientation = props.orientation || 0; // Fallback orientation in degrees
+
+                return {
+                    id: props.id,
+                    origin: [coordinates[0], coordinates[1]],
+                    textureUrl: props.img, // Use 'img' property
+                    title: props.title || '', // Fallback title if not present
+                    orientation: degToRad(orientation), // Convert degrees to radians using fallback
+                    width: width, // Use width with fallback
+                    height: height, // Use height with fallback
+                    transform: {
+                        translateX: panelAsMercatorCoordinate.x,
+                        translateY: panelAsMercatorCoordinate.y,
+                        translateZ: panelAsMercatorCoordinate.z,
+                        rotateX: Math.PI / 2,
+                        rotateY: 0,
+                        rotateZ: 0,
+                        scale: panelAsMercatorCoordinate.meterInMercatorCoordinateUnits()
+                    }
+                };
+            }).filter(item => item !== null); // Remove features without 'img'
+
+            // Create each panel from the loaded GeoJSON data
+            panelTransforms.forEach((panelData, index) => {
+                const texture = new THREE.TextureLoader().load(
+                     panelData.textureUrl,
+                     undefined, // onLoad handled separately
+                     undefined, // onProgress
+                     (err) => { // onError
+                         console.error(`[Three.js] Error loading texture for feature ${panelData.id || index}:`, err);
+                         console.error(`[Three.js] Attempted to load: ${panelData.textureUrl}`);
+                         if (err.currentTarget) {
+                             console.error(`[Three.js] Status: ${err.currentTarget.status}, URL: ${err.currentTarget.responseURL}`);
+                         }
+                     }
+                 ); // Use textureUrl which is now props.img
+
+
+                texture.onLoad = () => {
+                    const imageAspect = texture.image.width / texture.image.height;
+                    const width = panelData.width; // Use the width from panelData (could be prop or fallback)
+                    const height = panelData.height !== null ? panelData.height : width / imageAspect; // Use prop or calculate
+
+                    const panelGeometry = new THREE.PlaneGeometry(width, height);
+                    const matrix = new THREE.Matrix4().makeTranslation(0, height/2, 0);
+                    panelGeometry.applyMatrix4(matrix);
+
+                    const panelMaterial = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        side: THREE.DoubleSide
+                    });
+
+                    const panelMesh = new THREE.Mesh(panelGeometry, panelMaterial);
+                    this.scene.add(panelMesh);
+
+                    this.panels.push({
+                        id: panelData.id,
+                        mesh: panelMesh,
+                        transform: panelData.transform,
+                        orientation: panelData.orientation
+                    });
+                };
+
+                // Fallback panel creation - use width/height from panelData (which includes fallbacks)
+                const width = panelData.width;
+                const height = panelData.height;
+
+                const panelGeometry = new THREE.PlaneGeometry(width, height);
+                const matrix = new THREE.Matrix4().makeTranslation(0, height/2, 0);
+                panelGeometry.applyMatrix4(matrix);
+
+                const defaultMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x888888, // Gray fallback color
+                    side: THREE.DoubleSide
+                });
+
+                const panelMesh = new THREE.Mesh(panelGeometry, defaultMaterial);
+                this.scene.add(panelMesh);
+
+                this.panels.push({
+                    id: panelData.id,
+                    mesh: panelMesh,
+                    transform: panelData.transform,
+                    orientation: panelData.orientation,
+                    pendingTexture: texture
+                });
+            });
+        },
+        render (gl, args) {
+            if (!this.panels || !args || !args.defaultProjectionData || !args.defaultProjectionData.mainMatrix) {
+                return;
+            }
+
+            // Render logic remains the same
+            this.panels.forEach((panel, currentIndex) => {
+                if (panel.pendingTexture && panel.pendingTexture.image && panel.pendingTexture.image.width) {
+                    const imageAspect = panel.pendingTexture.image.width / panel.pendingTexture.image.height;
+                    // Recalculate height based on loaded texture and original width
+                    const originalWidth = panel.mesh.geometry.parameters.width;
+                    const newHeight = originalWidth / imageAspect;
+
+                    panel.mesh.geometry.dispose();
+                    const newGeometry = new THREE.PlaneGeometry(originalWidth, newHeight);
+                    const matrix = new THREE.Matrix4().makeTranslation(0, newHeight/2, 0);
+                    newGeometry.applyMatrix4(matrix);
+                    panel.mesh.geometry = newGeometry;
+
+                    panel.mesh.material = new THREE.MeshBasicMaterial({
+                        map: panel.pendingTexture,
+                        side: THREE.DoubleSide
+                    });
+
+                    delete panel.pendingTexture;
+                }
+
+                this.panels.forEach((otherPanel, index) => {
+                    otherPanel.mesh.visible = (index === currentIndex);
+                });
+
+                const rotationX = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(1, 0, 0),
+                    panel.transform.rotateX
+                );
+                const rotationY = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(0, 1, 0),
+                    panel.transform.rotateY + panel.orientation
+                );
+                const rotationZ = new THREE.Matrix4().makeRotationAxis(
+                    new THREE.Vector3(0, 0, 1),
+                    panel.transform.rotateZ
+                );
+
+                const m = new THREE.Matrix4().fromArray(args.defaultProjectionData.mainMatrix);
+                const l = new THREE.Matrix4()
+                    .makeTranslation(
+                        panel.transform.translateX,
+                        panel.transform.translateY,
+                        panel.transform.translateZ
+                    )
+                    .scale(
+                        new THREE.Vector3(
+                            panel.transform.scale,
+                            -panel.transform.scale,
+                            panel.transform.scale
+                        )
+                    )
+                    .multiply(rotationX)
+                    .multiply(rotationY)
+                    .multiply(rotationZ);
+
+                this.camera.projectionMatrix = m.multiply(l);
+
+                this.renderer.resetState();
+                this.renderer.render(this.scene, this.camera);
+            });
+
+            this.panels.forEach(panel => {
+                panel.mesh.visible = true;
+            });
+
+            this.map.triggerRepaint();
+        }
+    };
+
+    // Wait for the map style to load, then add the layer
+    map.on('style.load', async () => {
+        // Ensure GeoJSON is loaded before adding the layer (optional, depends on fetch speed)
+        // await geojsonDataPromise; // Uncomment if you want to guarantee data is loaded first
+        map.addLayer(customLayer);
+    });
+</script>
+</body>
+</html>

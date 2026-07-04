@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Standard Three.js Integration Test (Smaller Cube)</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@5.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    // --- Helper function to convert degrees to radians ---
+    function degToRad(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    const map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://tiles.openfreemap.org/styles/bright', // Use a simple base style
+        center: [-74.006, 40.7128], // NYC
+        zoom: 15,
+        pitch: 45, // Add some pitch to see 3D effects
+        bearing: 0,
+        canvasContextAttributes: { antialias: true }
+    });
+
+    const customLayer = {
+        id: 'standard-threejs-layer-smaller-cube',
+        type: 'custom',
+        renderingMode: '3d',
+        onAdd: function (map, gl) {
+            // --- Three.js Setup ---
+            this.scene = new THREE.Scene();
+
+            // Use the MapLibre GL JS camera as the Three.js camera
+            this.camera = new THREE.PerspectiveCamera();
+
+            // Add lights for better visibility of the cube
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            this.scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 15).normalize();
+            this.scene.add(directionalLight);
+
+            // --- Create a Smaller 3D Object (e.g., a small cube) ---
+            const geometry = new THREE.BoxGeometry(1, 1, 1); // 1m x 1m x 1m cube
+            const material = new THREE.MeshPhongMaterial({ color: 0xff0000 }); // Red cube
+            this.cube = new THREE.Mesh(geometry, material);
+
+            // Calculate the world position for the cube based on longitude/latitude/altitude
+            // Offset slightly from the map center to make it easier to see
+            const cubeCoordinates = [-74.006, 40.7128, 0]; // Base coordinates
+            // Add a small offset (~5 meters east, ~2.5 meters north)
+            const offsetX = 5; // Meters east
+            const offsetY = 2.5; // Meters north
+
+            // Convert base coordinates to Mercator
+            const baseAsMercator = maplibregl.MercatorCoordinate.fromLngLat(
+                [cubeCoordinates[0], cubeCoordinates[1]], // [lng, lat]
+                cubeCoordinates[2] // altitude (meters)
+            );
+
+            // Calculate offset Mercator coordinates
+            // Use the meterInMercatorCoordinateUnits() to get the scale factor
+            const scale = baseAsMercator.meterInMercatorCoordinateUnits();
+            const offsetX_Mercator = offsetX * scale;
+            const offsetY_Mercator = offsetY * scale;
+
+            const cubeAsMercator = new maplibregl.MercatorCoordinate(
+                baseAsMercator.x + offsetX_Mercator,
+                baseAsMercator.y + offsetY_Mercator,
+                baseAsMercator.z // Keep same altitude
+            );
+
+            // Set the cube's position in the Three.js scene using Mercator coordinates
+            // Lift it slightly above ground level (e.g., 0.5m for a 1m tall cube)
+            this.cube.position.set(cubeAsMercator.x, cubeAsMercator.y, cubeAsMercator.z + 0.5);
+            this.scene.add(this.cube); // Add the cube to the scene
+
+            // --- Three.js Renderer Setup ---
+            this.renderer = new THREE.WebGLRenderer({
+                canvas: map.getCanvas(),
+                context: gl,
+                antialias: true
+            });
+            this.renderer.autoClear = false; // Important: Don't clear the canvas, let MapLibre paint first/last
+
+            this.map = map;
+        },
+
+        render: function (gl, args) {
+            // --- Check for valid arguments ---
+            if (!args || !args.defaultProjectionData || !args.defaultProjectionData.mainMatrix) {
+                return;
+            }
+
+            // --- Update Three.js Camera based on MapLibre View State ---
+            const mainMatrix = new THREE.Matrix4().fromArray(args.defaultProjectionData.mainMatrix);
+            this.camera.projectionMatrix.copy(mainMatrix);
+
+            // --- Render the Three.js Scene ---
+            // Clear only the depth buffer to ensure proper occlusion with MapLibre elements
+            this.renderer.clearDepth();
+            // Reset Three.js renderer state before rendering
+            this.renderer.resetState();
+            // Render the Three.js scene using the updated camera projection
+            this.renderer.render(this.scene, this.camera);
+
+            // Trigger MapLibre to repaint (this happens after the render function)
+            this.map.triggerRepaint();
+        }
+    };
+
+    map.on('style.load', () => {
+        map.addLayer(customLayer);
+    });
+</script>
+</body>
+</html>
